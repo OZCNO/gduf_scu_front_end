@@ -1,80 +1,123 @@
 var Mock = require('mockjs')
+var Random=Mock.Random//可以省略不写
 Mock.mock('https://jsonplaceholder.typicode.com/posts/', function() {
     return "success";
 })
-Mock.mock("https://getInstitute",function(){
-	var institute=JSON.stringify(		
-		{
+var institute={
 			"金融与投资学院":[
-							"金融学专业",
-							"金融工程专业",
-							"财政学专业",
+							"金融学",
+							"金融工程",
+							"财政学",
 							],
 			"会计学院":[
-						"会计学专业",
-						"投资学专业",
-						"财务管理专业",
+						"会计学",
+						"投资学",
+						"财务管理",
 						],
 			"保险学院":[
-						"保险学专业",
-						"精算学专业",
+						"保险学",
+						"精算学",
 						],
 			"经济贸易学院":[
-						"国际经济与贸易专业",
-						"经济学专业",
-						"经济与金融专业",
+						"国际经济与贸易",
+						"经济学",
+						"经济与金融",
 						"国际商务"
 						],
 			"信用管理学院":[
-						"信用管理专业",
-						"资产评估专业",
+						"信用管理",
+						"资产评估",
 						],
 			"工商管理学院":[
-						"工商管理专业",
-						"市场营销专业",
-						"物流管理专业",
-						"酒店管理专业",
-						"人力资源管理专业"
+						"工商管理",
+						"市场营销",
+						"物流管理",
+						"酒店管理",
+						"人力资源管理"
 						],
 			"互联网金融与信息工程学院":[
-						"互联网金融专业",
-						"信息管理与信息系统专业",
-						"计算机科学与技术专业",
-						"电子商务专业",
-						"软件工程专业"
+						"互联网金融",
+						"信息管理与信息系统",
+						"计算机科学与技术",
+						"电子商务",
+						"软件工程"
 						],
 			"外国语言与文化学院":[
-						"商务英语专业",
-						"英语专业",
-						"翻译专业",
+						"商务英语",
+						"英语",
+						"翻译",
 						],
 			"法学院":[
-						"法学专业"
+						"法学"
 					],
 			"财经与新媒体学院":[
-						"汉语言文学专业",
-						"网络与新媒体专业",
-						"文化产业管理专业"
+						"汉语言文学",
+						"网络与新媒体",
+						"文化产业管理"
 						],
 			"金融数学与统计学院":[
-						"金融数学专业",
-						"数学与应用数学专业",
-						"信息与计算科学专业",
-						"应用统计学专业",
-						"经济统计学专业"
+						"金融数学",
+						"数学与应用数学",
+						"信息与计算科学",
+						"应用统计学",
+						"经济统计学"
 						],
 			"公共管理学院":[
-						"行政管理专业",
-						"公共事业管理专业",
-						"应用心理学专业",
-						"劳动与社会保障专业",
-						"劳动关系专业",
-						"社会工作专业"
+						"行政管理",
+						"公共事业管理",
+						"应用心理学",
+						"劳动与社会保障",
+						"劳动关系",
+						"社会工作"
 						]
-		}		
-	);
-	return institute;
-
+		};
+Random.extend({
+	// inst:function(date){
+	// 	return this.pick(this.pick(institute));
+	// }
 })
+// 未通过审核的学生模版
+var studentListTemplate={
+	"recruit_id|+1":1,
+	"student_id|+2":2,
+	"club_union_id|+1":2,
+	// 1表社联
+	"type":1,
+	"name":'@cname',
+	"sex":'@character("男女")',
+	"grade":'@natural(15,18)',
+	"institute":"互联网金融与信息工程学院",
+	"major":"信息管理与信息系统",
+	"department":"宣传部",
+	"recruit_introduce":'@paragraph(3,5)',
+	"recruit_enroll_time":'@datetime("MM/dd")',
+	"recruit_enroll_reason":'@paragraph(1,3)',
+	"recruit_enroll_image":'@image("120x160","头像","#123156")',
+	"status":0,
+}
+Mock.mock("/getStudentList",{
+	'studentList|20-40':[
+		studentListTemplate
+	]
+})
+Mock.mock("https://getInstitute",function(){
+	return JSON.stringify(institute);		
+})
+Mock.mock("/acceptThis",function(data){
+	console.log(data.body);
+	return "success";
+});
+Mock.mock("/rejectThis",function(data){
+	console.log(data.body);
+	return "success";
+});
+Mock.mock("/acceptThese",function(data){
+	console.log(data.body);
+	return "success";
+});
+Mock.mock("/removeThese",function(data){
+	console.log(data.body);
+	return "success";
+});
 // 输出结果
 // console.log(JSON.stringify(data, null, 4))

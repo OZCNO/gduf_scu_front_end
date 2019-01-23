@@ -1,6 +1,6 @@
 <template>
-	<div class="login_container">
-		<el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login_form" size="medium">
+	<div class="loginContainer">
+		<el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="loginForm" size="medium">
 			<!-- label-width是form直接子元素的宽度，不是el-form-item宽度 -->
 			<el-form-item prop="user">
 			    <el-input class="loginInput" v-model="loginForm.user" placeholder="请输入账号"></el-input>
@@ -14,12 +14,12 @@
 				<el-radio-group v-model="loginForm.type">
 					<ul>
 						<li class="loginType">
-						    <el-radio :label="0">学生</el-radio>
-						    <el-radio :label="1">校社团管理员</el-radio>
+						    <el-radio :label="1">学生</el-radio>
+						    <el-radio :label="2">校社团管理员</el-radio>
 				    	</li>
 						<li class="loginType">
-						    <el-radio :label="3">老师</el-radio>
-						    <el-radio :label="2">校社联管理员</el-radio>
+						    <el-radio :label="4">老师</el-radio>
+						    <el-radio :label="3">校社联管理员</el-radio>
 				    	</li>
 					</ul>
 				    <!-- 绑定值变化时触发的事件change事件 -->
@@ -63,9 +63,23 @@ export default {
           	// 	.error(function(error){
           	// 		alert(error.msg);
           	// 	})
-			this.$router.push({
-	            name: 'Index1'
-	        });
+          	if(this.loginForm.type==1){
+          		this.$router.push({
+          			path:"changePsd"
+          		})
+          	}else if(this.loginForm.type==2){
+          		this.$router.push({
+          			path:"clubMemberAudit"
+          		})
+          	}else if(this.loginForm.type==3){
+          		this.$router.push({
+          			path:"officerAudit"
+          		})
+          	}else{
+          		this.$router.push({
+          			path:"unionActivityAudit"
+          		})
+          	}
           } else {
             console.log('error submit!!');
             return false;
@@ -84,11 +98,11 @@ export default {
 <style lang="scss" scoped>
 $lfw:280px;//loginFormWidth
 $lfmt:140px;//loginFormMarginTop
-.login_container{
-	.login_form{
-		height:268px;
+.loginContainer{
+	.loginForm{
+		// height:268px;
 		width:$lfw;
-		margin:$lfmt auto;
+		margin:$lfmt auto 0;
 		.iconfont{
 			position:absolute;
 			top:0px;

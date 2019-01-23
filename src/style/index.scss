@@ -24,31 +24,10 @@ button{
     }
     cursor: pointer;
 }
-html,body{
-    height: 100%;
-}
-::-webkit-scrollbar{
-    width: 0;
-}
-body,#app{
-    width:100%;
-    overflow-x: hidden;
-}
-#app{
-    height: 100%;
-    padding-bottom: 60px;
-    box-sizing: border-box;
-}
+// 滚动条
+// ::-webkit-scrollbar{
+//     width: 0;
+// }
 ul{
     list-style: none;
-}
-.container{
-    width:100%;
-    max-width:800px;
-    padding: 0 10px;
-    margin:auto;
-    box-sizing: border-box;
-    &.hide{
-        display: none;
-    }
 }

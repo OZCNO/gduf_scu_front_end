@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {routers,otherRouter} from "./router";
+import {routers,studentRouter,clubAdminRouter,unionAdminRouter,teacherAdminRouter} from "./router";
 
 Vue.use(Router);
 
