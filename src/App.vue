@@ -18,7 +18,10 @@ export default {
 </script>
 <style lang="scss" rel="stylesheet/scss" src="./style/index.scss"></style>
 <style lang="scss">
-
+// 表头
+.el-table th{
+  background-color:#f5f7fa;;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: all .2s ease;
@@ -99,7 +102,7 @@ $menuCollapseWidth:60px;
     .host-collapse-left{
       left:130px;
     }
-    span,span:before,span:after{
+    span.menu,span.menu:before,span.menu:after{
       position:absolute;
       left:0;
       width:30px;
@@ -107,7 +110,7 @@ $menuCollapseWidth:60px;
       content:"";
       background-color: #fff;
     }
-    span{
+    span.menu{
       top:11px;
       &:before{
         top:0;
@@ -117,6 +120,24 @@ $menuCollapseWidth:60px;
       &:after{
         transform: translateY(7px);
         transition: all .3s;
+      }
+    }
+    .userinfo{
+      position:absolute;
+      text-align:right;
+      top:0;
+      right: 35px;
+      float: right;
+      .userinfo-inner {
+        cursor: pointer;
+        color:#fff;
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 20px;
+          margin: 10px 0px 10px 10px;
+          float: right;
+        }
       }
     }
   }

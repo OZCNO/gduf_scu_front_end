@@ -2,7 +2,14 @@
 	<el-container class="container">
 		<!-- 头部 -->
 		<el-header>		
-			<div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">{{collapsed?"":"广金校社联管理系统"}}</div><a class="t-btn" :class="collapsed?'btn-collapse-left':'btn-left'" @click.prevent="collapse"><span></span></a><div class="host" :class="collapsed?'host-collapse-left':'host-left'" >教师端</div> 
+			<div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">{{collapsed?"":"广金校社联管理系统"}}</div><a class="t-btn" :class="collapsed?'btn-collapse-left':'btn-left'" @click.prevent="collapse"><span class="menu"></span></a><div class="host" :class="collapsed?'host-collapse-left':'host-left'" >教师端</div><div class="userinfo">
+				<el-dropdown trigger="hover">
+					<span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+			</div> 
 		</el-header>
 		<!-- 下面 -->
 		<el-container class="main">
@@ -53,6 +60,8 @@
 		data() {
 			return {
 		        collapsed:false,
+		        sysUserName:"郑婵娜",
+		        sysUserAvatar:"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3502149281,2119482052&fm=27&gp=0.jpg",
 			}
 		},
 		methods:{

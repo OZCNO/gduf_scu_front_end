@@ -38,7 +38,7 @@ export const studentRouter=[
             },
             {
                 path:"/personCenter",
-                name:"个人中心",
+                name:"个人信息",
                 component:resolve=>{require(['@/components/student/center/personCenter.vue'],resolve);}
             },
             {
@@ -307,16 +307,13 @@ export const unionAdminRouter=[
     //社联简介
     {
         path: 'unionAdmin',
-        name: '社联简介模块',
+        name: '校社联简介模块',
         component: UnionAdmin,
         redirect:"/unionInstroduce",//默认重定向到这里
-        meta:{
-            otherName:"校社团管理模块"
-        },
         children:[
             {
                 path:"/unionInstroduce",
-                name:"校社团活动审核",
+                name:"校社联简介",
                 component:resolve=>{require(['@/components/union/instroduce/unionInstroduce.vue'],resolve);}
             }
         ]

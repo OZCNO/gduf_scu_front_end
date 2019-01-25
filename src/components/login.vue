@@ -2,6 +2,7 @@
 	<div class="loginContainer">
 		<el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="loginForm" size="medium">
 			<!-- label-width是form直接子元素的宽度，不是el-form-item宽度 -->
+			<h3 class="title">系统登录</h3>
 			<el-form-item prop="user">
 			    <el-input class="loginInput" v-model="loginForm.user" placeholder="请输入账号"></el-input>
 				<i class="iconfont icon-yonghu"></i>
@@ -101,8 +102,21 @@ $lfmt:140px;//loginFormMarginTop
 .loginContainer{
 	.loginForm{
 		// height:268px;
+	    -webkit-border-radius: 5px;
+	    border-radius: 5px;
+	    -moz-border-radius: 5px;
+	    background-clip: padding-box;
 		width:$lfw;
+    	padding: 35px 35px 15px 35px;
 		margin:$lfmt auto 0;
+	    border: 1px solid #eaeaea;
+	    box-shadow: 0 0 25px #cac6c6;
+	    text-align: center;
+		.title{
+	      margin: 0px auto 40px auto;
+	      text-align: center;
+	      color: #505458;
+		}
 		.iconfont{
 			position:absolute;
 			top:0px;
@@ -114,6 +128,7 @@ $lfmt:140px;//loginFormMarginTop
 		}
 		#login_submit{
 			width:$lfw;
+			margin-top:10px;
 		}
 	}
 }

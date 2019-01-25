@@ -89,15 +89,48 @@ var studentListTemplate={
 	"institute":"互联网金融与信息工程学院",
 	"major":"信息管理与信息系统",
 	"department":"宣传部",
+	"status":"干事",
+	"email":'@email',
 	"recruit_introduce":'@paragraph(3,5)',
 	"recruit_enroll_time":'@datetime("MM/dd")',
 	"recruit_enroll_reason":'@paragraph(1,3)',
 	"recruit_enroll_image":'@image("120x160","头像","#123156")',
-	"status":0,
+	"state":0,
+}
+var clubManagersListTemplate={
+	"club":"公关协会",
+	"name":'@cname',
+	"grade":'@natural(15,18)',
+	"sex":'@character("男女")',
+	"email":'@email',
+	"phone":/^1[385][1-9]\d{8}/,
+	"institute":"法律学院",
+	"major":"法学"
+}
+var memberListTemplate={
+	"club":"公关协会",
+	"member1":'@natural(0,100)',
+	"member2":'@natural(0,100)',
+	"member3":'@natural(0,100)',
+	"member4":'@natural(0,100)',
+	"officer1":'@natural(0,100)',
+	"officer2":'@natural(0,100)',
+	"officer3":'@natural(0,100)',
+	"officer4":'@natural(0,100)'
 }
 Mock.mock("/getStudentList",{
 	'studentList|20-40':[
 		studentListTemplate
+	]
+})
+Mock.mock("/getManagerList",{
+	'managerList|20-40':[
+		clubManagersListTemplate
+	]
+})
+Mock.mock("/getMemberList",{
+	'memberList|10-30':[
+		memberListTemplate
 	]
 })
 Mock.mock("https://getInstitute",function(){
@@ -116,6 +149,14 @@ Mock.mock("/acceptThese",function(data){
 	return "success";
 });
 Mock.mock("/removeThese",function(data){
+	console.log(data.body);
+	return "success";
+});
+Mock.mock("/removeThis",function(data){
+	console.log(data.body);
+	return "success";
+});
+Mock.mock("/editThis",function(data){
 	console.log(data.body);
 	return "success";
 });

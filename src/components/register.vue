@@ -1,6 +1,7 @@
 <template>
 	<div class="regContainer">
 		<el-form class="regForm" ref="regForm" :model='regForm' :rules='regRules' label-width="90px" size="medium">
+			<h3 class="title">学生注册</h3>
 			<el-row>
 				<el-col :span="12">
 					<el-form-item class="avatarItem">
@@ -19,20 +20,6 @@
   						<i class="el-icon-upload2 avatar-uploader-icon"></i>
 		            </el-upload>
 					</el-form-item>
-					<el-form-item label="姓名" prop="name">
-						<el-input  v-model="regForm.name" placeholder="请输入姓名"></el-input>
-					</el-form-item>
-					<el-form-item label="性别" prop="sex">
-						<el-select v-model="regForm.sex" placeholder="请选择性别">
-							<el-option value="女生"></el-option>
-							<el-option value="男生"></el-option>					
-						</el-select>
-					</el-form-item>				
-					<el-form-item label="邮箱" prop="email">
-						<el-input v-model="regForm.email" placeholder="请输入邮箱"></el-input>
-					</el-form-item>		
-				</el-col>
-				<el-col :span="12">
 					<el-form-item label="账号" prop="sid">
 						<el-input  v-model="regForm.sid" placeholder="请输入学号"></el-input>
 					</el-form-item>
@@ -41,7 +28,18 @@
 					</el-form-item>
 					<el-form-item label="确认密码" prop="repsd">
 						<el-input  v-model="regForm.repsd" type="password"placeholder="请再次输入密码"></el-input>
-					</el-form-item>	
+					</el-form-item>		
+				</el-col>
+				<el-col :span="12">
+					<el-form-item label="姓名" prop="name">
+						<el-input  v-model="regForm.name" placeholder="请输入姓名"></el-input>
+					</el-form-item>
+					<el-form-item label="性别" prop="sex">
+						<el-select v-model="regForm.sex" placeholder="请选择性别">
+							<el-option value="女"></el-option>
+							<el-option value="男"></el-option>
+						</el-select>
+					</el-form-item>		
 					<el-form-item label="学院" prop="institute">
 						<el-select v-model="regForm.institute" placeholder="请选择所属学院" @change="instituteChange">
 							<el-option v-for="(item,index) in institute" :value="index"></el-option>	
@@ -51,7 +49,13 @@
 						<el-select v-model="regForm.major" placeholder="请选择所属专业" @change="majorChange">
 							<el-option v-for="(item,index) in major" :value="item"></el-option>
 						</el-select>
-					</el-form-item>
+					</el-form-item>			
+					<el-form-item label="手机" prop="phone">
+						<el-input v-model="regForm.phone" placeholder="请输入手机号码"></el-input>
+					</el-form-item>		
+					<el-form-item label="邮箱" prop="email">
+						<el-input v-model="regForm.email" placeholder="请输入邮箱"></el-input>
+					</el-form-item>		
 				</el-col>
 			</el-row>
 			<el-form-item>
@@ -89,6 +93,13 @@ export default{
 		  		callback();
 			}
 		};
+		var validatePhone= ( rule,value,callback ) =>{
+			if(!(/^1[385][1-9]\d{8}/).test(value)){
+				callback(new Error("手机输入不正确"));
+			}else {
+		 		callback();
+			}
+		};
 		return{
 			institute:[],
 			regForm:{
@@ -97,6 +108,7 @@ export default{
 				repsd:"",
 				name:"",
 				sex:"",
+				phone:"",
 				email:"",
 				institute:"",
 				major:"",
@@ -123,6 +135,10 @@ export default{
 				sex:[
 					{required:true,message:"请选择所属性别",trigger:"blur"}
 				],
+				phone:[
+					{required:true,message:"请输入手机",trigger:"blur"},
+					{validator:validatePhone,trigger:"blur"}
+				],
 				email:[
 					{required:true,message:"请输入邮箱",trigger:"blur"},
 					{type:"email",message:"邮箱输入不正确",trigger:"blur"}
@@ -148,7 +164,6 @@ export default{
 			alert("出错啦，再试一次");
 			window.location.reload();
 		})
-  	
 	},
     methods: {
     	// 学院值改变的时候
@@ -166,9 +181,7 @@ export default{
     				}
 				}
 			}
-			
     	},
-    	//专业值改变的时候
     	
     	// 头像上传之前的钩子
 		// beforeAvatarUpload(file) {
@@ -258,22 +271,36 @@ export default{
 </script>
 <style lang="scss" scoped>
 $rfw:580px;//registerFormWidth
+$avatarSize:113px;
 .add{
 	display: block;
-	width: 96px;
-	height: 96px;
+	width: $avatarSize;
+	height: $avatarSize;
+	margin:20px 43.5px;
 	border-radius:50%;
-	transform:translateX(50%);
+	// transform:translateX(50%);
 }
 .regContainer{
 	.regForm{
 		width:$rfw;
-		margin:80px auto 0px;
-		padding-right:90px;
+		margin:40px auto 0;
+    	padding: 35px 95px 0px 35px;
+	    -webkit-border-radius: 5px;
+	    border-radius: 5px;
+	    -moz-border-radius: 5px;
+	    background-clip: padding-box;
+	    border: 1px solid #eaeaea;
+	    box-shadow: 0 0 25px #cac6c6;
+	    text-align:center;
+		.title{
+	      margin: 0px auto 40px auto;
+	      padding-left:60px;
+	      text-align: center;
+	      color: #505458;
+		}
 		.avatarItem{
 			position:relative;
 			overflow: hidden;
-
 		}
 		// 上传框
 		.avatar-uploader{
@@ -284,9 +311,9 @@ $rfw:580px;//registerFormWidth
 		// 图标
 		.avatar-uploader-icon {
 			display:block;
-			width:96px;
-			height:96px;
-			line-height: 96px;
+			width:$avatarSize;
+			height:$avatarSize;
+			line-height: $avatarSize;
 			text-align: center;
 			font-size: 28px;
 			opacity:0;
@@ -304,6 +331,7 @@ $rfw:580px;//registerFormWidth
 		}
 		#regSubmit{
 			width:$rfw/2;
+			margin-top:10px;
 		}
 	}
 }
