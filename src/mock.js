@@ -71,39 +71,37 @@ var institute={
 						"社会工作"
 						]
 		};
-Random.extend({
-	// inst:function(date){
-	// 	return this.pick(this.pick(institute));
-	// }
-})
 // 未通过审核的学生模版
 var studentListTemplate={
 	"recruit_id|+1":1,
 	"student_id|+2":2,
 	"club_union_id|+1":2,
-	// 1表社联
 	"type":1,
+	"username":"151541217",
 	"name":'@cname',
-	"sex":'@character("男女")',
+	"sex":'@natural(0,1)',
 	"grade":'@natural(15,18)',
+	"instituteId":5,
 	"institute":"互联网金融与信息工程学院",
+	"majorId":2,
 	"major":"信息管理与信息系统",
 	"department":"宣传部",
 	"status":"干事",
 	"email":'@email',
-	"recruit_introduce":'@paragraph(3,5)',
-	"recruit_enroll_time":'@datetime("MM/dd")',
-	"recruit_enroll_reason":'@paragraph(1,3)',
-	"recruit_enroll_image":'@image("120x160","头像","#123156")',
+	"mobile":/^1[385][1-9]\d{8}/,
+	"introduce":'@paragraph(3,5)',
+	"time":'@datetime("MM/dd")',
+	"reason":'@paragraph(1,3)',
+	"avatar":'@image("120x160","头像","#123156")',
 	"state":0,
 }
 var clubManagersListTemplate={
 	"club":"公关协会",
 	"name":'@cname',
 	"grade":'@natural(15,18)',
-	"sex":'@character("男女")',
+	"sex":'@natural(0,1)',
 	"email":'@email',
-	"phone":/^1[385][1-9]\d{8}/,
+	"mobile":/^1[385][1-9]\d{8}/,
 	"institute":"法律学院",
 	"major":"法学"
 }
@@ -118,20 +116,56 @@ var memberListTemplate={
 	"officer3":'@natural(0,100)',
 	"officer4":'@natural(0,100)'
 }
-Mock.mock("/getStudentList",{
-	'studentList|20-40':[
+// Mock.mock("http://119.29.105.29:8083/reg",function(data){
+// 	var response={
+// 		"credential": {
+// 	        "token": "hseJ7nkui0vbRctXvvWSxZKUmmP7HaoyaIocdCZN",
+// 	        "userId": 2
+// 	    }
+// 	}
+// 	console.log(data.body);
+// 	return response;
+// })
+Mock.mock("http://119.29.105.29:8083/editPassword","success");
+// Mock.mock("/login",function(data){
+// 	var response={
+// 		"credential": {
+// 	        "token": "hseJ7nkui0vbRctXvvWSxZKUmmP7HaoyaIocdCZN",
+// 	        "userId": 2
+// 	    }
+// 	}
+// 	console.log(data.body);
+// 	return response;
+// })
+Mock.mock("http://119.29.105.29:8083/getStudentList",{
+	'studentList|10':[
 		studentListTemplate
-	]
+	],
+	"totalCount":100
 })
-Mock.mock("/getManagerList",{
-	'managerList|20-40':[
+// Mock.mock("http://119.29.105.29:8083/club/1/vip",{
+// 	'studentList|10':[
+// 		studentListTemplate
+// 	],
+// 	"totalCount":100
+// })
+Mock.mock("http://119.29.105.29:8083/union/1/vip",{
+	'studentList|10':[
+		studentListTemplate
+	],
+	"totalCount":100
+})
+Mock.mock("http://119.29.105.29:8083/getManagerList",{
+	'managerList|10':[
 		clubManagersListTemplate
-	]
+	],
+	"totalCount":100
 })
-Mock.mock("/getMemberList",{
-	'memberList|10-30':[
+Mock.mock("http://119.29.105.29:8083/getMemberList",{
+	'memberList|10':[
 		memberListTemplate
-	]
+	],
+	"totalCount":40
 })
 Mock.mock("https://getInstitute",function(){
 	return JSON.stringify(institute);		

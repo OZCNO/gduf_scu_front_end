@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 使用iconfont实现小图标
 import "./style/iconfont.css"
 // 引入mock.js
-require('mockJs')
+// require('mockJs')
 import "./mock.js"
 
 //引入axios

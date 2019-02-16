@@ -2,7 +2,7 @@
 	<el-container class="container">
 		<!-- 头部 -->
 		<el-header>		
-			<div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">{{collapsed?"":"广金校社联管理系统"}}</div><a class="t-btn" :class="collapsed?'btn-collapse-left':'btn-left'" @click.prevent="collapse"><span class="menu"></span></a><div class="host" :class="collapsed?'host-collapse-left':'host-left'" >校社团端</div><div class="userinfo">
+			<div class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">{{collapsed?"":"广金校社联管理系统"}}</div><a class="t-btn" :class="collapsed?'btn-collapse-left':'btn-left'" @click.prevent="collapse"><span class="menu"></span></a><div class="host" :class="collapsed?'host-collapse-left':'host-left'" >教师端</div><div class="userinfo">
 				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link userinfo-inner"><img :src="this.sysUserAvatar" /> {{sysUserName}}</span>
 					<el-dropdown-menu slot="dropdown">
@@ -21,33 +21,15 @@
 				<el-menu router  menu-trigger="click" :default-active="$route.path" unique-opened :collapse="collapsed">
 					<el-submenu index="1">
 						<!-- 表明slot="title"，导航栏会在折叠的时候隐藏title -->
-						<template slot="title"><i class="el-icon-star-off"></i><span slot="title">成员管理模块</span></template>
-						<el-menu-item index="/clubMemberAudit">会员审核</el-menu-item>
-						<el-menu-item index="/clubOfficerAudit">干事审核</el-menu-item>
-						<el-menu-item index="/clubMemberManage">会员管理</el-menu-item>
-						<el-menu-item index="/clubOfficerManage">干事管理</el-menu-item>
+						<template slot="title"><i class="el-icon-star-off"></i><span slot="title">校社联管理模块</span></template>
+						<el-menu-item index="/unionActivityAudit">活动申请表审核</el-menu-item>
+						<el-menu-item index="/unionMoneyUseCheck">活动经费使用表</el-menu-item>
+						<el-menu-item index="/unionRegAudit">年度注册表审核</el-menu-item>
+						<el-menu-item index="/unionMoneyManage">保管金管理</el-menu-item>
 					</el-submenu>
-					<el-submenu index="2">
-						<template slot="title"><i class="el-icon-menu"></i><span slot="title">活动管理模块</span></template>
-						<el-menu-item-group title="举办活动">
-							<el-menu-item index="/clubActivityApplyPush">活动申请表提交</el-menu-item>
-							<el-menu-item index="/clubActivityPublish">活动发布</el-menu-item>
-							<el-menu-item index="/clubActivityEnroll">活动报名情况</el-menu-item>
-							<el-menu-item index="/clubActivityMoneyPush">经费使用情况提交</el-menu-item>
-							<el-menu-item index="/clubActivityResultPublish">活动成果发布</el-menu-item>
-						</el-menu-item-group>
-						<el-menu-item-group title="数据统计">
-							<el-menu-item index="/clubMoney">保管金查看</el-menu-item>
-							<el-menu-item index="/clubActivity">活动统计情况</el-menu-item>
-						</el-menu-item-group>
-					</el-submenu>
-					<el-menu-item index="/clubReg">
-						<i class="el-icon-setting"></i>
-						<span slot="title">年度注册表模块</span>
-					</el-menu-item>
-					<el-menu-item index="/clubInstroduce">
-						<i class="el-icon-setting"></i>
-						<span slot="title">校社团简介模块</span>
+					<el-menu-item index="/statistics">
+						<i class="el-icon-menu"></i>
+        				<span slot="title">统计模块</span>
 					</el-menu-item>
 			    </el-menu>
 				</el-scrollbar>
@@ -74,7 +56,7 @@
 </template>
 <script>
 	export default {
-		name: 'clubAdmin',
+		name: 'teacherAdmin',
 		data() {
 			return {
 		        collapsed:false,
@@ -87,10 +69,6 @@
 			collapse:function(){
 				this.collapsed=!this.collapsed;  
 			}
-		},
+		}
 	}
 </script>
-<style lang="scss" scoped>
-
-
-</style>

@@ -13,4 +13,10 @@ const RouterConfig = {
 };
 
 export const router=new Router(RouterConfig);
-// 注意，有多种写法
+
+// router.beforeEach((to,from,next)=>{
+// 	const token=localStorage.getItem("token");
+// 	if(!token && (to.path !== "/" || to.path !== "/reg")){
+// 		next("/");
+// 	}
+// })
