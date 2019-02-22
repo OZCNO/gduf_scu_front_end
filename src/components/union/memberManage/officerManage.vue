@@ -24,7 +24,7 @@
 			</el-table-column><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>			
 			</el-table-column>
 			<el-table-column label="操作" width="150" fixed="right">
-				<template scope="scope">
+				<template slot-scope="scope">
 					<el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 					<el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button>
 				</template>
@@ -59,12 +59,12 @@
 					    </el-form-item>
 						<el-form-item label="学院">
 							<el-select v-model="editForm.institute" @change="instituteChange">
-								<el-option v-for="(item,index) in institute" :value="index"></el-option>
+								<el-option v-for="(item,index) in institute" :value="index" :key="index"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="专业">
 							<el-select v-model="editForm.major" @change="majorChange">
-								<el-option v-for="(item,index) in major" :value="item"></el-option>
+								<el-option v-for="(item,index) in major" :value="item" :key="index"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -145,7 +145,7 @@ export default{
 		},
 		//获取学院列表
 		getInstitute(){
-			this.$axios.get("https://getInstitute").then(res=>{
+			this.$axios.get("http://119.29.105.29:8083/getInstitute").then(res=>{
 				this.institute=JSON.parse(res.data);
 			}).catch(err=>{
 				console.log(err);

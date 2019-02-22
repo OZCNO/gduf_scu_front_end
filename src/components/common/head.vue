@@ -121,9 +121,7 @@ export default {
 		logout: function () {
 			this.$confirm('确认退出吗?', '提示')
 			.then(() => {
-				localStorage.removeItem('userId');
-				localStorage.removeItem('token');
-				this.$router.push('/');
+				this.$router.push('/login');
 			}).catch(() => {
 
 			});

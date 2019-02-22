@@ -15,7 +15,7 @@
     </el-container>
 </template>
 <script>
-import {editPassword} from "../../api.js"
+import {editPassword,getUserInformation} from "../../api.js"
 import vHead from "./head"
 import vSidebar from "./sidebar"
 import bus from "./bus"
@@ -40,12 +40,15 @@ export default {
 		bus.$on("collapsed",msg=>{
 			this.collapsed=msg;
 		})
+		// getUserInformation().then(res=>{
+		// 	console.log(res);
+		// })
 	},
 	methods:{
 	},
 	computed:{
 		logoName(){
-			return this.logoNameArr[this.role-1]
+			return this.logoNameArr[this.user.role-1]
 		},
 		user(){
 			return {

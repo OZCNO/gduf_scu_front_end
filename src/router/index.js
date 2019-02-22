@@ -13,10 +13,3 @@ const RouterConfig = {
 };
 
 export const router=new Router(RouterConfig);
-
-// router.beforeEach((to,from,next)=>{
-// 	const token=localStorage.getItem("token");
-// 	if(!token && (to.path !== "/" || to.path !== "/reg")){
-// 		next("/");
-// 	}
-// })

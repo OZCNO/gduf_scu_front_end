@@ -15,7 +15,7 @@
 			可以添加一个过滤列，显示审核状态，可只显示已通过，已拒绝，未审核三种状态 -->
 		<!--  highlight-current-row是指单击会高亮 -->
 		<!-- 表格 -->
-		<el-table :data="studentList" highlight-current-row="true" v-loading="listLoading" @selection-change="selectionChange" style="width: 100%" class="tableClass" size="mini">
+		<el-table :data="studentList" :highlight-current-row="true" v-loading="listLoading" @selection-change="selectionChange" style="width: 100%" class="tableClass" size="mini">
 			<!-- 多选按钮 -->
 			<el-table-column type="selection" width="35">	
 			</el-table-column>
@@ -66,7 +66,7 @@
 			  small
 			  layout="prev, pager, next"
 			  @current-change="handleCurrentChange"
-			  page-size="10"
+			  :page-size="10"
 			  :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>

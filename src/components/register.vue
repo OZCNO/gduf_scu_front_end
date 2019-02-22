@@ -94,17 +94,19 @@ export default{
             		this.reging = false;
           			let {code,msg,data}=res.data;
           			console.log(res);
-            		if(code!==200){
-            			this.$message.error(msg)
+            		if(code==200){
+	              		localStorage.setItem("role",1);
+	              		localStorage.setItem("name",data.user.name);
+	              		localStorage.setItem("avatar",data.user.avatar||"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3502149281,2119482052&fm=27&gp=0.jpg");
+						this.$router.push({
+				            path:'personCenter'
+				        });
             		}
 		      		else{
-	              		localStorage.setItem("token",data.credential.token);
-	              		localStorage.setItem("userId",data.credential.userId);
-						this.$router.push({
-				            path:'changePsd'
-				        });
+            			this.$message.error(msg)
 					}
 		      	}).catch((err)=>{ 
+		      		console.log(err);
 			        this.$message.error("注册失败，再试一次");
 		      	})
 		      }else {

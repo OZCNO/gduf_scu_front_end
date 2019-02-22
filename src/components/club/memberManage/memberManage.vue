@@ -7,11 +7,11 @@
 					<el-input placeholder="姓名" v-model="filters.name"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" :click="getStudentList">查询</el-button>
+					<el-button type="primary" @click="getStudentList">查询</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
-		<el-table :data="studentList" highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
+		<el-table :data="studentList" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
 			<el-table-column type="index" width="55">				
 			</el-table-column><el-table-column prop="department" label="部门" show-overflow-tooltip sortable>			
 			</el-table-column><el-table-column prop="grade" label="年级" sortable width="70">
@@ -24,7 +24,7 @@
 			</el-table-column><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>			
 			</el-table-column>
 			<el-table-column label="操作" width="150" fixed="right">
-				<template scope="scope">
+				<template slot-scope="scope">
 					<el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 					<el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button>
 				</template>
@@ -36,7 +36,7 @@
 			  small
 			  layout="prev, pager, next"
 			  @current-change="handleCurrentChange"
-			  page-size="10"
+			  :page-size="10"
 			  :total="total" style="float:right;">
 			</el-pagination>
 		</el-col>
@@ -59,12 +59,12 @@
 					    </el-form-item>
 						<el-form-item label="学院">
 							<el-select v-model="editForm.institute" @change="instituteChange">
-								<el-option v-for="(item,index) in institute" :value="index"></el-option>
+								<el-option v-for="(item,index) in institute" :value="index" :key="index"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="专业">
 							<el-select v-model="editForm.major" @change="majorChange">
-								<el-option v-for="(item,index) in major" :value="item"></el-option>
+								<el-option v-for="(item,index) in major" :value="item" :key="index"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -145,12 +145,14 @@ export default{
 		},
 		//获取学院列表
 		getInstitute(){
-			this.$axios.get("https://getInstitute").then(res=>{
+			this.$axios.get("/getInstitute").then(res=>{
 				this.institute=JSON.parse(res.data);
 			}).catch(err=>{
 				console.log(err);
-				alert("出错啦，再试一次");
-				window.location.reload();
+				console.log("获取学院列表出错");
+				// this.$confirm("获取学院列表出错啦，再试一次","错误",{}).then(()=>{
+				// 	window.location.reload();
+				// })
 			})
 		},
 		// 当前页面发生变化
@@ -173,7 +175,7 @@ export default{
 				if(code==200){
 					console.log(res);
 					this.total=data.totalCount;
-					// this.studentList=data.studentList;
+					this.studentList=data.list;
 					this.listLoading=false;
 				}else{
 					this.listLoading=false;

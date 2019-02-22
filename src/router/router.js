@@ -1,13 +1,28 @@
 import Home from "@/components/common/home.vue"
-// 不作为Main组件的子页面展示的页面单独写，如下
+// 不作为Home组件的子页面展示的页面单独写，如下
+export const otherRouter=[
+{
+    path:"/",
+    redirect:"/login"
+},
+{
+    path:"*",
+    component:Home,
+    redirect:"/404",
+    children:[{
+        path:"/404",
+        component: resolve => { require(['@/components/page/404.vue'], resolve); }
+    }]
+}
+]
 export const loginRouter = {
-    path: '/',
+    path: '/login',
     name:"Login",
+    component: resolve => { require(['@/components/login.vue'], resolve); }
+};
   // 这个特殊的 require 语法告诉 webpack
   // 自动将编译后的代码分割成不同的块，
   // 这些块将通过 Ajax 请求自动下载。
-    component: resolve => { require(['@/components/login.vue'], resolve); }
-};
 export const regRouter = {
     path: '/reg',
     name:"Reg",
@@ -127,40 +142,40 @@ export const clubAdminRouter=[
         children:[
             {
                 path:"/clubActivityApplyPush",
-                name:"社团活动申请",
-                title:"社团活动申请",
+                name:"社团活动举办",
+                title:"社团活动举办",
                 component:resolve=>{require(['@/components/club/activityManage/activityApplyPush.vue'],resolve);}
             },
-            {
-                path:"/clubActivityPublish",
-                name:"社团活动发布",
-                title:"社团活动发布",
-                component:resolve=>{require(['@/components/club/activityManage/activityPublish.vue'],resolve);}
-            },
+            // {
+            //     path:"/clubActivityPublish",
+            //     name:"社团活动发布",
+            //     title:"社团活动发布",
+            //     component:resolve=>{require(['@/components/club/activityManage/activityPublish.vue'],resolve);}
+            // },
             {
                 path:"/clubActivityEnroll",
-                name:"社团活动报名",
-                title:"社团活动报名",
+                name:"社团活动报名情况",
+                title:"社团活动报名情况",
                 component:resolve=>{require(['@/components/club/activityManage/activityEnroll.vue'],resolve);}
             },
             {
                 path:"/clubActivityMoneyPush",
-                name:"经费情况提交",
-                title:"经费情况提交",
+                name:"经费表提交",
+                title:"经费表提交",
                 component:resolve=>{require(['@/components/club/activityManage/activityMoneyPush.vue'],resolve);}
             },
             {
                 path:"/clubActivityResultPublish",
-                name:"发布活动成果",
-                title:"发布活动成果",
+                name:"社团活动成果发布",
+                title:"社团活动成果发布",
                 component:resolve=>{require(['@/components/club/activityManage/activityResultPublish.vue'],resolve);}
             },
-            {
-                path:"/clubMoney",
-                name:"经费",
-                title:"经费",
-                component:resolve=>{require(['@/components/club/activityManage/money.vue'],resolve);}
-            },
+            // {
+            //     path:"/clubMoney",
+            //     name:"经费",
+            //     title:"经费",
+            //     component:resolve=>{require(['@/components/club/activityManage/money.vue'],resolve);}
+            // },
             {
                 path:"/clubActivity",
                 name:"社团活动统计",
@@ -262,19 +277,19 @@ export const unionAdminRouter=[
             {
                 // 斜杆要注意加，不然就找不到了
                 path:"/activityApplyPush",
-                name:"活动申请",
-                title:"活动申请",
+                name:"活动举办",
+                title:"活动举办",
                 type:0,
                 typeName:"举办活动",
                 component:resolve=>{require(['@/components/union/activityManage/activityApplyPush.vue'],resolve);}
             },
-            {
-                path:"/activityPublish",
-                name:"活动发布",
-                title:"活动发布",
-                type:0,
-                component:resolve=>{require(['@/components/union/activityManage/activityPublish.vue'],resolve);}
-            },
+            // {
+            //     path:"/activityPublish",
+            //     name:"活动发布",
+            //     title:"活动发布",
+            //     type:0,
+            //     component:resolve=>{require(['@/components/union/activityManage/activityPublish.vue'],resolve);}
+            // },
             {
                 path:"/activityEnroll",
                 name:"活动报名情况",
@@ -297,14 +312,14 @@ export const unionAdminRouter=[
                 component:resolve=>{require(['@/components/union/activityManage/activityResultPublish.vue'],resolve);}
             },
         // 数据统计
-            {
-                path:"/unionMoney",
-                name:"保管金查看",
-                title:"保管金查看",
-                type:1,
-                typeName:"数据统计",                
-                component:resolve=>{require(['@/components/union/activityManage/unionMoney.vue'],resolve);}
-            },
+            // {
+            //     path:"/unionMoney",
+            //     name:"保管金查看",
+            //     title:"保管金查看",
+            //     type:1,
+            //     typeName:"数据统计",                
+            //     component:resolve=>{require(['@/components/union/activityManage/unionMoney.vue'],resolve);}
+            // },
             {
                 path:"/unionActivity",
                 name:"活动统计情况",
@@ -390,12 +405,12 @@ export const teacherAdminRouter=[
                 title:"校社联活动经费表",
                 component:resolve=>{require(['@/components/teacher/unionManage/unionMoneyUseCheck.vue'],resolve);}
             },
-            {
-                path:"/unionRegAudit",
-                name:"校社联年度注册表审核",
-                title:"校社联年度注册表审核",
-                component:resolve=>{require(['@/components/teacher/unionManage/unionRegAudit.vue'],resolve);}
-            },
+            // {
+            //     path:"/unionRegAudit",
+            //     name:"校社联年度注册表审核",
+            //     title:"校社联年度注册表审核",
+            //     component:resolve=>{require(['@/components/teacher/unionManage/unionRegAudit.vue'],resolve);}
+            // },
             {
                 path:"/unionMoneyManage",
                 name:"校社联保管金",
@@ -422,6 +437,7 @@ export const teacherAdminRouter=[
     }
 ]
 export const routers = [
+    ...otherRouter,
     loginRouter,
     regRouter,
     ...studentRouter,

@@ -1,8 +1,5 @@
 var Mock = require('mockjs')
 var Random=Mock.Random//可以省略不写
-Mock.mock('https://jsonplaceholder.typicode.com/posts/', function() {
-    return "success";
-})
 var institute={
 			"金融与投资学院":[
 							"金融学",
@@ -116,6 +113,204 @@ var memberListTemplate={
 	"officer3":'@natural(0,100)',
 	"officer4":'@natural(0,100)'
 }
+var activityDetailList=[
+            	{
+            		theme:"挑战杯",
+            		timeBegin:"20150105",
+            		visits:2585,
+            		likes:1999,
+            		enrolls:1532
+            	},
+            	{
+            		theme:"蓝桥杯",
+            		timeBegin:"20150105",
+            		visits:954,
+            		likes:864,
+            		enrolls:581
+            	},
+            	{
+            		theme:"数学建模",
+            		timeBegin:"20150105",
+            		visits:954,
+            		likes:851,
+            		enrolls:581
+            	},
+            	{
+            		theme:"沙盘模拟",
+            		timeBegin:"20150105",
+            		visits:1893,
+            		likes:925,
+            		enrolls:858
+            	},
+            	{
+            		theme:"金融数学",
+            		timeBegin:"20150105",
+            		visits:1454,
+            		likes:925,
+            		enrolls:858
+            	},
+            	{
+            		theme:"嘉年华",
+            		timeBegin:"20150105",
+            		visits:654,
+            		likes:525,
+            		enrolls:458
+            	},
+            	{
+            		theme:"辩论赛",
+            		timeBegin:"20150105",
+            		visits:2454,
+            		likes:1025,
+            		enrolls:258
+            	},
+            	{
+            		theme:"美食节",
+            		timeBegin:"20150105",
+            		visits:3454,
+            		likes:2525,
+            		enrolls:558
+            	},
+            	{
+            		theme:"篮网杯",
+            		timeBegin:"20150105",
+            		visits:2554,
+            		likes:1925,
+            		enrolls:725
+            	},
+            	{
+            		theme:"希望杯",
+            		timeBegin:"20150105",
+            		visits:2568,
+            		likes:2050,
+            		enrolls:888
+            	}
+            ]
+var activityList=[
+				{	
+					activityId:1,
+					time:"2013/01/15",
+					clubUnionId:"3",
+					theme:"学习交流会",
+					content:"很多学霸等你们来",
+					memberActivity:1,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",					
+					address:"A-101",
+					money:500,
+					goods:[],
+					status:1,
+				},
+				{	
+					activityId:3,
+					time:"2013/01/15",
+					clubUnionId:"3",
+					theme:"学习交流会",
+					content:"很多学霸等你们来",
+					memberActivity:0,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",
+					address:"A-102",
+					money:200,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					}],
+					status:2,
+				},
+				{	
+					activityId:4,
+					time:"2013/01/15",
+					clubUnionId:"3",
+					theme:"迎新活动",
+					content:"很多学霸等你们来",
+					memberActivity:1,
+					timeBegin:"2013/09/15 12:00:00",
+					timeEnd:"2013/09/15 14:00:00",
+					enrollDeadline:"2013/09/14 12:00:00",
+					introduction:"迎新活动",
+					address:"大礼堂",
+					money:200,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					},{
+						sum:"2",
+						name:"桌子"
+					}],
+					status:3,
+					reason:"此时段不予办娱乐活动"
+				},
+				{	
+					activityId:4,
+					time:"2013/01/15",
+					clubUnionId:"3",
+					theme:"学习交流会",
+					content:"很多学霸等你们来",
+					memberActivity:0,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",
+					address:"A-104",
+					money:1000,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					},{
+						sum:"2",
+						name:"桌子"
+					}],
+					status:4,
+				}
+			]
+var activityStatisticalList=[
+            	{
+            		time:"2016年上",
+            		times:3,
+            		memberTimes:1,
+            		unmemberTimes:2,
+            		averageNumber:20,
+            	},
+            	{
+            		time:"2016年下",
+            		times:4,
+            		memberTimes:2,
+            		unmemberTimes:2,
+            		averageNumber:33,
+            	},
+            	{
+            		time:"2017年上",
+            		times:5,
+            		memberTimes:2,
+            		unmemberTimes:3,
+            		averageNumber:32,
+            	},
+            	{
+            		time:"2017年下",
+            		times:4,
+            		memberTimes:2,
+            		unmemberTimes:2,
+            		averageNumber:51,
+            	},
+            	{
+            		time:"2018年上",
+            		times:4,
+            		memberTimes:2,
+            		unmemberTimes:2,
+            		averageNumber:47,
+            	},
+            	{
+            		time:"2018年下",
+            		times:5,
+            		memberTimes:2,
+            		unmemberTimes:3,
+            		averageNumber:44,
+            	}
+]
 // Mock.mock("http://119.29.105.29:8083/reg",function(data){
 // 	var response={
 // 		"credential": {
@@ -126,7 +321,7 @@ var memberListTemplate={
 // 	console.log(data.body);
 // 	return response;
 // })
-Mock.mock("http://119.29.105.29:8083/editPassword","success");
+// Mock.mock("http://119.29.105.29:8083/editPassword","success");
 // Mock.mock("/login",function(data){
 // 	var response={
 // 		"credential": {
@@ -142,6 +337,25 @@ Mock.mock("http://119.29.105.29:8083/getStudentList",{
 		studentListTemplate
 	],
 	"totalCount":100
+})
+
+Mock.mock("http://119.29.105.29:8083/getActivityDetailList",function(){
+	return activityDetailList
+})
+Mock.mock("http://119.29.105.29:8083/getActivityList",function(){
+	return activityList
+})
+Mock.mock("http://119.29.105.29:8083/getActivityStatisticalList",function(){
+	return activityStatisticalList
+})
+Mock.mock("http://119.29.105.29:8083/postImg","success")
+Mock.mock("http://119.29.105.29:8083/requestActivityResult",function(){
+	return {
+		msg:"成功",
+		data:{
+		},
+		code:200
+	}
 })
 // Mock.mock("http://119.29.105.29:8083/club/1/vip",{
 // 	'studentList|10':[
@@ -167,32 +381,30 @@ Mock.mock("http://119.29.105.29:8083/getMemberList",{
 	],
 	"totalCount":40
 })
-Mock.mock("https://getInstitute",function(){
+Mock.mock("http://119.29.105.29:8083/getInstitute",function(){
 	return JSON.stringify(institute);		
 })
-Mock.mock("/acceptThis",function(data){
+Mock.mock("http://119.29.105.29:8083/acceptThis",function(data){
 	console.log(data.body);
 	return "success";
 });
-Mock.mock("/rejectThis",function(data){
+Mock.mock("http://119.29.105.29:8083/rejectThis",function(data){
 	console.log(data.body);
 	return "success";
 });
-Mock.mock("/acceptThese",function(data){
+Mock.mock("http://119.29.105.29:8083/acceptThese",function(data){
 	console.log(data.body);
 	return "success";
 });
-Mock.mock("/removeThese",function(data){
+Mock.mock("http://119.29.105.29:8083/removeThese",function(data){
 	console.log(data.body);
 	return "success";
 });
-Mock.mock("/removeThis",function(data){
+Mock.mock("http://119.29.105.29:8083/removeThis",function(data){
 	console.log(data.body);
 	return "success";
 });
-Mock.mock("/editThis",function(data){
+Mock.mock("http://119.29.105.29:8083/editThis",function(data){
 	console.log(data.body);
 	return "success";
 });
-// 输出结果
-// console.log(JSON.stringify(data, null, 4))

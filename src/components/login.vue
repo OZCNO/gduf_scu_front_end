@@ -63,12 +63,9 @@ export default {
              	this.logining = false;
           		var path=["personCenter","clubMemberAudit","officerAudit","unionActivityAudit"];
           		let {code,msg,data}=res.data;
-              	console.log(res);
               	if(code!=="200"){
 	                this.$message.error(msg);
               	} else {
-              		localStorage.setItem("token",data.credential.token);
-              		localStorage.setItem("userId",data.credential.userId);
               		localStorage.setItem("role",this.loginForm.role);
               		localStorage.setItem("name",data.user.name);
               		localStorage.setItem("avatar",data.user.avatar||"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3502149281,2119482052&fm=27&gp=0.jpg");
