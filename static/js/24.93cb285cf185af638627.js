@@ -1,0 +1,2 @@
+webpackJsonp([24],{QvtM:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement;return(this._self._c||e)("div",[this._v("正在开发中......")])},staticRenderFns:[]};var a=n("VU/8")({name:"ClubInstroduce",data:function(){return{}}},r,!1,function(e){n("a/qL")},"data-v-04f30efc",null);t.default=a.exports},"a/qL":function(e,t){}});
+//# sourceMappingURL=24.93cb285cf185af638627.js.map
