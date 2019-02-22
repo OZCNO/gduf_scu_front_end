@@ -55,7 +55,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',//如果使用Tomcat，"./"
+    assetsPublicPath: './',//如果使用Tomcat，"./"
 
     /**
      * Source Maps
