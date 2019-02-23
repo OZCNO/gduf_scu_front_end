@@ -1,26 +1,32 @@
 <template>
-<el-card class="box-card">
-	<div slot="header" class="clearfix">
-	    <span>活动热度指数</span>
-	</div>
-  <!-- 已申请活动表单 -->
-	<el-table :data="list" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
-		<el-table-column type="index" width="35">
-		</el-table-column><el-table-column prop="theme" label="主题" sortable>
-		</el-table-column><el-table-column prop="visits" label="浏览数 " sortable>
-		</el-table-column><el-table-column prop="likes" label="点赞数" sortable>
-		</el-table-column><el-table-column prop="enrolls" label="报名数" sortable>	
-		</el-table-column>
-	</el-table>
-	<el-col :span="24" class="toolbar">
-		<el-pagination background small layout="prev, pager, next" style="float:right;"
-		 @current-change="handleCurrentChange"  :page-size="10"  :total="total"></el-pagination>
-	</el-col>
-	<div style="clear:both"></div>
-<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-	<div id="chartColumn" style="width:100%; height:400px;"></div>
-	<div id="chartLine" style="width:100%; height:400px;"></div>
-</el-card>
+<div>
+	<el-card class="box-card">
+		<div slot="header" class="clearfix">
+		    <span>活动热度指数</span>
+		</div>
+	  <!-- 已申请活动表单 -->
+		<el-table :data="list" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
+			<el-table-column type="index" width="35">
+			</el-table-column><el-table-column prop="theme" label="主题" sortable>
+			</el-table-column><el-table-column prop="visits" label="浏览数 " sortable>
+			</el-table-column><el-table-column prop="likes" label="点赞数" sortable>
+			</el-table-column><el-table-column prop="enrolls" label="报名数" sortable>	
+			</el-table-column>
+		</el-table>
+		<el-col :span="24" class="toolbar">
+			<el-pagination background small layout="prev, pager, next" style="float:right;"
+			 @current-change="handleCurrentChange"  :page-size="10"  :total="total"></el-pagination>
+		</el-col>
+		<div style="clear:both"></div>
+	</el-card>
+	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+	<el-card class="box-card">
+		<div id="chartColumn" style="width:100%; height:400px;"></div>
+	</el-card>
+	<el-card class="box-card">
+		<div id="chartLine" style="width:100%; height:400px;"></div>
+	</el-card>
+</div>
 </template>
 <script>
 import {getActivityDetailList} from "../../../api.js"

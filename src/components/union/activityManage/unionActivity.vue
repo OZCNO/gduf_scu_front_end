@@ -1,4 +1,5 @@
 <template>
+<div>
 <el-card class="box-card">
 	<div slot="header" class="clearfix">
 	    <span>活动统计</span>
@@ -14,15 +15,20 @@
 		</el-table-column>
 	</el-table>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-	<el-row class="chart">
-		<el-col :span="12">
-			<div id="chartColumn" style="width:100%; height:400px;"></div>
-		</el-col>
-		<el-col :span="12">
-			<div id="chartPie" style="width:100%; height:400px;"></div>	
-		</el-col>
-	</el-row>
 </el-card>
+<el-row :gutter="20" class="chart">
+    <el-col :span="14">
+        <el-card class="box-card">
+             <div id="chartColumn" style="width:100%; height:400px;"></div>
+        </el-card>
+    </el-col>
+    <el-col :span="10">
+        <el-card class="box-card">
+            <div id="chartPie" style="width:100%; height:400px;"></div>
+        </el-card>
+    </el-col>
+</el-row>
+</div>
 </template>
 <script>
 import {getActivityStatisticalList} from "../../../api.js"
@@ -113,7 +119,7 @@ export default{
                     {
                         name: '活动类型',
                         type: 'pie',
-                        radius: '55%',
+                        radius: '50%',
                         center: ['50%', '50%'],
 				        encode: {
 				            itemName: '活动类型',

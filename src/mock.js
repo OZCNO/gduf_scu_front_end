@@ -188,9 +188,10 @@ var activityDetailList=[
 var activityList=[
 				{	
 					activityId:1,
-					time:"2013/01/15",
+					time:"2019/01/15",
 					clubUnionId:"3",
-					theme:"学习交流会",
+					clubName:"数学协会",
+					theme:"数学建模",
 					content:"很多学霸等你们来",
 					memberActivity:1,
 					timeBegin:"2013/01/15 14:00:00",
@@ -204,8 +205,9 @@ var activityList=[
 				},
 				{	
 					activityId:3,
-					time:"2013/01/15",
+					time:"2019/01/15",
 					clubUnionId:"3",
+					clubName:"爪哇部落",
 					theme:"学习交流会",
 					content:"很多学霸等你们来",
 					memberActivity:0,
@@ -223,9 +225,10 @@ var activityList=[
 				},
 				{	
 					activityId:4,
-					time:"2013/01/15",
+					time:"2019/01/15",
 					clubUnionId:"3",
-					theme:"迎新活动",
+					theme:"学习交流会",
+					clubName:"数学协会",
 					content:"很多学霸等你们来",
 					memberActivity:1,
 					timeBegin:"2013/09/15 12:00:00",
@@ -246,9 +249,10 @@ var activityList=[
 				},
 				{	
 					activityId:4,
-					time:"2013/01/15",
+					time:"2019/01/15",
 					clubUnionId:"3",
-					theme:"学习交流会",
+					clubName:"乒乓球协会",
+					theme:"乒乓球赛",
 					content:"很多学霸等你们来",
 					memberActivity:0,
 					timeBegin:"2013/01/15 14:00:00",
@@ -265,6 +269,202 @@ var activityList=[
 						name:"桌子"
 					}],
 					status:4,
+				}
+			]
+var unauditActivityList=[
+				{	
+					activityId:1,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					clubName:"数学协会",
+					theme:"数学建模",
+					content:"很多学霸等你们来",
+					memberActivity:1,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",					
+					address:"A-101",
+					money:500,
+					goods:[],
+					status:1,
+					moneyUse:[
+						{
+							use:"零食",
+							sum:"500"
+						}
+					]
+				},
+				{	
+					activityId:3,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					clubName:"爪哇部落",
+					theme:"学习交流会",
+					content:"很多学霸等你们来",
+					memberActivity:0,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",
+					address:"A-102",
+					money:200,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					}],
+					status:1,
+					moneyUse:[
+						{
+							use:"零食",
+							sum:"200"
+						}
+					]
+				},
+				{	
+					activityId:4,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					theme:"学习交流会",
+					clubName:"数学协会",
+					content:"很多学霸等你们来",
+					memberActivity:1,
+					timeBegin:"2013/09/15 12:00:00",
+					timeEnd:"2013/09/15 14:00:00",
+					enrollDeadline:"2013/09/14 12:00:00",
+					introduction:"迎新活动",
+					address:"大礼堂",
+					money:200,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					},{
+						sum:"2",
+						name:"桌子"
+					}],
+					status:1,
+					moneyUse:[
+						{
+							use:"零食",
+							sum:"200"
+						}
+					]
+				},
+				{	
+					activityId:4,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					clubName:"乒乓球协会",
+					theme:"乒乓球赛",
+					content:"很多学霸等你们来",
+					memberActivity:0,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",
+					address:"A-104",
+					money:1000,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					},{
+						sum:"2",
+						name:"桌子"
+					}],
+					status:1,
+					moneyUse:[
+						{
+							use:"零食",
+							sum:"1000"
+						}
+					]
+				}
+			]
+var auditActivityList=[
+				{	
+					activityId:1,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					clubName:"数学协会",
+					theme:"数学建模",
+					content:"很多学霸等你们来",
+					memberActivity:1,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",					
+					address:"A-101",
+					money:500,
+					goods:[],
+					status:2,
+					reason:"同意",
+					moneyUse:[
+						{
+							use:"奖品-杯子",
+							sum:"200"
+						},
+						{
+							use:"零食",
+							sum:"300"
+						}
+					]
+				},
+				{	
+					activityId:3,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					clubName:"爪哇部落",
+					theme:"学习交流会",
+					content:"很多学霸等你们来",
+					memberActivity:0,
+					timeBegin:"2013/01/15 14:00:00",
+					timeEnd:"2013/01/15 18:00:00",
+					enrollDeadline:"2013/01/15 12:00:00",
+					introduction:"学习交流",
+					address:"A-102",
+					money:200,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					}],
+					status:2,
+					reason:"同意",
+					moneyUse:[
+						{
+							use:"奖品-杯子",
+							sum:"200"
+						}
+					]
+				},
+				{	
+					activityId:4,
+					time:"2019/01/15",
+					clubUnionId:"3",
+					theme:"迎新晚会",
+					clubName:"数学协会",
+					content:"很多学霸等你们来",
+					memberActivity:1,
+					timeBegin:"2013/09/15 12:00:00",
+					timeEnd:"2013/09/15 14:00:00",
+					enrollDeadline:"2013/09/14 12:00:00",
+					introduction:"迎新活动",
+					address:"大礼堂",
+					money:200,
+					goods:[{
+						sum:"1",
+						name:"相机"
+					},{
+						sum:"2",
+						name:"桌子"
+					}],
+					status:3,
+					reason:"此时段不予办娱乐活动",
+					moneyUse:[
+						{
+							use:"零食",
+							sum:"200"
+						}
+					]
 				}
 			]
 var activityStatisticalList=[
@@ -311,6 +511,94 @@ var activityStatisticalList=[
             		averageNumber:44,
             	}
 ]
+var auditAnnualReg=[
+            	{
+            		clubName:"数学协会",
+            		type:"学习类",
+            		memberSum:30,
+            		officerSum:15,
+            		teacherName:"郑兵",
+            		teacherMobile:13751831767,
+            		summary:"工作总结",
+            		plan:"工作计划就是..",
+            		comment:"这是备注",
+            		audit_status:"3",
+            		time:"2019.01.02 22:00:00",
+            		updateTime:"2019-02-23",
+            		reason:"计划存在...问题"
+            	},
+            	{
+            		clubName:"出雲",
+            		type:"娱乐类",
+            		memberSum:30,
+            		officerSum:15,
+            		teacherName:"郑兵",
+            		teacherMobile:13751831767,
+            		summary:"工作总结",
+            		plan:"工作计划就是..",
+            		comment:"这是备注",
+            		audit_status:"2",
+            		time:"2019.01.02 22:00:00",
+            		updateTime:"2019-02-23",
+            		reason:"通过，计划可以稍作修改"
+            	},
+            	{
+            		clubName:"爪哇部落",
+            		type:"学习类",
+            		memberSum:30,
+            		officerSum:15,
+            		teacherName:"郑兵",
+            		teacherMobile:13751831767,
+            		summary:"工作总结",
+            		plan:"工作计划就是..",
+            		comment:"这是备注",
+            		audit_status:"2",
+            		time:"2019.01.02 22:00:00",
+            		updateTime:"2019-02-23",
+            		reason:"通过"
+            	}
+]
+var unauditAnnualReg=[
+            	{
+            		clubName:"数学协会",
+            		type:"学习类",
+            		memberSum:30,
+            		officerSum:15,
+            		teacherName:"郑兵",
+            		teacherMobile:13751831767,
+            		summary:"工作总结",
+            		plan:"工作计划就是..",
+            		comment:"这是备注",
+            		audit_status:"3",
+            		time:"2019-02-23"
+            	},
+            	{
+            		clubName:"出雲",
+            		type:"娱乐类",
+            		memberSum:30,
+            		officerSum:15,
+            		teacherName:"郑兵",
+            		teacherMobile:13751831767,
+            		summary:"工作总结",
+            		plan:"工作计划就是..",
+            		comment:"这是备注",
+            		audit_status:"2",
+            		time:"2019-02-23"
+            	},
+            	{
+            		clubName:"爪哇部落",
+            		type:"学习类",
+            		memberSum:30,
+            		officerSum:15,
+            		teacherName:"郑兵",
+            		teacherMobile:13751831767,
+            		summary:"工作总结",
+            		plan:"工作计划就是..",
+            		comment:"这是备注",
+            		audit_status:"2",
+            		time:"2019-02-23"
+            	}
+]
 // Mock.mock("http://119.29.105.29:8083/reg",function(data){
 // 	var response={
 // 		"credential": {
@@ -348,8 +636,20 @@ Mock.mock("http://119.29.105.29:8083/getActivityList",function(){
 Mock.mock("http://119.29.105.29:8083/getActivityStatisticalList",function(){
 	return activityStatisticalList
 })
+Mock.mock("http://119.29.105.29:8083/getAuditedActivityList",function(){
+	return auditActivityList
+})
+Mock.mock("http://119.29.105.29:8083/getUnauditActivityList",function(){
+	return unauditActivityList
+})
+Mock.mock("http://119.29.105.29:8083/getAuditAnnualReg",function(){
+	return auditAnnualReg
+})
+Mock.mock("http://119.29.105.29:8083/getUnauditAnnualReg",function(){
+	return unauditAnnualReg
+})
 Mock.mock("http://119.29.105.29:8083/postImg","success")
-Mock.mock("http://119.29.105.29:8083/requestActivityResult",function(){
+Mock.mock("http://119.29.105.29:8083/success",function(){
 	return {
 		msg:"成功",
 		data:{

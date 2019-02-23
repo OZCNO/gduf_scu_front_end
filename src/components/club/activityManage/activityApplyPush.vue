@@ -31,7 +31,7 @@
     <el-dialog title="申请活动" :visible.sync="dialogFormVisible">
 		<el-form ref="form" :model="form" :rules="formRules" label-width="110px" class="form" size="mini">
 			<el-form-item label="活动主题" prop="theme"><el-input type="text" v-model="form.theme" placeholder="请输入活动主题"></el-input></el-form-item>
-			<el-form-item label="会员活动" prop="memberActivity" required><el-switch v-model="form.memberActivity" :active-value="1" inactive-value="0"></el-switch></el-form-item>
+			<el-form-item label="会员活动" prop="memberActivity" required><el-switch v-model="form.memberActivity" :active-value="1" :inactive-value="0"></el-switch></el-form-item>
 			<el-form-item label="报名截止时间" prop="enrollDeadline" required><el-date-picker v-model="form.enrollDeadline"  type="datetime"  placeholder="选择日期时间"  default-time="12:00:00"></el-date-picker></el-form-item>
 			<el-form-item label="活动时间" required>
 				<el-col :span="11"><el-form-item prop="timeBegin"><el-date-picker type="datetime" placeholder="选择开始时间" v-model="form.timeBegin"  default-time="12:00:00"  style="width: 100%;"></el-date-picker></el-form-item></el-col>
@@ -51,7 +51,7 @@
 				<el-col :span="6" :offset="1"><el-button @click.prevent="removeGoods(item)">删除</el-button></el-col>
 			</el-form-item>
 			<el-form-item label="地点" prop="address"><el-input type="text" v-model="form.address" placeholder="请输入活动地点"></el-input></el-form-item>
-			<el-form-item label="简介" prop="introduction"><el-input type="textarea" v-model="form.introduction" placeholder="活动简介"></el-input></el-form-item>
+			<el-form-item label="简介" prop="introduction"><el-input type="text" v-model="form.introduction" placeholder="活动简介"></el-input></el-form-item>
 			<el-form-item label="内容" prop="content"><el-input type="textarea" :autosize="{ minRows: 4}" v-model="form.content" placeholder="发动小伙伴来参加......"></el-input></el-form-item>
 		</el-form>
 		<div slot="footer">
@@ -68,7 +68,7 @@
 				<el-input type="text" v-model="detailForm.theme"></el-input>
 			</el-form-item>
 			<el-form-item label="会员活动">
-				<el-switch v-model="detailForm.memberActivity==1" active-value="1" inactive-value="0"></el-switch>
+				<el-switch v-model="detailForm.memberActivity" :active-value="1" :inactive-value="0"></el-switch>
 			</el-form-item>
 			<el-form-item label="报名截止时间">
 			    <el-date-picker v-model="detailForm.enrollDeadline"  type="datetime"  placeholder="选择日期时间"  default-time="12:00:00">
@@ -76,15 +76,11 @@
 			</el-form-item>
 			<el-form-item label="活动时间">
 				<el-col :span="11">
-					<el-form-item>
-						<el-date-picker type="datetime" v-model="detailForm.timeBegin"  default-time="12:00:00"  style="width: 100%;"></el-date-picker>
-					</el-form-item>
+					<el-date-picker type="datetime" v-model="detailForm.timeBegin"  default-time="12:00:00"  style="width: 100%;"></el-date-picker>
 				</el-col>
 				<el-col :span="2" style="text-align: center">—</el-col>
 				<el-col :span="11">
-					<el-form-item>
-						<el-date-picker type="datetime" v-model="detailForm.timeEnd"  default-time="12:00:00" style="width: 100%;"></el-date-picker>
-					</el-form-item>
+					<el-date-picker type="datetime" v-model="detailForm.timeEnd"  default-time="12:00:00" style="width: 100%;"></el-date-picker>
 				</el-col>
 			</el-form-item>
 			<el-form-item label="经费" v-if="detailForm.money!=0">
@@ -99,7 +95,7 @@
 				<el-input type="text" v-model="detailForm.address"></el-input>
 			</el-form-item>
 			<el-form-item label="简介">
-				<el-input type="textarea" v-model="detailForm.introduction"></el-input>
+				<el-input type="text" v-model="detailForm.introduction"></el-input>
 			</el-form-item>
 			<el-form-item label="内容">
 				<el-input type="textarea" v-model="detailForm.content"></el-input>

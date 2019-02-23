@@ -3,6 +3,7 @@
 import 'element-ui/lib/theme-chalk/index.css'
 // 使用iconfont实现小图标
 import "./style/iconfont.css"
+//css文件要放前面，build后布局才不会乱
 import Vue from 'vue'
 import App from './App'
 import {router} from './router/index'

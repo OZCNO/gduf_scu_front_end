@@ -1,100 +1,110 @@
 <template>
-	<section class="officerManageContainer">
-		<!-- 搜索框 -->
-		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-			<el-form :inline="true" size="mini" :model="filters">
-				<el-form-item>
-					<el-input placeholder="姓名" v-model="filters.name"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="getStudentList">查询</el-button>
-				</el-form-item>
-			</el-form>
-		</el-col>
-		<el-table :data="studentList" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
-			<el-table-column type="index" width="55">				
-			</el-table-column><el-table-column prop="department" label="部门" show-overflow-tooltip sortable>			
-			</el-table-column><el-table-column prop="grade" label="年级" sortable width="70">
-			</el-table-column><el-table-column prop="name" label="姓名" sortable width="80">				
-			</el-table-column><el-table-column prop="sex" label="性别" sortable width="70" :formatter="formatSex">				
-			</el-table-column><el-table-column prop="status" label="职务" show-overflow-tooltip sortable width="70">		
-			</el-table-column><el-table-column prop="mobile" label="手机号码" show-overflow-tooltip sortable width="120">	
-			</el-table-column><el-table-column prop="email" label="邮箱" show-overflow-tooltip sortable width="150">		
-			</el-table-column><el-table-column prop="institute" label="学院" show-overflow-tooltip sortable>			
-			</el-table-column><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>			
-			</el-table-column>
-			<el-table-column label="操作" width="150" fixed="right">
-				<template slot-scope="scope">
-					<el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-					<el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button>
-				</template>
-			</el-table-column>
-		</el-table>
-		<el-col :span="24" class="toolbar">
-			<el-pagination
-			  background
-			  small
-			  layout="prev, pager, next"
-			  @current-change="handleCurrentChange"
-			  :page-size="10"
-			  :total="total" style="float:right;">
-			</el-pagination>
-		</el-col>
-		<!-- 编辑界面 -->
-		<el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
-			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-			    <el-form-item label="姓名" prop="name">
-			    	<el-input v-model="editForm.name" autocomplete="off"></el-input>
-			    </el-form-item>
-				<el-row>
-					<el-col :span="12">
-					    <el-form-item label="性别">
-					      	<el-radio-group v-model="editForm.sex">
-								<el-radio class="radio" label="0">男</el-radio>
-								<el-radio class="radio" label="1">女</el-radio>
-							</el-radio-group>
-					    </el-form-item>
-					    <el-form-item label="年级">
-							<el-input-number v-model="editForm.grade" :min="0" :max="99"></el-input-number>
-					    </el-form-item>
-						<el-form-item label="学院">
-							<el-select v-model="editForm.institute" @change="instituteChange">
-								<el-option v-for="(item,index) in institute" :value="index" :key="index"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="专业">
-							<el-select v-model="editForm.major" @change="majorChange">
-								<el-option v-for="(item,index) in major" :value="item" :key="index"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12">
-					    <el-form-item label="部门" prop="department">
-					    	<el-input v-model="editForm.department" autocomplete="off"></el-input>
-					    </el-form-item>
-					    <el-form-item label="职务">
-					    	<el-select v-model="editForm.status">
-						        <el-option label="会员" value="会员"></el-option>
-						        <el-option label="干事" value="干事"></el-option>
-						        <el-option label="副部" value="副部"></el-option>
-						        <el-option label="正副" value="正部"></el-option>
-						    </el-select>
-					    </el-form-item>
-					    <el-form-item label="手机" prop="mobile">
-					    	<el-input v-model="editForm.mobile" autocomplete="off"></el-input>
-					    </el-form-item>
-					    <el-form-item label="邮箱" prop="email">
-					    	<el-input v-model="editForm.email" autocomplete="off"></el-input>
-					    </el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="editFormVisible = false">取消</el-button>
-				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
-			</div>
-		</el-dialog>
-	</section>
+<div class="officerManageContainer">
+	<!-- 搜索框 -->
+	<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-form :inline="true" size="mini" :model="filters">
+			<el-form-item>
+				<el-input placeholder="姓名" v-model="filters.name"></el-input>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" @click="getStudentList(1)">查询</el-button>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="text" @click="downloadExcel(false)">导出当前页面/打勾数据</el-button>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="text" @click="downloadExcel(true)">导出所有数据</el-button>
+			</el-form-item>
+		</el-form>
+	</el-col>
+	<el-table :data="studentList" :highlight-current-row="true" v-loading="listLoading"  @selection-change="selectionChange"  style="width: 100%" class="tableClass" size="mini">
+		<!-- 多选按钮 -->
+		<el-table-column type="selection" width="35">	
+		</el-table-column>
+		<el-table-column type="index" width="55">				
+		</el-table-column><!-- <el-table-column prop="department" label="部门" show-overflow-tooltip sortable>			
+		</el-table-column><el-table-column prop="grade" label="年级" sortable width="70">
+		</el-table-column> --><el-table-column prop="name" label="姓名" sortable width="80">				
+		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70" :formatter="formatSex">				
+		</el-table-column><!-- <el-table-column prop="status" label="职务" show-overflow-tooltip sortable width="70">		
+		</el-table-column> --><el-table-column prop="code" label="学号" sortable width="120">	
+		</el-table-column><el-table-column prop="mobile" label="手机号码" show-overflow-tooltip sortable width="120">	
+		</el-table-column><el-table-column prop="email" label="邮箱" show-overflow-tooltip sortable width="150">		
+		</el-table-column><!-- <el-table-column prop="institute" label="学院" show-overflow-tooltip sortable>			
+		</el-table-column> --><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>			
+		</el-table-column>
+		<el-table-column label="操作" width="150" fixed="right">
+			<template slot-scope="scope">
+				<el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+				<el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+			</template>
+		</el-table-column>
+	</el-table>
+	<el-col :span="24" class="toolbar">
+		<el-pagination
+		  background
+		  small
+		  layout="prev, pager, next"
+		  @current-change="handleCurrentChange"
+		  :page-size="10"
+		  :total="total" style="float:right;">
+		</el-pagination>
+	</el-col>
+	<!-- 编辑界面 -->
+	<el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
+		<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+		    <el-form-item label="姓名" prop="name">
+		    	<el-input v-model="editForm.name" autocomplete="off"></el-input>
+		    </el-form-item>
+			<el-row>
+				<el-col :span="12">
+				    <el-form-item label="性别">
+				      	<el-radio-group v-model="editForm.sex">
+							<el-radio class="radio" label="0">男</el-radio>
+							<el-radio class="radio" label="1">女</el-radio>
+						</el-radio-group>
+				    </el-form-item>
+				    <el-form-item label="年级">
+						<el-input-number v-model="editForm.grade" :min="0" :max="99"></el-input-number>
+				    </el-form-item>
+					<el-form-item label="学院">
+						<el-select v-model="editForm.institute" @change="instituteChange">
+							<el-option v-for="(item,index) in institute" :value="index" :key="index"></el-option>
+						</el-select>
+					</el-form-item>
+					<el-form-item label="专业">
+						<el-select v-model="editForm.major" @change="majorChange">
+							<el-option v-for="(item,index) in major" :value="item" :key="index"></el-option>
+						</el-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12">
+				    <el-form-item label="部门" prop="department">
+				    	<el-input v-model="editForm.department" autocomplete="off"></el-input>
+				    </el-form-item>
+				    <el-form-item label="职务">
+				    	<el-select v-model="editForm.status">
+					        <el-option label="会员" value="会员"></el-option>
+					        <el-option label="干事" value="干事"></el-option>
+					        <el-option label="副部" value="副部"></el-option>
+					        <el-option label="正副" value="正部"></el-option>
+					    </el-select>
+				    </el-form-item>
+				    <el-form-item label="手机" prop="mobile">
+				    	<el-input v-model="editForm.mobile" autocomplete="off"></el-input>
+				    </el-form-item>
+				    <el-form-item label="邮箱" prop="email">
+				    	<el-input v-model="editForm.email" autocomplete="off"></el-input>
+				    </el-form-item>
+				</el-col>
+			</el-row>
+		</el-form>
+		<div slot="footer" class="dialog-footer">
+			<el-button @click.native="editFormVisible = false">取消</el-button>
+			<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+		</div>
+	</el-dialog>
+</div>
 </template>
 <script>
   import { getClubMemberList } from '../../../api.js';
@@ -111,6 +121,8 @@ export default{
 			listLoading:false,
 			studentList:[],
 			institute:[],
+			// 批量选择
+			multipleSelection: [],
 			editFormVisible: false,
 			editForm:{
 				id:0,
@@ -130,6 +142,9 @@ export default{
 				]
 			},
 			editLoading:false,
+			cname:['姓名','性别',"学号","专业","手机号码","邮箱"],
+			ename:['name','sex',"code","major","mobile","email"],
+
 		}
 	},
 	created:function(){
@@ -138,11 +153,64 @@ export default{
 		this.getInstitute();
 	},
 	methods:{
+		//列表下载
+        downloadExcel(bool) {
+          this.$confirm('确定下载列表文件?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+          	//导出的数据list。
+          	if(bool){
+          		//请求所有数据并且赋给this.excelData
+          		let para={pageSize:this.total}
+          		let clubID=1
+				getClubMemberList(clubID,para).then(res=>{
+					let {msg,code,data}=res.data;
+					if(code==200){
+						this.excelData=data.list;
+						//因为这里是异步，所以必须在这里调用，在外面调用excelData会为空
+            			this.export2Excel(this.cname,this.ename,this.excelData)
+					}
+				}).catch(err=>{
+					this.$message.error("失败");
+				})	
+          	}else{
+            	this.excelData =this.multipleSelection.length > 0 ? this.multipleSelection : this.studentList 
+            	this.export2Excel(this.cname,this.ename,this.excelData)
+          	}
+          }).catch(() => {
+ 
+          });
+        },
+    	//数据写入excel
+        export2Excel(cname,ename,studentList) {
+          var that = this;
+          require.ensure([], () => {
+            //这里必须使用绝对路径，使用@/+存放export2Excel的路径
+            const { export_json_to_excel } = require('@/vendor/export2Excel'); 
+            //导出的表头名信息
+            const tHeader = cname;
+            //导出的表头字段名，需要导出表格字段名
+            const filterVal = ename; 
+            const list = studentList;
+            const data = that.formatJson(filterVal, list);
+            // 导出的表格名称，根据需要自己命名
+            export_json_to_excel(tHeader, data, '下载数据excel');
+          })
+        },
+      	//格式转换，直接复制即可
+        formatJson(filterVal, jsonData) {
+          return jsonData.map(v => filterVal.map(j => v[j]))
+        },
 		//如何把这个函数提到common.js里面去
 		//性别显示转换
 		formatSex(row, column){
 			return row.sex == 0 ?"男": row.sex ==1?"女":"-";
 		},
+	    selectionChange(val) {
+	      	this.multipleSelection = val;
+	    },
 		//获取学院列表
 		getInstitute(){
 			this.$axios.get("/getInstitute").then(res=>{
@@ -161,7 +229,9 @@ export default{
 			this.getStudentList();
 		},
 		//获取用户列表
-		getStudentList(){
+		getStudentList(data){
+			//在查询的时候，把page重置为1
+			this.page=data
 			let para={
 				page:this.page,
 				name:this.filters.name,
