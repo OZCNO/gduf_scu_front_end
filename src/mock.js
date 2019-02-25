@@ -599,6 +599,48 @@ var unauditAnnualReg=[
             		time:"2019-02-23"
             	}
 ]
+var activityResultList=[
+	{
+		title:"北上广智库专家齐聚广金畅谈中国经济 ",
+		image:"http://www.gduf.edu.cn/__local/B/A3/2F/31432773EF394D6CB6033C954E9_81361905_4F9E4.png",
+		content:"我校作为2018年广东省智库联盟轮值理事长单位，2019年1月31日与广东省社会科学院联合举办广东省智库联盟年会暨构建现代化经济体系高端论坛，本次论坛邀请北上广三地智库专家，论坛分为两个部分，主旨环节是构建现代化经济体系高端论坛，其次是2018年广东智库联盟工作总结及轮值理事长单位交接仪式。广东省社会科学副院长赵细康，广东金融学院校长雍和明在开幕式上致辞。"
+	},
+	{
+		title:"学校领导小年佳节看望慰问寒假留校师生",
+		image:"http://www.gduf.edu.cn/__local/5/44/A8/069E0C5B4D2A99B2D5708EB3EF6_C0DB3EF1_15833.jpeg",
+		content:"犬过千秋留胜迹，亥岁跃马奔小康。1月28日是腊月二十三日，正值小年佳节，为了给寒假留校学生送上新春的问候和祝福，我校在实验教学中心三楼多功能厅举办了2019年寒假留校学生新春茶话会。党委书记李建军，党委副书记、纪委书记张欣，学生工作处、招生与就业工作处、保卫处、后勤服务中心、资产后勤管理处、教育技术与网络管理中心、团委等部门负责人以及留校学生代表共100多人齐聚一堂，喜迎新春，茶话会由学生工作处处长陈伟业主持。"
+	},
+	{
+		title:"我校学子在2018-2019年CFA协会全球高校投资分析大赛中斩获广州赛区冠军",
+		image:"http://www.gduf.edu.cn/__local/E/D9/10/3B85B8F5CA60EFC037E2DC2F38D_253A15D9_2AF44.jpg",
+		content:"2月23日，我校金融与投资学院2016级CFA实验班学生许皓钧、林秋晴、邱诗韵与陈雨柔组成的四人代表队，在学院胡妍老师的带领下参加了2018-2019年CFA全球投资分析大赛广州地区决赛。四位队员击败了来自中南财经政法大学、华南理工大学、华南师范大学等高校的其余八支队伍，获得冠军，并将在今年3月下旬与来自北京大学光华管理学院、北京大学汇丰商学院、上海财经大学以及西南财经大学的另外四支队伍一起代表中国赴澳大利亚悉尼参加亚太区决赛。"
+	},
+    {
+    	title:"ACM我校斩获....",
+    	image:"https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=3e23aa77232dd42a4b0409f9625230d0/314e251f95cad1c84e8f0339793e6709c93d51fc.jpg",
+    	content:"本次数学竞赛。。。"
+    },
+    {
+    	title:"数学竞赛圆满成功，最高分离满分之差1分",
+    	image:"http://img5.imgtn.bdimg.com/it/u=201280020,2827816163&fm=26&gp=0.jpg",
+    	content:"本次数学竞赛。。。"
+    },
+    {
+    	title:"爱心行动",
+    	image:"https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=93b50afd6681800a7ae8815cd05c589f/4bed2e738bd4b31cc5ec67c98dd6277f9f2ff8f4.jpg",
+    	content:"爱心行动。。。"
+    },
+    {
+    	title:"开学季",
+    	image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551024863825&di=ceef7b0fa69de1a62de61f4118aa0275&imgtype=0&src=http%3A%2F%2Fpic98.huitu.com%2Fres%2F20170808%2F622769_20170808215534312050_1.jpg",
+    	content:"开学季，我们在XXX举办的xxxxx活动获得了广大学生的青睐"
+    },
+    {
+    	title:"计算机技能竞赛",
+    	image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551021712040&di=66b1fb44073818ec989c0f7c15844b73&imgtype=0&src=http%3A%2F%2Fwww.hzxxgc.com%2Fupimg%2Fuserup%2F1404%2F2F3041X927.jpg",
+    	content:"本次计算机技能竞赛。。。"
+    },
+]
 // Mock.mock("http://119.29.105.29:8083/reg",function(data){
 // 	var response={
 // 		"credential": {
@@ -610,14 +652,14 @@ var unauditAnnualReg=[
 // 	return response;
 // })
 // Mock.mock("http://119.29.105.29:8083/editPassword","success");
-// Mock.mock("/login",function(data){
+// Mock.mock("http://119.29.105.29:8083/login",function(){
 // 	var response={
 // 		"credential": {
 // 	        "token": "hseJ7nkui0vbRctXvvWSxZKUmmP7HaoyaIocdCZN",
 // 	        "userId": 2
-// 	    }
+// 	    },
+// 	    role:3,
 // 	}
-// 	console.log(data.body);
 // 	return response;
 // })
 Mock.mock("http://119.29.105.29:8083/getStudentList",{
@@ -647,6 +689,13 @@ Mock.mock("http://119.29.105.29:8083/getAuditAnnualReg",function(){
 })
 Mock.mock("http://119.29.105.29:8083/getUnauditAnnualReg",function(){
 	return unauditAnnualReg
+})
+Mock.mock("http://119.29.105.29:8083/getActivityResultList",function(){
+	return {
+		msg:"成功",
+		data:{list:activityResultList},
+		code:200
+	}
 })
 Mock.mock("http://119.29.105.29:8083/postImg","success")
 Mock.mock("http://119.29.105.29:8083/success",function(){

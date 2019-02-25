@@ -7,22 +7,17 @@
 				<el-input placeholder="姓名" v-model="filters.name"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="getStudentList">查询</el-button>
+				<el-button type="primary" @click="getStudentList(1)">查询</el-button>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="text" @click="downloadExcel">导出当前页面/打勾数据</el-button>
+				<el-button type="text" @click="downloadExcel(false)">导出当前页面/打勾数据</el-button>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="text" @click="downloadExcel(true)">导出所有数据</el-button>
 			</el-form-item>
 		</el-form>
 	</el-col>
-	<!-- 通过或拒绝应该显示为已通过或已拒绝。
-		可以添加一个过滤列，显示审核状态，可只显示已通过，已拒绝，未审核三种状态 -->
-	<!--  highlight-current-row是指单击会高亮 -->
-	<!-- 表格 -->
 	<el-table :data="studentList" :highlight-current-row="true" v-loading="listLoading" @selection-change="selectionChange" style="width: 100%" class="tableClass" size="mini">
-		<!-- 多选按钮 -->
 		<el-table-column type="selection" width="35">	
 		</el-table-column>
 		<el-table-column type="expand" width="15">
@@ -50,7 +45,7 @@
 		<el-table-column type="index" width="35">
 		</el-table-column><el-table-column prop="grade" label="年级" sortable width="70">
 		</el-table-column><el-table-column prop="name" label="姓名" sortable width="80">	
-		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70" :formatter="formatSex">
+		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70">
 		</el-table-column><el-table-column prop="institute" label="学院" show-overflow-tooltip sortable>	
 		</el-table-column><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>	
 		</el-table-column><el-table-column prop="department" label="招新部门" show-overflow-tooltip sortable min-width="90">		
@@ -67,13 +62,7 @@
 	</el-table>
 	<el-col :span="24" class="toolbar">
 		<el-button type="primary" @click="acceptSome" size="mini">批量通过</el-button><el-button type="danger" @click="rejectSome"  size="mini">批量删除</el-button>
-		<el-pagination
-		  background
-		  small
-		  layout="prev, pager, next"
-		  @current-change="handleCurrentChange"
-		  :page-size="10"
-		  :total="total" style="float:right;">
+		<el-pagination background small layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="10" :total="total" style="float:right;">
 		</el-pagination>
 	</el-col>
 </div>
@@ -117,15 +106,15 @@ export default{
           		let para={pageSize:this.totalCount}
 				getUnauditClubMemberList(para).then(res=>{
 					if(res.status==200){
-						this.excelData=res.data.studentList;
+						this.excelData=this.formatList(res.data.studentList);
+            			this.export2Excel(this.cname,this.ename,this.excelData)
 					}
 				})
           	}else{
-            	this.excelData =this.multipleSelection.length > 0 ? this.multipleSelection : this.studentList 
+            	this.excelData =this.multipleSelection.length > 0 ? this.multipleSelection : this.studentList
+            	this.export2Excel(this.cname,this.ename,this.excelData)
           	}
-            this.export2Excel(this.cname,this.ename,this.excelData)
           }).catch(() => {
- 
           });
         },
     	//数据写入excel
@@ -144,15 +133,26 @@ export default{
             export_json_to_excel(tHeader, data, '下载数据excel');
           })
         },
+		formatList(list){
+			list.forEach((item,index)=>{
+				if(item["sex"]!==undefined){
+					item["sex"]=item["sex"] == 0 ? "男":"女"
+				}
+				if(item["status"]!==undefined){
+					item["status"]=item["status"]==1?"待审核":item["status"]==2?"审核通过":item["status"]==3?"审核未通过":"已发布"
+				}
+			})
+			return list
+		},
       	//格式转换，直接复制即可
         formatJson(filterVal, jsonData) {
           return jsonData.map(v => filterVal.map(j => v[j]))
         },
 		//如何把这些函数提到common.js里面去
 		//性别显示转换
-		formatSex(row, column){
-			return row.sex == 0 ?"男": row.sex ==1?"女":"-";
-		},
+		// formatSex(row, column){
+		// 	return row.sex == 0 ?"男": row.sex ==1?"女":"-";
+		// },
 		//当前页面发生变化
 		handleCurrentChange(val){
 			this.page=val;
@@ -170,6 +170,7 @@ export default{
 				if(res.status==200){
 					this.total=res.data.totalCount;
 					this.studentList=res.data.studentList;
+					this.formatList(this.studentList);
 					this.listLoading=false;
 				}
 			}).catch(err=>{

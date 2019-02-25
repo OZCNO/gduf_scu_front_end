@@ -1,5 +1,7 @@
 <template>
-<div>recruitActivity.vue.vue</div>
+<div>
+正在开发中.....
+</div>
 </template>
 <script>
 	export default{

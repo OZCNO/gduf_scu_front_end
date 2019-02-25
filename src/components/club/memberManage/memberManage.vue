@@ -25,7 +25,7 @@
 		</el-table-column><!-- <el-table-column prop="department" label="部门" show-overflow-tooltip sortable>			
 		</el-table-column><el-table-column prop="grade" label="年级" sortable width="70">
 		</el-table-column> --><el-table-column prop="name" label="姓名" sortable width="80">				
-		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70" :formatter="formatSex">				
+		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70">				
 		</el-table-column><!-- <el-table-column prop="status" label="职务" show-overflow-tooltip sortable width="70">		
 		</el-table-column> --><el-table-column prop="code" label="学号" sortable width="120">	
 		</el-table-column><el-table-column prop="mobile" label="手机号码" show-overflow-tooltip sortable width="120">	
@@ -168,7 +168,7 @@ export default{
 				getClubMemberList(clubID,para).then(res=>{
 					let {msg,code,data}=res.data;
 					if(code==200){
-						this.excelData=data.list;
+						this.excelData=this.formatList(data.list);
 						//因为这里是异步，所以必须在这里调用，在外面调用excelData会为空
             			this.export2Excel(this.cname,this.ename,this.excelData)
 					}
@@ -177,6 +177,7 @@ export default{
 				})	
           	}else{
             	this.excelData =this.multipleSelection.length > 0 ? this.multipleSelection : this.studentList 
+				this.excelData=this.excelData;
             	this.export2Excel(this.cname,this.ename,this.excelData)
           	}
           }).catch(() => {
@@ -203,11 +204,21 @@ export default{
         formatJson(filterVal, jsonData) {
           return jsonData.map(v => filterVal.map(j => v[j]))
         },
-		//如何把这个函数提到common.js里面去
-		//性别显示转换
-		formatSex(row, column){
-			return row.sex == 0 ?"男": row.sex ==1?"女":"-";
+		formatList(list){
+			list.forEach((item,index)=>{
+				if(item["sex"]!==undefined){
+					item["sex"]=item["sex"]==0?"男":"女"//注意只能转一次，不要重复转了
+				}
+				if(item["status"]!==undefined){
+					item["status"]=item["status"]==1?"待审核":item["status"]==2?"审核通过":item["status"]==3?"审核未通过":"已发布"
+				}
+			})
+			return list
 		},
+		//性别显示转换
+		// formatSex(row, column){
+		// 	return row.sex == 0 ?"男": row.sex ==1?"女":"-";
+		// },
 	    selectionChange(val) {
 	      	this.multipleSelection = val;
 	    },
@@ -246,6 +257,7 @@ export default{
 					console.log(res);
 					this.total=data.totalCount;
 					this.studentList=data.list;
+					this.formatList(this.studentList);
 					this.listLoading=false;
 				}else{
 					this.listLoading=false;

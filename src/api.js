@@ -112,3 +112,9 @@ export const getAuditAnnualReg=()=>{return axios.get("/getAuditAnnualReg")}
 export const getUnauditAnnualReg=()=>{return axios.get("/getUnauditAnnualReg")}
 //mock 修改社团年度注册表
 export const editAnnualReg=(params)=>{return axios.get("/success",params)}
+
+
+//mock 修改个人信息
+export const editPersonalInformation=(params)=>{return axios.get("/success",params)}
+//mock 获取活动成果展列表
+export const getActivityResultList=()=>{return axios.get("/getActivityResultList")}

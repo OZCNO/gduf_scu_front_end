@@ -29,7 +29,7 @@
 				<el-input type="text" v-model="form.title" placeholder="请输入标题"></el-input>
 			</el-form-item>
 			<el-form-item label="内容" prop="content" required>
-				<el-input type="textarea" v-model="form.content" placeholder="请输入标题"></el-input>
+				<el-input type="textarea" v-model="form.content" placeholder="请输入内容"></el-input>
 			</el-form-item>
 			<el-form-item label="图片" prop="image">
 				<el-upload

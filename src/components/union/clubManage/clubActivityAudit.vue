@@ -112,7 +112,6 @@ export default{
 	data(){
 		return{
             message: 'first',
-            showHeader: false,
             unaudit: [],
             audit: [],
             dialogFormVisible:false,

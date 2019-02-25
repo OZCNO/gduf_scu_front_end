@@ -114,23 +114,23 @@ export default{
 				}
 			})
 		},
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-        this.form.image=this.imageUrl
-        console.log(this.imageUrl);
-      },
-      beforeAvatarUpload(file) {
-        // const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 8;
+		handleAvatarSuccess(res, file) {
+			this.imageUrl = URL.createObjectURL(file.raw);
+			this.form.image=this.imageUrl
+			console.log(this.imageUrl);
+		},
+		beforeAvatarUpload(file) {
+			// const isJPG = file.type === 'image/jpeg';
+			const isLt2M = file.size / 1024 / 1024 < 8;
 
-        // if (!isJPG) {
-        //   this.$message.error('上传头像图片只能是 JPG 格式!');
-        // }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 8MB!');
-        }
-        return isLt2M;
-      },
+			// if (!isJPG) {
+			//   this.$message.error('上传头像图片只能是 JPG 格式!');
+			// }
+			if (!isLt2M) {
+			  this.$message.error('上传头像图片大小不能超过 8MB!');
+			}
+			return isLt2M;
+		},
 		// 当前页面发生变化
 		handleCurrentChange(val){
 			this.page=val
@@ -139,16 +139,6 @@ export default{
 }
 </script>
 <style lang="scss" scoped>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
