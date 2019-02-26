@@ -72,6 +72,7 @@
 <script>
 import {editPersonalInformation} from "../../../api.js"
 export default{
+	// props:["user"],
 	name:'personCenter',
 	data(){
 		var validateUsername= ( rule,value,callback ) =>{

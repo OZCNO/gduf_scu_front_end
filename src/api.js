@@ -57,14 +57,17 @@ export const getClubMemberList = (clubID,params) => { return axios.get(`/club/${
 //mock  获取社联干事列表
 export const getUnionMemberList = (unionID,params) => { return axios.get(`/union/${unionID}/vip`,params); };
 
-// 修改社团干事信息
-// export const editClubMember = (clubID,params) => { return axios.get("",params); };
+//? 添加社团成员
+// export const addClubMember =(params) => {return axios.post("/club/vip"),params}
+
+//? 修改社团干事信息
+// export const editClubMember = (params) => { return axios.put("/club/vip",params); };
 
 // 修改社联干事信息
 // export const editUnionMember = (unionID,params) => { return axios.get("",params); };
 
-//移除某社团干事
-// export const removeClubMember
+//? 移除某社团干事
+// export const removeClubMember=(memberId) => { return axios.remove(`club/vip/{memberId}`)}
 
 //移除某社联干事
 // export const removeUnionMember
@@ -110,8 +113,8 @@ export const editMoneyList=(params)=>{return axios.get("/success",params)}
 export const getAuditAnnualReg=()=>{return axios.get("/getAuditAnnualReg")}
 //mock 社联获取未审核社团年度注册表
 export const getUnauditAnnualReg=()=>{return axios.get("/getUnauditAnnualReg")}
-//mock 修改社团年度注册表
-export const editAnnualReg=(params)=>{return axios.get("/success",params)}
+//？ 修改社团年度注册表
+export const editAnnualReg=(params)=>{return axios.get(`/club/annual/registration/${id}/status`,params)}
 
 
 //mock 修改个人信息

@@ -31,8 +31,7 @@ export default {
 		return {
 			logoNameArr:["学生端","校社团端","校社联端","老师端"],
 			// 传入组件的值
-			// user:{
-			// },
+			user:{},
 			collapsed:false,
 		}
 	},
@@ -40,23 +39,17 @@ export default {
 		bus.$on("collapsed",msg=>{
 			this.collapsed=msg;
 		})
-		// getUserInformation().then(res=>{
-		// 	console.log(res);
-		// })
-	},
-	methods:{
+		getUserInformation().then(res=>{
+			let {msg,code,data}=res.data
+			console.log(res)
+			if(code==200){
+				this.user=data
+			}
+		})
 	},
 	computed:{
 		logoName(){
 			return this.logoNameArr[this.user.role-1]
-		},
-		user(){
-			return {
-				code:"151541217",
-				name:this.$route.query.name||localStorage.getItem("name"),
-				role:this.$route.query.role||localStorage.getItem("role"),
-	        	avatar:this.$route.query.avatar||localStorage.getItem("avatar")				
-			}
 		}
 	}
 }

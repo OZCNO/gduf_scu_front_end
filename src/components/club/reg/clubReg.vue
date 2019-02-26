@@ -46,7 +46,7 @@
 	</el-dialog>
 	<!-- 过去注册表 -->
     <el-dialog title="年度注册表" :visible.sync="dialogFormVisible2">
-    	<span style="color:red;" v-if="!bool">意见：{{form.reason}}</span>    
+    	<span style="color:red;">意见：{{form.reason}}</span>    
 		<el-form ref="form2" :model="form2" :inline="true" size="mini" disabled>
 		  <el-form-item label="社团全称"><el-input v-model="form2.clubName" ></el-input>
 		  </el-form-item><el-form-item label="社团类别"><el-input v-model="form2.type"></el-input>
@@ -76,6 +76,7 @@ export default{
 			page:1,
 			total:10,
 			submitting:false,
+			listLoading:false,
 			info:{
 				clubID:1,
 				name:"公关协会",
@@ -118,7 +119,7 @@ export default{
 		submitForm(form){
 			this.$refs[form].validate((valid) => {
 	          	if (valid) {
-					var clubID=this.form2.clubID;
+					var clubID=this.form.clubID;
 					this.form.clubID=1;
 					this.$confirm("提交后不可修改，确定要提交了吗？","提示").then(()=>{
 						requestClubAnnualReg(clubID,this.form).then((res)=>{

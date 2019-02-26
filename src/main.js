@@ -22,11 +22,9 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {   // 使用钩子函数对路由进行权限跳转，next不能丢
 	const token = localStorage.getItem('token');
 　　if ( !token && to.path !== '/login' && to.path !== '/reg' ) {  // 如果用户不存在，并且访问的页面不是登录和注册，就前往登录页面
-　　　　console.log("用户不存在，并且访问的页面不是登录和注册");
-		next('/login');
+　　　　next('/login');
 　　} 
 	else if (to.path=="/login" || to.path=="/reg"){
-		console.log("访问登录或注册页面，清除ls");
 		localStorage.clear();
 		next();
 	}

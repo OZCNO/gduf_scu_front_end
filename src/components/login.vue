@@ -66,17 +66,8 @@ export default {
               	if(code!=="200"){
 	                this.$message.error(msg);
               	} else {
-              		localStorage.setItem("role",this.loginForm.role);
-              		localStorage.setItem("name",data.user.name);
-              		localStorage.setItem("avatar",data.user.avatar||"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3502149281,2119482052&fm=27&gp=0.jpg");
-
 	          		this.$router.push({
 	          			path:path[this.loginForm.role-1],
-	          			query:{
-	          				role:this.loginForm.role,
-	          				name:"郑婵娜",
-	          				avatar:"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3502149281,2119482052&fm=27&gp=0.jpg"
-	          			}
 	          		})
 	          	}
       		})
