@@ -4,13 +4,14 @@
         <el-tabs v-model="message">
             <el-tab-pane :label="`待审核(${unaudit.length})`" name="first">
                 <el-table :data="unaudit" :show-header="false" style="width: 100%" size="mini">
+					<el-table-column type="index" width="35"></el-table-column>
                     <el-table-column>
                         <template slot-scope="scope">
-                            <span class="message-clubName">【{{scope.row.clubName}}】</span>
+                            <span class="message-clubName">【{{scope.row.clubOrUnionName}}】</span>
                             <span class="message-theme">{{scope.row.theme}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="time" width="180"></el-table-column>
+                    <el-table-column prop="timeBegin" width="180"></el-table-column>
                     <el-table-column width="120">
                         <template slot-scope="scope">
                             <el-button size="mini" type="primary" @click="handleAudit(scope.$index,scope.row)">审核</el-button>
@@ -25,14 +26,15 @@
             <el-tab-pane label="已审核" name="second">
                 <template v-if="message === 'second'">
                     <el-table :data="audit" :show-header="false" style="width: 100%" size="mini">
+						<el-table-column type="index" width="35"></el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
-                            	<span class="message-theme">【{{scope.row.clubName}}】</span>
+                            	<span class="message-theme">【{{scope.row.clubOrUnionName}}】</span>
                                 <span class="message-theme">{{scope.row.theme}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="time" width="150"></el-table-column>
-                        <el-table-column prop="status" width="120" :formatter="formatStatus"></el-table-column>
+                        <el-table-column prop="timeBegin" width="150"></el-table-column>
+                        <el-table-column prop="auditStates" width="120" :formatter="formatStatus"></el-table-column>
                         <el-table-column width="120">
                             <template slot-scope="scope">
                                 <el-button size="small" type="text" @click="handleOpen(scope.$index,scope.row)">查看详情</el-button>
@@ -53,8 +55,12 @@
 			<el-form-item label="活动主题">
 				<el-input type="text" v-model="form.theme"></el-input>
 			</el-form-item>
-			<el-form-item label="会员活动">
-				<el-switch v-model="form.memberActivity" :active-value="1" :inactive-value="0"></el-switch>
+			<el-form-item label="活动类型">
+				<el-radio-group v-model="form.memberActivity">
+					<el-radio-button :label="0">普通活动</el-radio-button>
+					<el-radio-button :label="1">会员活动</el-radio-button>
+					<el-radio-button :label="2">招新活动</el-radio-button>
+				</el-radio-group>
 			</el-form-item>
 			<el-form-item label="报名截止时间">
 			    <el-date-picker v-model="form.enrollDeadline"  type="datetime"  placeholder="选择日期时间"  default-time="12:00:00">
@@ -106,7 +112,7 @@
 </div>
 </template>
 <script>
-import {getAuditedActivityList,getUnauditActivityList,editActivity} from "../../../api.js"
+import {getActivityList,editActivity} from "../../../api.js"
 export default{
 	name:"ClubActivityAudit",
 	data(){
@@ -126,26 +132,64 @@ export default{
 			submitting:false,
 			bool:false,
 			page1:1,
-			total1:10,
+			total1:1,
 			page2:1,
-			total2:10,
+			total2:1,
 		}
 	},
 	created(){
-		getUnauditActivityList().then(res=>{
-			this.unaudit=res.data
-		})
-		getAuditedActivityList().then(res=>{
-			this.audit=res.data
-		})
+		this.update()
 	},
 	methods:{
+        update(){
+            this.getAuditList()
+            this.getUnauditList()            
+        },
+        getUnauditList(){
+            let params={
+                page:this.page1,
+                status:1
+            }
+            getActivityList("club",params).then(res=>{
+                console.log(res)
+                this.listLoading2=true
+                let {msg,code,data}=res.data
+                if(code==200){
+                    this.unaudit=data.list
+                    this.total1=data.totalCount||1
+                }else{
+                    this.$message.error(msg)
+                }
+                this.listLoading2=false
+            })          
+        },
+        getAuditList(){
+            let params={
+                page:this.page2,
+                // status:"2,3",
+                status:2
+            }
+            getActivityList("club",params).then(res=>{
+                console.log(res)
+                this.listLoading1=true
+                let {msg,code,data}=res.data
+                if(code==200){
+                    this.audit=data.list
+                    this.total2=data.totalCount||1
+                }else{
+                    this.$message.error(msg)
+                }
+                this.listLoading1=false
+            })            
+        },
 		// 当前页面发生变化
 		handleCurrentChange1(val){
 			this.page1=val
+			this.getUnauditList()
 		},
 		handleCurrentChange2(val){
 			this.page2=val
+			this.getAuditList()
 		},
 		handleAudit(index,row){
 			this.dialogFormVisible=true
@@ -158,26 +202,25 @@ export default{
 			this.bool=false
 		},
 		formatStatus(row, column){
-			return row.status == 1 ?"待审核": row.status ==2?"通过审核":row.status ==3?"未通过审核":"已发布"
+			return row.auditStates == 1 ?"待审核": row.auditStates ==2?"通过审核":row.auditStates ==3?"未通过审核":"已发布"
 		},
 		submitForm(form){
 			this.$refs[form].validate((valid) => {
 	          	if (valid) {
-					this.$confirm("确定提交吗？","提示").then(()=>{
-						let activityId=1
-						editActivity(activityId,this.auditForm).then(res=>{
-		            		this.submitting = true
-							let {msg,code,data}=res.data
-							if(code==200){
-								this.submitting=false
-								this.$message.success("提交成功")
-								this.dialogFormVisible = false
-								// 重新获取列表
-							}else{
-								this.submitting=false
-								this.$message.error(msg)
-							}
-						})
+					editActivity(this.form.id,this.auditForm).then(res=>{
+	            		this.submitting = true
+						let {msg,code,data}=res.data
+						console.log(res)
+						if(code==200){
+							this.submitting=false
+    						this.$refs[form].resetFields()	
+							this.$message.success("提交成功")
+							this.dialogFormVisible = false
+							this.update()
+						}else{
+							this.submitting=false
+							this.$message.error(msg)
+						}
 					})
 				}
 			})

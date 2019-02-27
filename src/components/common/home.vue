@@ -7,7 +7,7 @@
 				<v-tags></v-tags>
 				<el-col :span="24" class="contentWrapper">
 					<transition name="fade" mode="out-in">
-						<router-view></router-view>
+						<router-view :user="user"></router-view>
 					</transition>
 				</el-col>
 			</el-main>		
@@ -41,9 +41,10 @@ export default {
 		})
 		getUserInformation().then(res=>{
 			let {msg,code,data}=res.data
-			console.log(res)
 			if(code==200){
+				console.log(data)
 				this.user=data
+				this.user.avatar=this.user.avatar==""?"https://pic.qqtn.com/up/2018-12/2018122117024489020.jpg":this.user.avatar
 			}
 		})
 	},

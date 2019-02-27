@@ -51,7 +51,8 @@ export default{
 </script>
 <style lang="scss" scoped>
 .carouselImg{
-	width:535px;
+	// width:535px;
+	width:100%;
 	height:300px;
 	border-radius:25px;
 }

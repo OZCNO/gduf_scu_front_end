@@ -34,7 +34,7 @@
 		            <span>{{ props.row.email}}</span>
 		          </el-form-item>
 		          <el-form-item label="自我介绍">
-		            <span>{{ props.row.introduce }}</span>
+		            <span>{{ props.row.introduction }}</span>
 		          </el-form-item>
 		          <el-form-item label="参加原因">
 		            <span>{{ props.row.reason }}</span>
@@ -43,17 +43,16 @@
 			</template>
 		</el-table-column>
 		<el-table-column type="index" width="35">
-		</el-table-column><el-table-column prop="grade" label="年级" sortable width="70">
-		</el-table-column><el-table-column prop="name" label="姓名" sortable width="80">	
+		</el-table-column><!-- <el-table-column prop="grade" label="年级" sortable width="70">
+		</el-table-column> --><el-table-column prop="name" label="姓名" sortable width="80">	
 		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70">
 		</el-table-column><el-table-column prop="institute" label="学院" show-overflow-tooltip sortable>	
 		</el-table-column><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>	
-		</el-table-column><el-table-column prop="department" label="招新部门" show-overflow-tooltip sortable min-width="90">		
-		</el-table-column><el-table-column prop="status" label="职务" show-overflow-tooltip sortable width="80">		
+		</el-table-column><el-table-column prop="theme" label="招新活动" show-overflow-tooltip sortable min-width="90">		
 		</el-table-column><el-table-column prop="reason"  label="参加原因" show-overflow-tooltip>	
-		</el-table-column><el-table-column prop="introduce"  label="自我介绍" show-overflow-tooltip>	
-		</el-table-column><el-table-column prop="time" label="报名时间" show-overflow-tooltip sortable width="100">
-		</el-table-column>
+		</el-table-column><el-table-column prop="introduction"  label="自我介绍" show-overflow-tooltip>	
+		</el-table-column><!-- <el-table-column prop="time" label="报名时间" show-overflow-tooltip sortable width="100">
+		</el-table-column> -->
 		<el-table-column label="操作"  width="142" fixed="right">
 		 	<template slot-scope="scope">
 				<el-button size="mini" type="primary" @click="accept(scope.$index, scope.row)">通过</el-button><el-button size="mini" type="danger" @click="reject(scope.$index, scope.row)">拒绝</el-button>

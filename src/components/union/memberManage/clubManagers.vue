@@ -13,10 +13,10 @@
 		</el-col>
 		<el-table :data="managerList" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
 			<el-table-column type="index" width="55">
+			</el-table-column><el-table-column prop="name" label="管理人" width="80px"  sortable show-overflow-tooltip>	
+			<!-- </el-table-column><el-table-column prop="grade" label="年级" sortable show-overflow-tooltip>	 -->
+			</el-table-column><el-table-column prop="sex" label="性别" width="70x" sortable :formatter="formatSex">	
 			</el-table-column><el-table-column prop="club" label="校社团" sortable show-overflow-tooltip>
-			</el-table-column><el-table-column prop="name" label="管理人" sortable show-overflow-tooltip>	
-			</el-table-column><el-table-column prop="grade" label="年级" sortable show-overflow-tooltip>	
-			</el-table-column><el-table-column prop="sex" label="性别" sortable show-overflow-tooltip :formatter="formatSex">	
 			</el-table-column><el-table-column prop="mobile" label="手机" sortable show-overflow-tooltip>	
 			</el-table-column><el-table-column prop="email" label="邮箱" sortable show-overflow-tooltip>	
 			</el-table-column><el-table-column prop="institute" label="学院" sortable show-overflow-tooltip>	

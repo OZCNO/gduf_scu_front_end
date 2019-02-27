@@ -45,7 +45,7 @@
 </el-card>
 </template>
 <script>
-import {getActivityList} from "../../../api.js"
+import {getActivityList2} from "../../../api.js"
 export default{
 	name:"clubActivityMoneyPush",
 	data(){
@@ -69,7 +69,7 @@ export default{
 	},
 	created(){
 		let clubID=1
-		getActivityList(clubID).then(res=>{
+		getActivityList2(clubID).then(res=>{
 			this.list=res.data
 		})
 	},

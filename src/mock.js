@@ -86,7 +86,7 @@ var studentListTemplate={
 	"status":"干事",
 	"email":'@email',
 	"mobile":/^1[385][1-9]\d{8}/,
-	"introduce":'@paragraph(3,5)',
+	"introduction":'@paragraph(3,5)',
 	"time":'@datetime("MM/dd")',
 	"reason":'@paragraph(1,3)',
 	"avatar":'@image("120x160","头像","#123156")',
@@ -192,7 +192,7 @@ var activityList=[
 					clubUnionId:"3",
 					clubName:"数学协会",
 					theme:"数学建模",
-					content:"很多学霸等你们来",
+					content:"很多学霸等你们来很多学霸等你们来很多学霸等你们来很多学霸等你们来",
 					memberActivity:1,
 					timeBegin:"2013/01/15 14:00:00",
 					timeEnd:"2013/01/15 18:00:00",
@@ -202,6 +202,12 @@ var activityList=[
 					money:500,
 					goods:[],
 					status:1,
+					like:500,
+					browser:452,
+					enroll:150,
+					isBrowser:1,
+					isLike:1,
+					isEnroll:0,
 				},
 				{	
 					activityId:3,
@@ -222,6 +228,12 @@ var activityList=[
 						name:"相机"
 					}],
 					status:2,
+					like:500,
+					browser:452,
+					enroll:150,
+					isBrowser:1,
+					isLike:1,
+					isEnroll:0,
 				},
 				{	
 					activityId:4,
@@ -245,7 +257,13 @@ var activityList=[
 						name:"桌子"
 					}],
 					status:3,
-					reason:"此时段不予办娱乐活动"
+					reason:"此时段不予办娱乐活动",
+					like:500,
+					browser:452,
+					enroll:150,
+					isBrowser:1,
+					isLike:1,
+					isEnroll:0,
 				},
 				{	
 					activityId:4,
@@ -269,6 +287,12 @@ var activityList=[
 						name:"桌子"
 					}],
 					status:4,
+					like:500,
+					browser:452,
+					enroll:150,
+					isBrowser:1,
+					isLike:1,
+					isEnroll:0,
 				}
 			]
 var unauditActivityList=[
@@ -470,135 +494,153 @@ var auditActivityList=[
 var activityStatisticalList=[
             	{
             		time:"2016年上",
-            		times:3,
-            		memberTimes:1,
-            		unmemberTimes:2,
-            		averageNumber:20,
+            		name:"数学协会",
+            		times:5,
+            		memberTimes:4,
+            		unmemberTimes:1,
+            		averageNumber:125,
+            		hotActivity:"第五次自习",
+            		hotNumber:100
             	},
             	{
             		time:"2016年下",
+            		name:"爪哇部落",
             		times:4,
             		memberTimes:2,
             		unmemberTimes:2,
-            		averageNumber:33,
+            		averageNumber:80,
+            		hotActivity:"第一次交流会",
+            		hotNumber:219
             	},
             	{
             		time:"2017年上",
+            		name:"出雲",
             		times:5,
             		memberTimes:2,
             		unmemberTimes:3,
-            		averageNumber:32,
+            		averageNumber:80,
+            		hotActivity:"草地音乐节",
+            		hotNumber:205
             	},
             	{
             		time:"2017年下",
+            		name:"魔方协会",
             		times:4,
             		memberTimes:2,
             		unmemberTimes:2,
             		averageNumber:51,
+            		hotActivity:"竞速魔方",
+            		hotNumber:70
             	},
             	{
             		time:"2018年上",
+            		name:"创行",
             		times:4,
             		memberTimes:2,
             		unmemberTimes:2,
             		averageNumber:47,
+            		hotActivity:"广工交流会",
+            		hotNumber:50
             	},
             	{
             		time:"2018年下",
+            		name:"舞蹈社",
             		times:5,
             		memberTimes:2,
             		unmemberTimes:3,
             		averageNumber:44,
+            		hotActivity:"舞王",
+            		hotNumber:100
             	}
 ]
-var auditAnnualReg=[
-            	{
-            		clubName:"数学协会",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"3",
-            		time:"2019.01.02 22:00:00",
-            		updateTime:"2019-02-23",
-            		reason:"计划存在...问题"
-            	},
-            	{
-            		clubName:"出雲",
-            		type:"娱乐类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		time:"2019.01.02 22:00:00",
-            		updateTime:"2019-02-23",
-            		reason:"通过，计划可以稍作修改"
-            	},
-            	{
-            		clubName:"爪哇部落",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		time:"2019.01.02 22:00:00",
-            		updateTime:"2019-02-23",
-            		reason:"通过"
-            	}
-]
-var unauditAnnualReg=[
-            	{
-            		clubName:"数学协会",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"3",
-            		time:"2019-02-23"
-            	},
-            	{
-            		clubName:"出雲",
-            		type:"娱乐类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		time:"2019-02-23"
-            	},
-            	{
-            		clubName:"爪哇部落",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		time:"2019-02-23"
-            	}
-]
+// var auditAnnualReg=[
+//             	{
+//             		clubName:"数学协会",
+//             		type:"学习类",
+//             		memberSum:30,
+//             		officerSum:15,
+//             		teacherName:"郑兵",
+//             		teacherMobile:13751831767,
+//             		summary:"工作总结",
+//             		plan:"工作计划就是..",
+//             		comment:"这是备注",
+//             		audit_status:"3",
+//             		time:"2019.01.02 22:00:00",
+//             		updateTime:"2019-02-23",
+//             		reason:"计划存在...问题"
+//             	},
+//             	{
+//             		clubName:"出雲",
+//             		type:"娱乐类",
+//             		memberSum:30,
+//             		officerSum:15,
+//             		teacherName:"郑兵",
+//             		teacherMobile:13751831767,
+//             		summary:"工作总结",
+//             		plan:"工作计划就是..",
+//             		comment:"这是备注",
+//             		audit_status:"2",
+//             		time:"2019.01.02 22:00:00",
+//             		updateTime:"2019-02-23",
+//             		reason:"通过，计划可以稍作修改"
+//             	},
+//             	{
+//             		clubName:"爪哇部落",
+//             		type:"学习类",
+//             		memberSum:30,
+//             		officerSum:15,
+//             		teacherName:"郑兵",
+//             		teacherMobile:13751831767,
+//             		summary:"工作总结",
+//             		plan:"工作计划就是..",
+//             		comment:"这是备注",
+//             		audit_status:"2",
+//             		time:"2019.01.02 22:00:00",
+//             		updateTime:"2019-02-23",
+//             		reason:"通过"
+//             	}
+// ]
+// var unauditAnnualReg=[
+//             	{
+//             		clubName:"数学协会",
+//             		type:"学习类",
+//             		memberSum:30,
+//             		officerSum:15,
+//             		teacherName:"郑兵",
+//             		teacherMobile:13751831767,
+//             		summary:"工作总结",
+//             		plan:"工作计划就是..",
+//             		comment:"这是备注",
+//             		audit_status:"3",
+//             		time:"2019-02-23"
+//             	},
+//             	{
+//             		clubName:"出雲",
+//             		type:"娱乐类",
+//             		memberSum:30,
+//             		officerSum:15,
+//             		teacherName:"郑兵",
+//             		teacherMobile:13751831767,
+//             		summary:"工作总结",
+//             		plan:"工作计划就是..",
+//             		comment:"这是备注",
+//             		audit_status:"2",
+//             		time:"2019-02-23"
+//             	},
+//             	{
+//             		clubName:"爪哇部落",
+//             		type:"学习类",
+//             		memberSum:30,
+//             		officerSum:15,
+//             		teacherName:"郑兵",
+//             		teacherMobile:13751831767,
+//             		summary:"工作总结",
+//             		plan:"工作计划就是..",
+//             		comment:"这是备注",
+//             		audit_status:"2",
+//             		time:"2019-02-23"
+//             	}
+// ]
 var activityResultList=[
 	{
 		title:"北上广智库专家齐聚广金畅谈中国经济 ",
@@ -684,12 +726,12 @@ Mock.mock("http://119.29.105.29:8083/getAuditedActivityList",function(){
 Mock.mock("http://119.29.105.29:8083/getUnauditActivityList",function(){
 	return unauditActivityList
 })
-Mock.mock("http://119.29.105.29:8083/getAuditAnnualReg",function(){
-	return auditAnnualReg
-})
-Mock.mock("http://119.29.105.29:8083/getUnauditAnnualReg",function(){
-	return unauditAnnualReg
-})
+// Mock.mock("http://119.29.105.29:8083/getAuditAnnualReg",function(){
+// 	return auditAnnualReg
+// })
+// Mock.mock("http://119.29.105.29:8083/getUnauditAnnualReg",function(){
+// 	return unauditAnnualReg
+// })
 Mock.mock("http://119.29.105.29:8083/getActivityResultList",function(){
 	return {
 		msg:"成功",

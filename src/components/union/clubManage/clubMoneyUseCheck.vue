@@ -18,7 +18,8 @@
                     <el-table-column prop="status" label="活动状态" width="100" :formatter="formatStatus"></el-table-column>
                     <el-table-column width="120" label="操作">
                         <template slot-scope="scope">
-                            <el-button size="small" type="text" @click="handleRead(scope.$index,scope.row)" :loading="submitting">标为已读</el-button>
+                            <el-button size="small" type="text" @click="handleRead(scope.$index,scope.row)" :loading="submitting" v-if="scope.row.read>0">标为已读</el-button>
+                            <span v-else>待提交</span>
                         </template>
                     </el-table-column>
                 </el-table>

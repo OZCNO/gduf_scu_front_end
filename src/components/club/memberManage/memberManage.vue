@@ -32,10 +32,10 @@
 		</el-table-column><el-table-column prop="mobile" label="手机号码" show-overflow-tooltip sortable width="120">	
 		</el-table-column><el-table-column prop="email" label="邮箱" show-overflow-tooltip sortable width="150">		
 		</el-table-column>
-		<el-table-column label="操作" width="150" fixed="right">
+		<el-table-column label="操作" width="75" fixed="right">
 			<template slot-scope="scope">
 				<el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-				<el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+				<!-- <el-button type="danger" size="mini" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
 			</template>
 		</el-table-column>
 	</el-table>
@@ -52,10 +52,10 @@
 		    </el-form-item>
 		    <el-form-item label="职务" prop="status">
 		    	<el-select v-model="editForm.status">
-			        <el-option label="会员" value="会员"></el-option>
-			        <el-option label="干事" value="干事"></el-option>
-			        <el-option label="副部" value="副部"></el-option>
-			        <el-option label="正副" value="正部"></el-option>
+			        <el-option label="会员" :value="0"></el-option>
+			        <el-option label="干事" :value="1"></el-option>
+			        <el-option label="副部" :value="2"></el-option>
+			        <el-option label="正副" :value="3"></el-option>
 			    </el-select>
 		    </el-form-item>
 		</el-form>
@@ -264,30 +264,30 @@ export default{
 			})
     	},
     	//删除
-    	handleDel(index, row){
-			this.$confirm('确认删除该记录吗?', '提示', {
-				type: 'warning'
-			}).then(() => {
-				this.listLoading = true;
-				//NProgress.start();
-				let para = { id: row.id };
-				this.$axios({
-					url:"/removeThis",
-					type:"post",
-					data:para
-				}).then((res)=>{
-					this.listLoading = false;
-					//NProgress.done();
-					this.$message({
-						message: '删除成功',
-						type: 'success'
-					});
-					// this.getUsers();
-					// 成功后重新获取用户列表，刷新
-				});
-			}).catch(() => {
-				});
-    	}
+   //  	handleDel(index, row){
+			// this.$confirm('确认删除该记录吗?', '提示', {
+			// 	type: 'warning'
+			// }).then(() => {
+			// 	this.listLoading = true;
+			// 	//NProgress.start();
+			// 	let para = { id: row.id };
+			// 	this.$axios({
+			// 		url:"/removeThis",
+			// 		type:"post",
+			// 		data:para
+			// 	}).then((res)=>{
+			// 		this.listLoading = false;
+			// 		//NProgress.done();
+			// 		this.$message({
+			// 			message: '删除成功',
+			// 			type: 'success'
+			// 		});
+			// 		// this.getUsers();
+			// 		// 成功后重新获取用户列表，刷新
+			// 	});
+			// }).catch(() => {
+			// 	});
+   //  	}
 	},
 	computed:{
   		major:function(){

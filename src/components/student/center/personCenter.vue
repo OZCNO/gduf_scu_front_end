@@ -8,34 +8,34 @@
 			    <el-button v-if="editable" style="float: right; padding: 3px 0" type="text" @click="editable = false" >编辑</el-button>
 			    <el-button v-else style="float: right; padding: 3px 0" type="text" @click="submit" >完成</el-button>
 			</div>
-				<el-form ref="form" :model='form' :rules='formRules' label-width="90px" size="medium":disabled="editable">			
-					<el-form-item label="学号" prop="username">
-						<el-input  v-model="form.username" placeholder="请输入学号"></el-input>
+				<el-form ref="form" :model='user' :rules='formRules' label-width="90px" size="medium":disabled="editable">			
+					<el-form-item label="学号" prop="code">
+						<el-input  v-model="user.code" placeholder="请输入学号"></el-input>
 					</el-form-item>
 					<el-form-item label="姓名" prop="name">
-						<el-input  v-model="form.name" placeholder="请输入姓名"></el-input>
+						<el-input  v-model="user.name" placeholder="请输入姓名"></el-input>
 					</el-form-item>
 					<el-form-item label="性别" prop="sex">
-						<el-select v-model="form.sex" placeholder="请选择性别">
-							<el-option value="女"></el-option>
-							<el-option value="男"></el-option>
+						<el-select v-model="user.sex" placeholder="请选择性别">
+							<el-option label="男" :value="1"></el-option>
+							<el-option label="女" :value="0"></el-option>
 						</el-select>
 					</el-form-item>		
 					<el-form-item label="学院" prop="institute">
-						<el-select v-model="form.institute" placeholder="请选择所属学院" @change="instituteChange">
+						<el-select v-model="user.institute" placeholder="请选择所属学院" @change="instituteChange">
 							<el-option v-for="(item,index) in institute" :value="index" :key="index"></el-option>	
 						</el-select>
 					</el-form-item>
 					<el-form-item label="专业" prop="major">
-						<el-select v-model="form.major" placeholder="请选择所属专业" @change="majorChange">
+						<el-select v-model="user.major" placeholder="请选择所属专业" @change="majorChange">
 							<el-option v-for="(item,index) in major" :value="item" :key="index"></el-option>
 						</el-select>
 					</el-form-item>			
 					<el-form-item label="手机" prop="mobile">
-						<el-input v-model="form.mobile" placeholder="请输入手机号码"></el-input>
+						<el-input v-model="user.mobile" placeholder="请输入手机号码"></el-input>
 					</el-form-item>		
 					<el-form-item label="邮箱" prop="email">
-						<el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
+						<el-input v-model="user.email" placeholder="请输入邮箱"></el-input>
 					</el-form-item>		
 				</el-form>
 		</el-card>
@@ -44,7 +44,7 @@
 		<el-card class="box-card">
 			<div slot="header">我的头像</div>				
 			<el-upload  class="avatar-uploader" action="http://119.29.105.29:8083/postImg" :show-file-list="false"  :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-			  <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar">
+			  <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar" title="点我换头像">
 			  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 			</el-upload>
 		</el-card>
@@ -72,10 +72,10 @@
 <script>
 import {editPersonalInformation} from "../../../api.js"
 export default{
-	// props:["user"],
+	props:["user"],
 	name:'personCenter',
 	data(){
-		var validateUsername= ( rule,value,callback ) =>{
+		var validateCode= ( rule,value,callback ) =>{
 			if(!(/^[1-9][0-9]+[A-Z]?[0-9]+$/).test(value)){
 				callback(new Error("学号输入不正确"));
 			}else {
@@ -100,7 +100,7 @@ export default{
 		return{
 			institute:[],
 			form:{
-				username:"",
+				code:"",
 				name:"",
 				sex:"",
 				mobile:"",
@@ -110,10 +110,10 @@ export default{
 				avatar:""
 			},
 			formRules:{
-				username:[
+				code:[
 					{required:true,message:"请输入学号",trigger:"blur"},
 					{min:9,max:10,message:"学号输入不正确",trigger:"blur"},
-					{validator:validateUsername,trigger:"blur"}
+					{validator:validateCode,trigger:"blur"}
 				],
 				name:[
 					{required:true,message:"请输入姓名",trigger:"blur"},
@@ -137,7 +137,6 @@ export default{
 					{required:true,message:"请选择所属专业",trigger:"blur"}
 				]
 			},
-			imageUrl:"",
 			editable:true,
 			clubs:[
 				{
@@ -217,7 +216,7 @@ export default{
     	
   	},
   	computed: {
-  		major:function(){
+  		major(){
   			var arr=[];
   			var obj=this.institute;
   			var key;
@@ -232,6 +231,9 @@ export default{
   				}
   			}
   			return arr;
+  		},
+  		imageUrl(){
+  			return this.user.avatar;
   		}
  
 	},

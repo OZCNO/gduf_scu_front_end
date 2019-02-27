@@ -56,23 +56,17 @@ export const studentRouter=[
     //招新模块
     {
         path:"student",
-        name:"招新模块",
-        title:"招新模块",
+        name:"简介模块",
+        title:"简介模块",
         icon:"el-icon-menu",
         component:Home,
-        redirect:"/instoduce",
+        redirect:"/introduction",
         children:[
             {
-                path:"/instroduce",
+                path:"/introduction",
                 name:"社联社团简介",
                 title:"社联社团简介",
-                component:resolve=>{require(['@/components/student/recruit/instroduce.vue'],resolve);}
-            },
-            {
-                path:"/recruitActivity",
-                name:"招新活动",
-                title:"招新活动",
-                component:resolve=>{require(['@/components/student/recruit/recruitActivity.vue'],resolve);}
+                component:resolve=>{require(['@/components/student/recruit/introduction.vue'],resolve);}
             }
         ]
     },
@@ -146,12 +140,6 @@ export const clubAdminRouter=[
                 title:"社团活动举办",
                 component:resolve=>{require(['@/components/club/activityManage/activityApplyPush.vue'],resolve);}
             },
-            // {
-            //     path:"/clubActivityPublish",
-            //     name:"社团活动发布",
-            //     title:"社团活动发布",
-            //     component:resolve=>{require(['@/components/club/activityManage/activityPublish.vue'],resolve);}
-            // },
             {
                 path:"/clubActivityEnroll",
                 name:"社团活动报名情况",
@@ -170,12 +158,6 @@ export const clubAdminRouter=[
                 title:"社团活动成果发布",
                 component:resolve=>{require(['@/components/club/activityManage/activityResultPublish.vue'],resolve);}
             },
-            // {
-            //     path:"/clubMoney",
-            //     name:"经费",
-            //     title:"经费",
-            //     component:resolve=>{require(['@/components/club/activityManage/money.vue'],resolve);}
-            // },
             {
                 path:"/clubActivity",
                 name:"社团活动统计",
@@ -207,14 +189,14 @@ export const clubAdminRouter=[
         name: '校社团简介模块',
         title: '校社团简介模块',
         component: Home,
-        redirect:"/clubInstroduce",
+        redirect:"/clubIntroduction",
         icon:"el-icon-setting",
         children:[
             {
-                path:"/clubInstroduce",
+                path:"/clubIntroduction",
                 name:"校社团简介",
                 title:"校社团简介",
-                component:resolve=>{require(['@/components/club/instroduce/clubInstroduce.vue'],resolve);}
+                component:resolve=>{require(['@/components/club/introduction/introduction.vue'],resolve);}
             }
         ]
     }
@@ -283,13 +265,6 @@ export const unionAdminRouter=[
                 typeName:"举办活动",
                 component:resolve=>{require(['@/components/union/activityManage/activityApplyPush.vue'],resolve);}
             },
-            // {
-            //     path:"/activityPublish",
-            //     name:"活动发布",
-            //     title:"活动发布",
-            //     type:0,
-            //     component:resolve=>{require(['@/components/union/activityManage/activityPublish.vue'],resolve);}
-            // },
             {
                 path:"/activityEnroll",
                 name:"活动报名情况",
@@ -311,15 +286,6 @@ export const unionAdminRouter=[
                 type:1000,
                 component:resolve=>{require(['@/components/union/activityManage/activityResultPublish.vue'],resolve);}
             },
-        // 数据统计
-            // {
-            //     path:"/unionMoney",
-            //     name:"保管金查看",
-            //     title:"保管金查看",
-            //     type:1,
-            //     typeName:"数据统计",                
-            //     component:resolve=>{require(['@/components/union/activityManage/unionMoney.vue'],resolve);}
-            // },
             {
                 path:"/unionActivity",
                 name:"活动统计情况",
@@ -371,13 +337,13 @@ export const unionAdminRouter=[
         title: '校社联简介模块',
         icon:"el-icon-setting",
         component: Home,
-        redirect:"/unionInstroduce",//默认重定向到这里
+        redirect:"/unionIntroduction",//默认重定向到这里
         children:[
             {
-                path:"/unionInstroduce",
+                path:"/unionIntroduction",
                 name: '校社联简介',
                 title: '校社联简介',
-                component:resolve=>{require(['@/components/union/instroduce/unionInstroduce.vue'],resolve);}
+                component:resolve=>{require(['@/components/union/introduction/introduction.vue'],resolve);}
             }
         ]
     }
@@ -405,12 +371,6 @@ export const teacherAdminRouter=[
                 title:"校社联活动经费表",
                 component:resolve=>{require(['@/components/teacher/unionManage/unionMoneyUseCheck.vue'],resolve);}
             },
-            // {
-            //     path:"/unionRegAudit",
-            //     name:"校社联年度注册表审核",
-            //     title:"校社联年度注册表审核",
-            //     component:resolve=>{require(['@/components/teacher/unionManage/unionRegAudit.vue'],resolve);}
-            // },
             {
                 path:"/unionMoneyManage",
                 name:"校社联保管金",

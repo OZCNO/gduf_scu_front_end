@@ -1,7 +1,7 @@
 <template>
 <el-card class="box-card">
 	<div slot="header" class="clearfix">
-	    <span>参与活动记录</span>
+	    <span>报名活动记录</span>
 	</div>
   <!-- 已申请活动表单 -->
 	<el-table :data="list" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass">

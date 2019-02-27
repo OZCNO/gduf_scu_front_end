@@ -30,27 +30,21 @@ axios.interceptors.response.use(function(res){
 });
 
 export const requestLogin = params => { return axios.post("/login",params); };
-
 export const requestRegister = params => { return axios.post("/reg",params); };
-
 export const editPassword = (params) => { return axios.put("/user/password",params); };
-
 // 获取用户信息
 export const getUserInformation=()=>{ return axios.get("/user/info"); }
 
-// 获取待审核社团会员列表
+//mock 获取待审核社团成员列表
 export const getUnauditClubMemberList=params => { return axios.put("/getStudentList",params); };
-
-// 获取待审核社联干事列表
+//mock 获取待审核社联干事列表
 export const getUnauditUnionMemberList=params => { return axios.put("/getStudentList",params); };
-
-// 修改待审核社团会员状态:通过，拒绝
+// 修改待审核社团成员状态:通过，拒绝
 // export const editUnauditClubMemberList
-
 // 修改待审核社联干事状态:通过，拒绝
 // export const editUnauditUnionMemberList
 
-// 获取社团干事列表
+// 获取社团成员列表
 // export const getClubMemberList = (clubID,params) => { return axios.get(`/club/${clubID}/vip?page=${params.page}&name=${params.name}`); };
 export const getClubMemberList = (clubID,params) => { return axios.get(`/club/${clubID}/vip`,{params:params}); };
 
@@ -77,16 +71,16 @@ export const getClubManagerList=params => { return axios.put("/getManagerList",p
 
 //mock 获取社团成员统计信息
 export const getClubMemeberStatistics=params => { return axios.put("/getMemberList",params); };
-//mock 社团获取年度注册表列表
-export const getAnnualRegList=()=>{return axios.get(`/getAuditAnnualReg`)};
+// 社团或社联获取年度注册表列表
+export const getAnnualRegList=(params)=>{return axios.get("/club/annual/registration",{params:params})};
 // 提交社团年度注册表
 export const requestClubAnnualReg= (clubID,params) => { return axios.post(`/club/${clubID}/annual/registration`,params);}
-//申请活动
-export const requestActivity = (type,params) => { return axios.post("/${type}/activity",params);}
-//活动状态变更
-export const editActivity = (activityId,params) => { return axios.put(`/activity/{activityId}/status`,params);}
+//（社团/社联）申请活动
+export const requestActivity = (type,params) => { return axios.post(`/${type}/activity`,params);}
+//? 活动状态变更
+export const editActivity = (activityId,params) => { return axios.put(`/activity/${activityId}/status`,params);}
 //mock 获取已提交活动列表（待发布）、已发布且需填经费活动列表（待填经费）
-export const getActivityList= (clubID) =>{return axios.get("/getActivityList");}
+export const getActivityList2= (clubID) =>{return axios.get("/getActivityList");}
 //修改活动状态：发布
 
 //mock 获取社团活动热度指数列表（点赞数..)、已发布活动列表（发布活动成果）
@@ -97,10 +91,8 @@ export const getActivityStatisticalList=(clubID)=>{return axios.get("/getActivit
 export const requestActivityResult=(params)=>{return axios.get("/success",params)}
 
 
-//mock 社联获取已审核社团活动列表
-export const getAuditedActivityList=()=>{return axios.get("/getAuditedActivityList")}
-//mock 社联获取待审核社团活动列表
-export const getUnauditActivityList=()=>{return axios.get("/getUnauditActivityList")}
+//? （社团/社联）获取(params待审核/已审核)社团活动列表
+export const getActivityList=(type,params)=>{return axios.get(`/${type}/activity`,{params:params})}
 //mock 管理经费
 export const editClubMoney=(params)=>{return axios.put("/success",params)}
 //mock 社联获取已读社团经费表
@@ -114,7 +106,7 @@ export const getAuditAnnualReg=()=>{return axios.get("/getAuditAnnualReg")}
 //mock 社联获取未审核社团年度注册表
 export const getUnauditAnnualReg=()=>{return axios.get("/getUnauditAnnualReg")}
 //？ 修改社团年度注册表
-export const editAnnualReg=(params)=>{return axios.get(`/club/annual/registration/${id}/status`,params)}
+export const editAnnualReg=(regId,params)=>{return axios.put(`/club/annual/registration/${regId}/status`,params)}
 
 
 //mock 修改个人信息

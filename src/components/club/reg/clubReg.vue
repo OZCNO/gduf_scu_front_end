@@ -2,7 +2,7 @@
 <el-card class="box-card">
 	<div slot="header" class="clearfix">
 	    <span>年度注册表</span>
-	    <el-button style="float: right; padding: 3px 0" type="text" @click="dialogFormVisible = true">填写</el-button>
+	    <el-button style="float: right; padding: 3px 0;" type="text" @click="dialogFormVisible = true">填写</el-button>
 	</div>
 	<el-table :data="list" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass" size="mini">
 		<el-table-column type="index" width="35">
@@ -16,7 +16,7 @@
 		</el-table-column>
 	</el-table>
 	<el-col :span="24" class="toolbar">
-		<el-pagination background small layout="prev, pager, next" style="float:right;"
+		<el-pagination background small layout="prev, pager, next" style="float:right"
 		 @current-change="handleCurrentChange"  :page-size="10"  :total="total"></el-pagination>
 	</el-col>
     <!-- 新增注册表 -->
@@ -46,7 +46,7 @@
 	</el-dialog>
 	<!-- 过去注册表 -->
     <el-dialog title="年度注册表" :visible.sync="dialogFormVisible2">
-    	<span style="color:red;">意见：{{form.reason}}</span>    
+    	<span style="color:red">意见：{{form.reason}}</span>    
 		<el-form ref="form2" :model="form2" :inline="true" size="mini" disabled>
 		  <el-form-item label="社团全称"><el-input v-model="form2.clubName" ></el-input>
 		  </el-form-item><el-form-item label="社团类别"><el-input v-model="form2.type"></el-input>
@@ -74,7 +74,7 @@ export default{
 			//已知信息
 			list:[],
 			page:1,
-			total:10,
+			total:1,
 			submitting:false,
 			listLoading:false,
 			info:{
@@ -88,7 +88,7 @@ export default{
 				status:0//状态
 			},
 			form:{
-				clubID:"",
+				clubId:"",
 				summary:"",
 				plan:"",
 				comment:"",
@@ -103,11 +103,28 @@ export default{
 		}
 	},
 	created(){
-		getAnnualRegList().then(res=>{
-			this.list=res.data
-		})
+		this.getList()
 	},
 	methods:{
+		getList(){
+            let params={
+                page:this.page,
+                // status:2
+            }
+			getAnnualRegList(params).then(res=>{
+				// this.listLoading=true
+				let {msg,code,data}=res.data
+				if(code==200){
+					console.log(res)
+					this.list=data.list
+					this.total=data.totalCount
+					this.form.clubId=this.list[0].clubId
+				}else{
+					this.$message.error(msg)
+				}
+				// this.listLoading=false
+			})			
+		},
 		openForm(index,row){
 			this.form2=row
 			this.dialogFormVisible2=true
@@ -115,36 +132,37 @@ export default{
 		// 当前页面发生变化
 		handleCurrentChange(val){
 			this.page=val
+			this.getList()
 		},
+		//如果在提交过程中取消了，应该？
 		submitForm(form){
 			this.$refs[form].validate((valid) => {
 	          	if (valid) {
-					var clubID=this.form.clubID;
-					this.form.clubID=1;
 					this.$confirm("提交后不可修改，确定要提交了吗？","提示").then(()=>{
-						requestClubAnnualReg(clubID,this.form).then((res)=>{
-		            	this.submitting = true;
-							let {msg,code,data}=res.data;
+						requestClubAnnualReg(this.form.clubId,this.form).then((res)=>{
+							console.log(res)
+		            		this.submitting = true
+							let {msg,code,data}=res.data
 							if(code==200){
-								this.submitting=false;
-								console.log(res);
-								this.form2.status=1;
-								this.$message.success("提交成功");
+								this.submitting=false
+								this.$message.success("提交成功")
+								this.dialogFormVisible=false
+								this.resetForm(form)
+								this.getList()
 							}else{
-								this.submitting=false;
-								console.log(res);
-								this.$message.error(msg);
+								this.submitting=false
+								this.$message.error(msg)
 							}
-						})
+						}).catch(err=>{})
 					})
 				}
 			})
 		},
 		resetForm(form){
-        	this.$refs[form].resetFields();
+        	this.$refs[form].resetFields()
 		},
 		formatStatus(row, column){
-			return row.audit_status == 1 ?"待审核": row.audit_status ==2?"通过审核":row.audit_status ==3?"未通过审核":"已发布"
+			return row.auditStatus == 1 ?"待审核": row.auditStatus ==2?"通过审核":row.auditStatus ==3?"未通过审核":"已发布"
 		},
 	},
 	computed:{

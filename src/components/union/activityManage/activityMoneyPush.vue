@@ -68,9 +68,8 @@ export default{
 		}
 	},
 	created(){
-		let clubID=1
-		getActivityList(clubID).then(res=>{
-			this.list=res.data
+		getActivityList().then(res=>{
+			this.list=res.data.data.list
 		})
 	},
 	methods:{		

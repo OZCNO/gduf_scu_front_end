@@ -3,7 +3,8 @@
 	<el-card class="box-card">
         <el-tabs v-model="message">
             <el-tab-pane :label="`待审核(${unaudit.length})`" name="first">
-                <el-table :data="unaudit" :show-header="false" style="width: 100%" size="mini">
+                <el-table :data="unaudit" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading1">
+                    <el-table-column type="index" width="35"></el-table-column>
                     <el-table-column prop="clubName"></el-table-column>
                     <el-table-column prop="time"></el-table-column>
                     <el-table-column width="120">
@@ -14,15 +15,16 @@
                 </el-table>
 				<el-col :span="24" class="toolbar">
 					<el-pagination background small layout="prev, pager, next" style="float:right;"
-					 @current-change="handleCurrentChange1()"  :page-size="10"  :total="total1"></el-pagination>
+					 @current-change="handleCurrentChange1"  :page-size="10"  :total="total1"></el-pagination>
 				</el-col>
             </el-tab-pane>
             <el-tab-pane label="已审核" name="second">
                 <template v-if="message === 'second'">
-                    <el-table :data="audit" :show-header="false" style="width: 100%" size="mini">
+                    <el-table :data="audit" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading2">
+                        <el-table-column type="index" width="35"></el-table-column>
                         <el-table-column prop="clubName"></el-table-column>
                         <el-table-column prop="updateTime"></el-table-column>
-                        <el-table-column prop="audit_status" :formatter="formatStatus"></el-table-column>
+                        <el-table-column prop="auditStatus" :formatter="formatStatus"></el-table-column>
                         <el-table-column width="120">
                             <template slot-scope="scope">
                                 <el-button size="mini" type="text" @click="handleOpen(scope.$index,scope.row)">查看详情</el-button>
@@ -31,14 +33,14 @@
                     </el-table>
 					<el-col :span="24" class="toolbar">
 						<el-pagination background small layout="prev, pager, next" style="float:right;"
-						 @current-change="handleCurrentChange2()"  :page-size="10"  :total="total2"></el-pagination>
+						 @current-change="handleCurrentChange2"  :page-size="10"  :total="total2"></el-pagination>
 					</el-col>
                 </template>
             </el-tab-pane>
         </el-tabs>
 	</el-card>
 	<el-dialog title="年度注册表" :visible.sync="dialogFormVisible">
-    	<span style="color:red;" v-if="!bool">意见：{{form.reason}}</span>
+    	<span style="color:red;" v-if="!bool">意见：{{form.comment}}</span>
 	    <el-form ref="form" :model="form" label-width="110px" size="mini" :inline="true" disabled>
 			<el-form-item label="社团全称"><el-input v-model="form.clubName" disabled></el-input>
 			</el-form-item><el-form-item label="社团类别"><el-input v-model="form.type" disabled></el-input>
@@ -56,8 +58,8 @@
 		</el-form> 
 		<template v-if="bool">
 			<el-form ref="auditForm" :model="auditForm" :rules="auditFormRules" label-width="110px" size="mini">
-				<el-form-item prop="reason" label="意见">
-					<el-input v-model="auditForm.reason" placeholder="请输入意见"></el-input>
+				<el-form-item prop="comment" label="意见">
+					<el-input v-model="auditForm.comment" placeholder="请输入意见"></el-input>
 				</el-form-item>
 				<el-form-item prop="status" label="审核">
 					<el-radio v-model="auditForm.status" :label="2">通过</el-radio>
@@ -73,130 +75,92 @@
 </div>
 </template>
 <script>
-import {getAuditAnnualReg,getUnauditAnnualReg,editAnnualReg} from "../../../api.js"
+import {editAnnualReg,getAnnualRegList} from "../../../api.js"
 export default{
 	name:"ClubRegAudit",
 	data(){
 		return{
             message: 'first',
-            showHeader: false,
-            unaudit: [
-            	{
-            		clubName:"数学协会",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"3",
-            		time:"2019-02-23"
-            	},
-            	{
-            		clubName:"出雲",
-            		type:"娱乐类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		time:"2019-02-23"
-            	},
-            	{
-            		clubName:"爪哇部落",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		time:"2019-02-23"
-            	}
-            ],
-            audit: [
-            	{
-            		clubName:"数学协会",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"3",
-            		updateTime:"2019-02-23",
-            		reason:"计划存在...问题"
-            	},
-            	{
-            		clubName:"出雲",
-            		type:"娱乐类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		updateTime:"2019-02-23",
-            		reason:"通过，计划可以稍作修改"
-            	},
-            	{
-            		clubName:"爪哇部落",
-            		type:"学习类",
-            		memberSum:30,
-            		officerSum:15,
-            		teacherName:"郑兵",
-            		teacherMobile:13751831767,
-            		summary:"工作总结",
-            		plan:"工作计划就是..",
-            		comment:"这是备注",
-            		audit_status:"2",
-            		updateTime:"2019-02-23",
-            		reason:"通过"
-            	}
-            ],
+            unaudit: [],
+            audit: [],
             dialogFormVisible:false,
             form:[],
             auditForm:{
-            	reason:"",
-            	status:2
+            	comment:"",
+            	status:2,
             },
             auditFormRules:{
-				reason: [{ required: true, message: '不能为空', trigger: 'blur'}],
+				comment: [{ required: true, message: '不能为空', trigger: 'blur'}],
 			},
 			submitting:false,
 			bool:false,
 			page1:1,
-			total1:10,
+			total1:1,
 			page2:1,
-			total2:10,
+			total2:1,
+            listLoading1:false,
+            listLoading2:false,
+
 		}
 	},
 	created(){
-		getUnauditAnnualReg().then(res=>{
-			// this.unaudit=res.data
-		})
-		getAuditAnnualReg().then(res=>{
-			this.audit=res.data
-		})
+        this.update()
 	},
+    mounted: function () {
+    },
+    updated: function () {
+    },
 	methods:{
+        update(){
+            this.getAuditList()
+            this.getUnauditList()            
+        },
+        getUnauditList(){
+            let params={
+                page:this.page1,
+                status:1
+            }
+            getAnnualRegList(params).then(res=>{
+                console.log(res)
+                this.listLoading2=true
+                let {msg,code,data}=res.data
+                if(code==200){
+                    this.unaudit=data.list
+                    this.total1=data.totalCount||1
+                }else{
+                    this.$message.error(msg)
+                }
+                this.listLoading2=false
+            })          
+        },
+        getAuditList(){
+            let params={
+                page:this.page2,
+                // status:"2,3",
+                status:2
+            }
+            getAnnualRegList(params).then(res=>{
+                console.log(res)
+                this.listLoading1=true
+                let {msg,code,data}=res.data
+                console.log(data)
+                if(code==200){
+                    this.audit=data.list
+                    this.total2=data.totalCount||1
+                }else{
+                    this.$message.error(msg)
+                }
+                this.listLoading1=false
+            })            
+        },
 		// 当前页面发生变化
 		handleCurrentChange1(val){
 			this.page1=val
+            this.getUnauditList()
 		},
 		handleCurrentChange2(val){
 			this.page2=val
+            this.getAuditList()
 		},
 		handleAudit(index,row){
 			this.dialogFormVisible=true
@@ -209,28 +173,28 @@ export default{
 			this.bool=false
 		},
 		formatStatus(row, column){
-			return row.audit_status == 1 ?"待审核": row.audit_status ==2?"通过审核":row.audit_status ==3?"未通过审核":"已发布"
+			return row.auditStatus == 1 ?"待审核": row.auditStatus ==2?"通过审核":row.auditStatus ==3?"未通过审核":"已发布"
 		},
 		submitForm(form){
 			this.$refs[form].validate((valid) => {
 	          	if (valid) {
-					this.$confirm("确定提交吗？","提示").then(()=>{
-						let activityId=1
-						editAnnualReg(this.auditForm).then(res=>{
-		            		this.submitting = true
-							let {msg,code,data}=res.data
-							if(code==200){
-								this.submitting=false
-								this.$message.success("提交成功")
-								this.dialogFormVisible = false
-								// 重新获取列表
-							}else{
-								this.submitting=false
-								this.$message.error(msg)
-							}
-						})
+					let activityId=1
+					editAnnualReg(this.form.id,this.auditForm).then(res=>{
+                        console.log(res)
+	            		this.submitting = true
+						let {msg,code,data}=res.data
+						if(code==200){
+							this.submitting=false
+							this.$message.success("提交成功")
+							this.dialogFormVisible = false
+                            this.$refs[form].resetFields() 
+                            this.update()
+						}else{
+							this.submitting=false
+							this.$message.error(msg)
+						}
 					})
-				}
+                }
 			})
 		}
 	}

@@ -73,6 +73,7 @@ export default{
 			formRules:{
 				comment:[{required:true,message:"不能为空",trigger:"blur"}]
 			},
+			submitting:false,
 		}
 	},
 	methods:{		
