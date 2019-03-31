@@ -21,8 +21,8 @@
 							<el-option label="女" :value="0"></el-option>
 						</el-select>
 					</el-form-item>		
-					<el-form-item label="学院" prop="institute">
-						<el-select v-model="user.institute" placeholder="请选择所属学院" @change="instituteChange">
+					<el-form-item label="学院" prop="institude">
+						<el-select v-model="user.institude" placeholder="请选择所属学院" @change="instituteChange">
 							<el-option v-for="(item,index) in institute" :value="index" :key="index"></el-option>	
 						</el-select>
 					</el-form-item>
@@ -105,7 +105,7 @@ export default{
 				sex:"",
 				mobile:"",
 				email:"",
-				institute:"",
+				institude:"",
 				major:"",
 				avatar:""
 			},
@@ -130,7 +130,7 @@ export default{
 					{required:true,message:"请输入邮箱",trigger:"blur"},
 					{type:"email",message:"邮箱输入不正确",trigger:"blur"}
 				],
-				institute:[
+				institude:[
 					{required:true,message:"请选择所属学院",trigger:"blur"}
 				],
 				major:[

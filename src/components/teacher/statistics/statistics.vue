@@ -55,7 +55,7 @@ export default{
 				innerarr.push(item["name"])
 				innerarr.push(item["times"])
 				innerarr.push(item["averageNumber"])
-				innerarr.push(item["memberTimes"]/item["unmemberTimes"]*30)
+				innerarr.push(item["memberTimes"]/item["times"]*100)
 				return innerarr
 			})
 		})
@@ -81,7 +81,7 @@ export default{
                     },
 			    dataset: {
 			        source: [
-			            ['举办方', '举办次数', '平均报名人数',"会员活动率（*30）"],
+			            ['举办方', '举办次数', '平均报名人数',"会员活动率（*100）"],
 			            ...this.listChanged
 			        ]
 			    },

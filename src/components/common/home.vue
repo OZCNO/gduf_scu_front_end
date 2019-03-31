@@ -1,6 +1,6 @@
 <template>
 	<el-container class="container">
-		<v-head :logo-name="logoName" :sys-user-name="user.name" :sys-user-avatar="user.avatar" ref="layout"></v-head>
+		<v-head :logo-name="logoName" :sys-user-name="user.name||user.clubName" :sys-user-avatar="user.avatar" ref="layout"></v-head>
 		<el-container class="main">
 			<v-sidebar :role="user.role"></v-sidebar>
 			<el-main :class="collapsed?'el-main-collapse-width':'el-main-width'">

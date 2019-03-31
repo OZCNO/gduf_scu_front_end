@@ -45,8 +45,9 @@
 </el-card>
 </template>
 <script>
-import {getActivityList} from "../../../api.js"
+import {getMoneyActivityList} from "../../../api.js"
 export default{
+	props:["user"],
 	name:"ActivityMoneyPush",
 	data(){
 		return{
@@ -68,8 +69,14 @@ export default{
 		}
 	},
 	created(){
-		getActivityList().then(res=>{
-			this.list=res.data.data.list
+		let params={
+			// status:0
+		}
+		getMoneyActivityList("union",this.user.id,params).then(res=>{
+			let {msg,code,data}=res.data
+			if(code==200){
+				this.list=data
+			}
 		})
 	},
 	methods:{		

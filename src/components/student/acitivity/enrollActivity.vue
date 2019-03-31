@@ -21,20 +21,24 @@
 						<span class="content">{{item.timeBegin}}~{{item.timeEnd}}</span>
 					</div>
 					<div class="text">
+						<span class="theme">主办方</span>
+						<span class="content">{{item.clubOrUnionName}}</span>
+					</div>	
+					<div class="text">
 						<span class="theme">活动简介：</span>
 						<span class="content">{{item.introduction}}</span>
 					</div>	
 					<div class="text">
 						<span class="theme">活动内容：</span>
 						<span class="content">{{item.content}}</span>
-					</div>		
-					<div style="float: right; padding: 3px 0" >	
+					</div>			
+					<div style="float: right; padding: 3px 0">	
 						<span class="number">{{item.browser}}</span>
 						<el-button type="text" disabled style="color:#333">浏览</el-button>	
 						<span class="number">{{item.like}}</span>
-						<el-button type="text" @click="handleLike(item.isLike)" :class="{'done':item.isLike}">点赞</el-button>
+						<el-button type="text" @click="handleLike(index,item)" :class="{'done':item.isLike}">点赞</el-button>
 						<span class="number">{{item.enroll}}</span>  
-						<el-button type="text" @click="handleEnroll(item.isBrowser)" :class="{'done':item.isEnroll}">报名</el-button>
+						<el-button type="text" @click="handleEnroll(index,item)" :class="{'done':item.isEnroll}">报名</el-button>			
 					</div>
 				</el-collapse-item>
 			</template>
@@ -58,7 +62,7 @@
 					</div>
 					<div class="text">
 						<span class="theme">主办方</span>
-						<span class="content">{{item.clubName}}</span>
+						<span class="content">{{item.clubOrUnionName}}</span>
 					</div>	
 					<div class="text">
 						<span class="theme">活动简介：</span>
@@ -72,9 +76,9 @@
 						<span class="number">{{item.browser}}</span>
 						<el-button type="text" disabled style="color:#333">浏览</el-button>	
 						<span class="number">{{item.like}}</span>
-						<el-button type="text" @click="handleLike">点赞</el-button>
+						<el-button type="text" @click="handleLike(index, item)">点赞</el-button>
 						<span class="number">{{item.enroll}}</span>  
-						<el-button type="text" @click="handleEnroll">报名</el-button>
+						<el-button type="text" @click="handleEnroll(index, item)">报名</el-button>
 					</div>
 				</el-collapse-item>
 			</template>
@@ -83,7 +87,7 @@
 	<el-tab-pane label="招新活动">
 		<el-collapse>
 			<template v-for="(item, index) in enrollList">	  		
-				<el-collapse-item :title="item.theme" :name="index">
+				<el-collapse-item :title="item.theme" :name="index" >
 					<div class="text">
 						<span class="theme">活动地点：</span>
 						<span class="content">{{item.address}}</span>
@@ -98,7 +102,7 @@
 					</div>
 					<div class="text">
 						<span class="theme">主办方</span>
-						<span class="content">{{item.clubName}}</span>
+						<span class="content">{{item.clubOrUnionName}}</span>
 					</div>	
 					<div class="text">
 						<span class="theme">活动简介：</span>
@@ -108,13 +112,13 @@
 						<span class="theme">活动内容：</span>
 						<span class="content">{{item.content}}</span>
 					</div>	
-					<div style="float: right; padding: 3px 0" >	
+					<div style="float: right; padding: 3px 0">	
 						<span class="number">{{item.browser}}</span>
 						<el-button type="text" disabled style="color:#333">浏览</el-button>	
 						<span class="number">{{item.like}}</span>
-						<el-button type="text" @click="handleLike">点赞</el-button>
+						<el-button type="text" @click="handleLike(index, item)">点赞</el-button>
 						<span class="number">{{item.enroll}}</span>  
-						<el-button type="text" @click="handleRequest">申请</el-button>
+						<el-button type="text" @click="handleRequest(index, item)">申请</el-button>
 					</div>
 				</el-collapse-item>
 			</template>
@@ -163,14 +167,20 @@
 		</el-form-item>		
 		<el-form-item label="自我介绍" prop="introduction">
 			<el-input type="textarea" v-model="form.introduction" placeholder="请自我介绍"></el-input>
-		</el-form-item>		
-	</el-form>
+		</el-form-item>	
+	</el-form>	
+	<div slot="footer">
+	    <el-button @click="dialogFormVisible = false" plain>取消</el-button>
+		<el-button @click="resetForm('form')">重置</el-button>
+	    <el-button type="primary" @click="submitForm('form')" :loading="submitting">提交</el-button>
+	</div>
 </el-dialog>
 </div>
 </template>
 <script>
-import {getActivityList2} from "../../../api.js"
+import {getActivity,enterClub} from "../../../api.js"
 export default{
+	props:["user"],
 	name:"enrollActivity",
 	data(){
 		var validateUsername= ( rule,value,callback ) =>{
@@ -251,39 +261,85 @@ export default{
 				]
 			},
 			imageUrl:"",
-
+			submitting:false,
 		}
 	},
 	created(){
 		this.getInstitute();
-		getActivityList2().then(res=>{
-			this.list=res.data
-			this.memberList=res.data
-			this.enrollList=res.data
+		//普通活动
+		let p1={
+			type:0,
+			self:"false",
+		}
+		//会员活动
+		let p2={
+			type:1,
+			self:"false",
+		}
+		//招新活动
+		let p3={
+			type:2,
+			self:"false",
+		}
+		getActivity(p1).then(res=>{
+			let {msg,code,data}=res.data
+			if(code==200){
+				this.list=data
+			}else{
+				this.$message.error(msg)
+			}
+		})
+		getActivity(p2).then(res=>{
+			let {msg,code,data}=res.data
+			if(code==200){
+				this.memberList=data
+			}else{
+				this.$message.error(msg)
+			}
+		})
+		getActivity(p3).then(res=>{
+			let {msg,code,data}=res.data
+			if(code==200){
+				this.enrollList=data
+			}else{
+				this.$message.error(msg)
+			}
 		})
 	},
-  	computed: {
-  		major:function(){
-  			var arr=[];
-  			var obj=this.institute;
-  			var key;
-  			if(this.form.institute!=""){
-  				arr=obj[this.form.institute];
-  			}else{
-  				for(key in obj){
-  					if(obj.hasOwnProperty(key)){
-  						// concat不会改变原数组，所以要arr=，这很重要
-  						arr=arr.concat(obj[key]);
-  					}
-  				}
-  			}
-  			return arr;
-  		}
- 
-	},
 	methods:{
+		//activityId,studentId
+		handleBrowser(){
+			//增加该活动浏览次数,且每一个活动每一个学生浏览一次
+			//更新数据
+		},
+		handleLike(){
+			//增加该活动点赞次数,且每一个活动每一个学生点赞一次
+			//更新数据
+		},
+		handleEnroll(index,row){
+			//学生报名
+			enterClub(this.user.id,row.id,this.form).then(res=>{
+			// enterClub(user.id,row.id,this.form).then(res=>{
+				// this.listLoading=true
+				let {msg,code,data}=res.data
+				console.log(res);
+				if(code==200){
+					this.$message.success("报名成功");
+				}
+				//更新数据
+			})
+			
+		},
+		handleRequest(){
+			//申请入团
+			this.dialogFormVisible=true;
+			//如果学生基本信息没有填写完整要求其回去填写，再来报名
+		},
+		submitForm(form){
+
+		},
 		getInstitute(){				
-			this.$axios.get("http://119.29.105.29:8083/getInstitute").then((response)=>{
+			this.$axios.get("http://127.0.0.1:8083/getInstitute").then((response)=>{
 				this.institute=JSON.parse(response.data);
 			}).catch(function(error){
 				console.log(error);
@@ -322,24 +378,25 @@ export default{
 			}
 			return isLt2M;
 		},
-		//activityId,studentId
-		handleBrowser(){
-			//增加该活动浏览次数,且每一个活动每一个学生浏览一次
-			//更新数据
-		},
-		handleLike(){
-			//增加该活动点赞次数,且每一个活动每一个学生点赞一次
-			//更新数据
-		},
-		handleEnroll(){
-			//学生报名
-			//更新数据
-		},
-		handleRequest(){
-			//申请入团
-			this.dialogFormVisible=true;
-		}
-
+	},
+  	computed: {
+  		major:function(){
+  			var arr=[];
+  			var obj=this.institute;
+  			var key;
+  			if(this.form.institute!=""){
+  				arr=obj[this.form.institute];
+  			}else{
+  				for(key in obj){
+  					if(obj.hasOwnProperty(key)){
+  						// concat不会改变原数组，所以要arr=，这很重要
+  						arr=arr.concat(obj[key]);
+  					}
+  				}
+  			}
+  			return arr;
+  		}
+ 
 	}
 }
 </script>

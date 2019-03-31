@@ -5,8 +5,8 @@
 	</div>
   <!-- 已申请活动表单 -->
 	<el-table :data="list" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" size="mini">
-		<el-table-column prop="clubName" label="社团">
-		</el-table-column><el-table-column prop="money" label="剩余经费">
+		<el-table-column prop="name" label="社团">
+		</el-table-column><el-table-column prop="moneySum" label="剩余经费">
 		</el-table-column>
 		<el-table-column label="操作">	
 		 	<template slot-scope="scope">
@@ -22,12 +22,9 @@
 	</el-col>
     <!-- 管理社团经费 -->
     <el-dialog title="管理社团经费" :visible.sync="dialogFormVisible">
-		<el-form ref="form" :model="form" :rules="formRules" label-width="80px" class="form" size="mini">
-			<el-form-item label="增加经费" prop="money">
-				<el-input-number  v-model="form.money" :step="100"></el-input-number>
-			</el-form-item>
-			<el-form-item label="备注" prop="comment">
-				<el-input type="text" v-model="form.comment"></el-input>
+		<el-form ref="form" :model="form" label-width="80px" class="form" size="mini">
+			<el-form-item label="经费" prop="moneySum">
+				<el-input-number  v-model="form.moneySum" :step="100"></el-input-number>
 			</el-form-item>
 		</el-form>
 		<div slot="footer">
@@ -39,50 +36,46 @@
 </el-card>
 </template>
 <script>
-import {editClubMoney} from "../../../api.js"
+import {getClubMoney,editClubMoney} from "../../../api.js"
 export default{
+	props:["user"],
 	name:"ClubMoneyManage",
 	data(){
 		return{
-			list:[
-				{	
-					clubId:"1",
-					clubName:"数学协会",
-					money:1000,					
-				},
-				{
-					clubId:"2",
-					clubName:"乒乓球协会",
-					money:1100,					
-				},
-				{
-					clubId:"3",
-					clubName:"魔方协会",
-					money:800,					
-				},
-			],
+			list:[],
 			listLoading:false,
 			page:1,
 			total:10,
 			dialogFormVisible:false,
 			form:{
-				clubId:0,
-				money:0,
-				comment:""
-			},
-			formRules:{
-				comment:[{required:true,message:"不能为空",trigger:"blur"}]
+				moneySum:0,
 			},
 			submitting:false,
 		}
 	},
+	created(){
+		this.upload()
+	},
 	methods:{		
+		upload(){
+			getClubMoney("club").then(res=>{
+				let {msg,code,data}=res.data
+				if(code==200){
+					this.list=data.list
+				}else{
+					this.$message.error(msg)
+				}
+			}).catch(err=>{
+				this.$message.error(err)
+			})			
+		},
 		// 当前页面发生变化
 		handleCurrentChange(val){
 			this.page=val
 		},
 		openForm(index,row){
-			this.form.clubId=row.clubId
+			this.form.id=row.id
+			this.form.moneySum=row.moneySum
 			this.dialogFormVisible=true
 		},
 		resetForm(form){
@@ -90,29 +83,28 @@ export default{
 		},
 		// 提交
 		submitForm(form){
-			this.$refs[form].validate((valid) => {
-	          	if (valid) {
-					this.$confirm("确定提交吗？","提示").then(()=>{
-						this.form.clubId=1
-						console.log(this.form)
-						editClubMoney(this.form).then((res)=>{
-		            		this.submitting = true
-							let {msg,code,data}=res.data
-							if(code==200){
-								this.submitting=false
-								console.log(res)
-								this.$message.success("提交成功")
-    							this.resetForm(form)
-								this.dialogFormVisible = false
-								// 重新获取活动列表
-							}else{
-								this.submitting=false
-								console.log(res)
-								this.$message.error(msg)
-							}
-						})
-					})
-				}
+			if(this.form.money<=0){
+				this.$message.warning("请正确输入修改金额")
+				return;
+			}
+			this.$confirm("确定提交吗？","提示").then(()=>{
+				console.log(form)
+				editClubMoney("club",this.form.id,this.form).then((res)=>{
+            		this.submitting = true
+					let {msg,code,data}=res.data
+					if(code==200){
+						this.submitting=false
+						this.$message.success("提交成功")
+						this.resetForm(form)
+						this.dialogFormVisible = false
+						// 重新获取活动列表
+						this.upload()						
+					}else{
+						this.submitting=false
+						console.log(res)
+						this.$message.error(msg)
+					}
+				})
 			})
 		},
 	}

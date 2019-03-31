@@ -24,7 +24,7 @@
 		<!-- 自动获取系列 -->
 		<el-form ref="info" :model="info" :inline="true" size="mini" disabled>
 		  <el-form-item label="社团全称"><el-input v-model="info.name"></el-input>
-		  </el-form-item><el-form-item label="社团类别"><el-input v-model="info.type"></el-input>
+		  </el-form-item><el-form-item label="社团类别"><el-input v-model="info.clubType"></el-input>
 		  </el-form-item><el-form-item label="会员人数"><el-input v-model="info.memberSum"></el-input>
 		  </el-form-item><el-form-item label="干事人数"><el-input v-model="info.officerSum"></el-input>
 		  </el-form-item><el-form-item label="指导老师姓名"><el-input v-model="info.teacherName"></el-input>
@@ -46,7 +46,7 @@
 	</el-dialog>
 	<!-- 过去注册表 -->
     <el-dialog title="年度注册表" :visible.sync="dialogFormVisible2">
-    	<span style="color:red">意见：{{form.reason}}</span>    
+    	<span style="color:red" v-if="form.reason">意见：{{form.reason}}</span>    
 		<el-form ref="form2" :model="form2" :inline="true" size="mini" disabled>
 		  <el-form-item label="社团全称"><el-input v-model="form2.clubName" ></el-input>
 		  </el-form-item><el-form-item label="社团类别"><el-input v-model="form2.type"></el-input>
@@ -79,11 +79,11 @@ export default{
 			listLoading:false,
 			info:{
 				clubID:1,
-				name:"公关协会",
-				type:"学术科研类",
+				name:"电商协会",
+				clubType:"学术科研类",
 				memberSum:"729",
 				officerSum:"20",
-				teacherName:"郑柯",
+				teacherName:"郑某某",
 				teacherMobile:"13555535646",
 				status:0//状态
 			},
@@ -109,7 +109,7 @@ export default{
 		getList(){
             let params={
                 page:this.page,
-                // status:2
+                // status:1
             }
 			getAnnualRegList(params).then(res=>{
 				// this.listLoading=true

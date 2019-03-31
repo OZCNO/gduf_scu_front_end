@@ -202,7 +202,6 @@ export default{
 				// this.listLoading=true
 				let {msg,code,data}=res.data
 				if(code==200){
-					console.log(res)
 					this.list=data.list
 					this.total=data.totalCount
 					this.form.clubId=this.list[0].clubId
@@ -225,7 +224,6 @@ export default{
 			}
 			editActivity(this.detailForm.id,params).then((res)=>{
 				let {msg,code,data}=res.data
-					console.log(res)
 				if(code==200){
 					this.dialogDetailFormVisible=false
 					this.$message.success("发布成功")
@@ -252,13 +250,11 @@ export default{
 	          	if (valid) {
 					this.$confirm("确定提交吗？","提示").then(()=>{
 						this.form.clubUnionId=1
-						console.log(this.form)
 						requestActivity("union",this.form).then((res)=>{
 		            		this.submitting = true
 							let {msg,code,data}=res.data
 							if(code==200){
 								this.submitting=false
-								console.log(res)
 								this.$message.success("提交成功")
     							this.resetForm(form)
 								this.dialogFormVisible = false
@@ -266,7 +262,6 @@ export default{
 								// 重新获取活动列表
 							}else{
 								this.submitting=false
-								console.log(res)
 								this.$message.error(msg)
 							}
 						})
@@ -295,7 +290,6 @@ export default{
 		},
 		isGoodsChange(val){
 			if(val==0){
-				console.log("[]")
 				this.form.goods=[]
 			}else{
 				this.form.goods=[{

@@ -48,8 +48,8 @@
 		</el-table-column><el-table-column prop="sex" label="性别" sortable width="70">
 		</el-table-column><el-table-column prop="institute" label="学院" show-overflow-tooltip sortable>	
 		</el-table-column><el-table-column prop="major" label="专业" show-overflow-tooltip sortable>	
-		</el-table-column><el-table-column prop="theme" label="招新活动" show-overflow-tooltip sortable min-width="90">		
-		</el-table-column><el-table-column prop="reason"  label="参加原因" show-overflow-tooltip>	
+		</el-table-column><!-- <el-table-column prop="theme" label="招新活动" show-overflow-tooltip sortable min-width="90">		
+		</el-table-column> --><el-table-column prop="reason"  label="参加原因" show-overflow-tooltip>	
 		</el-table-column><el-table-column prop="introduction"  label="自我介绍" show-overflow-tooltip>	
 		</el-table-column><!-- <el-table-column prop="time" label="报名时间" show-overflow-tooltip sortable width="100">
 		</el-table-column> -->

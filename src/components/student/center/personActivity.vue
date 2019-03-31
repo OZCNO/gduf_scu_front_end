@@ -5,9 +5,9 @@
 	</div>
   <!-- 已申请活动表单 -->
 	<el-table :data="list" :highlight-current-row="true" v-loading="listLoading" style="width: 100%" class="tableClass">
-		<el-table-column prop="clubName" label="举办方">
+		<el-table-column prop="clubOrUnionName" label="举办方">
 		</el-table-column><el-table-column prop="theme" label="主题">
-		</el-table-column><el-table-column prop="time" label="时间">
+		</el-table-column><el-table-column prop="timeBegin" label="时间">
 		</el-table-column>
 	</el-table>
 	<el-col :span="24" class="toolbar">
@@ -17,22 +17,23 @@
 </el-card>
 </template>
 <script>
+import {getActivity} from "../../../api.js"
 export default{
 	name:"personActivity",
 	data(){
 		return{
 			listLoading:false,
 			list:[
-				{
-					clubName:"数学协会",
-					theme:"数学竞赛",
-					time:"2015-05-04"
-				},
-				{
-					clubName:"爪哇部落",
-					theme:"软件设计大赛",
-					time:"2016-12-12"
-				},
+				// {
+				// 	clubName:"数学协会",
+				// 	theme:"数学竞赛",
+				// 	time:"2015-05-04"
+				// },
+				// {
+				// 	clubName:"爪哇部落",
+				// 	theme:"软件设计大赛",
+				// 	time:"2016-12-12"
+				// },
 			],
 			page:1,
 			total:1,
@@ -47,6 +48,17 @@ export default{
 	},
 	created(){
 		//获取个人参与活动情况
+		let p1={
+			self:"true"
+		}
+		getActivity(p1).then(res=>{
+			let {msg,code,data}=res.data
+			if(code==200){
+				this.list=data
+			}else{
+				this.$message.error(msg)
+			}
+		})
 	}
 }
 </script>

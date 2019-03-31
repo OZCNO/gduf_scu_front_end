@@ -54,22 +54,22 @@ export const studentRouter=[
         ]
     },
     //招新模块
-    {
-        path:"student",
-        name:"简介模块",
-        title:"简介模块",
-        icon:"el-icon-menu",
-        component:Home,
-        redirect:"/introduction",
-        children:[
-            {
-                path:"/introduction",
-                name:"社联社团简介",
-                title:"社联社团简介",
-                component:resolve=>{require(['@/components/student/recruit/introduction.vue'],resolve);}
-            }
-        ]
-    },
+    // {
+    //     path:"student",
+    //     name:"简介模块",
+    //     title:"简介模块",
+    //     icon:"el-icon-menu",
+    //     component:Home,
+    //     redirect:"/introduction",
+    //     children:[
+    //         {
+    //             path:"/introduction",
+    //             name:"社联社团简介",
+    //             title:"社联社团简介",
+    //             component:resolve=>{require(['@/components/student/recruit/introduction.vue'],resolve);}
+    //         }
+    //     ]
+    // },
     //活动模块
     {
         path:"student",
@@ -184,22 +184,22 @@ export const clubAdminRouter=[
         ]
     },
     //校社团简介模块
-    {
-        path: 'clubAdmin',
-        name: '校社团简介模块',
-        title: '校社团简介模块',
-        component: Home,
-        redirect:"/clubIntroduction",
-        icon:"el-icon-setting",
-        children:[
-            {
-                path:"/clubIntroduction",
-                name:"校社团简介",
-                title:"校社团简介",
-                component:resolve=>{require(['@/components/club/introduction/introduction.vue'],resolve);}
-            }
-        ]
-    }
+    // {
+    //     path: 'clubAdmin',
+    //     name: '校社团简介模块',
+    //     title: '校社团简介模块',
+    //     component: Home,
+    //     redirect:"/clubIntroduction",
+    //     icon:"el-icon-setting",
+    //     children:[
+    //         {
+    //             path:"/clubIntroduction",
+    //             name:"校社团简介",
+    //             title:"校社团简介",
+    //             component:resolve=>{require(['@/components/club/introduction/introduction.vue'],resolve);}
+    //         }
+    //     ]
+    // }
 ]
 //unionAdminRouter
 export const unionAdminRouter=[
@@ -331,22 +331,22 @@ export const unionAdminRouter=[
         ]
     },
     //社联简介
-    {
-        path: 'unionAdmin',
-        name: '校社联简介模块',
-        title: '校社联简介模块',
-        icon:"el-icon-setting",
-        component: Home,
-        redirect:"/unionIntroduction",//默认重定向到这里
-        children:[
-            {
-                path:"/unionIntroduction",
-                name: '校社联简介',
-                title: '校社联简介',
-                component:resolve=>{require(['@/components/union/introduction/introduction.vue'],resolve);}
-            }
-        ]
-    }
+    // {
+    //     path: 'unionAdmin',
+    //     name: '校社联简介模块',
+    //     title: '校社联简介模块',
+    //     icon:"el-icon-setting",
+    //     component: Home,
+    //     redirect:"/unionIntroduction",//默认重定向到这里
+    //     children:[
+    //         {
+    //             path:"/unionIntroduction",
+    //             name: '校社联简介',
+    //             title: '校社联简介',
+    //             component:resolve=>{require(['@/components/union/introduction/introduction.vue'],resolve);}
+    //         }
+    //     ]
+    // }
 ]
 //teacherAdminRouter
 export const teacherAdminRouter=[

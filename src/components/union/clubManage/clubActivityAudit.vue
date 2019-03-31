@@ -2,7 +2,7 @@
 <div>
 	<el-card class="box-card">
         <el-tabs v-model="message">
-            <el-tab-pane :label="`待审核(${unaudit.length})`" name="first">
+            <el-tab-pane :label="`待审核(${total1})`" name="first">
                 <el-table :data="unaudit" :show-header="false" style="width: 100%" size="mini">
 					<el-table-column type="index" width="35"></el-table-column>
                     <el-table-column>
@@ -20,7 +20,7 @@
                 </el-table>
 				<el-col :span="24" class="toolbar">
 					<el-pagination background small layout="prev, pager, next" style="float:right;"
-					 @current-change="handleCurrentChange1()"  :page-size="10"  :total="total1"></el-pagination>
+					 @current-change="handleCurrentChange1"  :page-size="10"  :total="total1"></el-pagination>
 				</el-col>
             </el-tab-pane>
             <el-tab-pane label="已审核" name="second">
@@ -43,7 +43,7 @@
                     </el-table>
 					<el-col :span="24" class="toolbar">
 						<el-pagination background small layout="prev, pager, next" style="float:right;"
-						 @current-change="handleCurrentChange2()"  :page-size="10"  :total="total2"></el-pagination>
+						 @current-change="handleCurrentChange2"  :page-size="10"  :total="total2"></el-pagination>
 					</el-col>
                 </template>
             </el-tab-pane>
@@ -151,7 +151,6 @@ export default{
                 status:1
             }
             getActivityList("club",params).then(res=>{
-                console.log(res)
                 this.listLoading2=true
                 let {msg,code,data}=res.data
                 if(code==200){
@@ -166,11 +165,9 @@ export default{
         getAuditList(){
             let params={
                 page:this.page2,
-                // status:"2,3",
                 status:2
             }
             getActivityList("club",params).then(res=>{
-                console.log(res)
                 this.listLoading1=true
                 let {msg,code,data}=res.data
                 if(code==200){
@@ -210,12 +207,15 @@ export default{
 					editActivity(this.form.id,this.auditForm).then(res=>{
 	            		this.submitting = true
 						let {msg,code,data}=res.data
-						console.log(res)
 						if(code==200){
 							this.submitting=false
     						this.$refs[form].resetFields()	
 							this.$message.success("提交成功")
 							this.dialogFormVisible = false
+							// 如果是最后一条，返回上一页
+							if(this.total1<=this.page1*10&&this.total1-(this.page1-1)*10==1){
+								this.page1--;
+							}
 							this.update()
 						}else{
 							this.submitting=false

@@ -97,7 +97,7 @@
 	</el-dialog>
 	<!-- 活动详情 -->
 	<el-dialog title="活动详情" :visible.sync="dialogDetailFormVisible">
-    	<span style="color:red;" v-if="detailForm.auditStates>1">意见：{{detailForm.reason}}</span>
+    	<span style="color:red;" v-if="detailForm.auditStates==3">意见：{{detailForm.reason}}</span>
 	    <el-form ref="detailForm" :model="detailForm" label-width="110px" size="mini"  :disabled="bool">
 			<el-form-item label="活动主题">
 				<el-input type="text" v-model="detailForm.theme"></el-input>
@@ -168,10 +168,10 @@ export default{
 				timeEnd:"",
 				enrollDeadline:"",
 				introduction:"",
-				isMoney:0,
+				isMoney:1,
 				isGoods:0,
 				address:"",
-				money:"",
+				money:0,
 				goods:[]
 			},
 			formRules:{
@@ -203,7 +203,6 @@ export default{
 				// this.listLoading=true
 				let {msg,code,data}=res.data
 				if(code==200){
-					console.log(res)
 					this.list=data.list
 					this.total=data.totalCount
 					this.form.clubId=this.list[0].clubId
@@ -216,6 +215,7 @@ export default{
 		// 表单详情
 		openForm(index,row){
 			this.detailForm=row
+			// this.detailForm.address="A101"
 			this.dialogDetailFormVisible=true
 			// this.bool=row.auditStates==3?false:true
 		},
@@ -226,7 +226,6 @@ export default{
 			}
 			editActivity(this.detailForm.id,params).then((res)=>{
 				let {msg,code,data}=res.data
-					console.log(res)
 				if(code==200){
 					this.dialogDetailFormVisible=false
 					this.$message.success("发布成功")
@@ -253,13 +252,11 @@ export default{
 	          	if (valid) {
 					this.$confirm("确定提交吗？","提示").then(()=>{
 						this.form.clubUnionId=1
-						console.log(this.form)
 						requestActivity("club",this.form).then((res)=>{
 		            		this.submitting = true
 							let {msg,code,data}=res.data
 							if(code==200){
 								this.submitting=false
-								console.log(res)
 								this.$message.success("提交成功")
     							this.resetForm(form)
 								this.dialogFormVisible = false
@@ -267,7 +264,6 @@ export default{
 								// 重新获取活动列表
 							}else{
 								this.submitting=false
-								console.log(res)
 								this.$message.error(msg)
 							}
 						})
@@ -296,7 +292,6 @@ export default{
 		},
 		isGoodsChange(val){
 			if(val==0){
-				console.log("[]")
 				this.form.goods=[]
 			}else{
 				this.form.goods=[{

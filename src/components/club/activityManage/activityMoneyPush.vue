@@ -32,7 +32,7 @@
 			<el-form-item v-for="(item, index) in moneyForm.moneyUse" :label="'用途' + (index+1)" :key="item.key" :prop="'moneyUse.' + index + '.use'" :rules="{ required: true, message: '不能为空', trigger: 'blur'}">
 				<el-col :span="10"><el-input v-model="item.use" placeholder="请输入用途"></el-input></el-col>	
 				<el-col :span="1" style="text-align: center">：</el-col>
-				<el-col :span="7"><el-input-number v-model="item.sum" :min="1" :step="50"></el-input-number> 元</el-col>
+				<el-col :span="7"><el-input-number v-model="item.sum" :step="50"></el-input-number> 元</el-col>
 				<el-col :span="5" :offset="1"><el-button @click.prevent="removeUse(item)">删除</el-button></el-col>
 			</el-form-item>
 			<el-button @click="addUse" size="mini">新增经费用途</el-button>
@@ -45,8 +45,9 @@
 </el-card>
 </template>
 <script>
-import {getActivityList2} from "../../../api.js"
+import {getMoneyActivityList,pushMoneyDetail} from "../../../api.js"
 export default{
+	props:["user"],
 	name:"clubActivityMoneyPush",
 	data(){
 		return{
@@ -55,8 +56,7 @@ export default{
 			listLoading:false,
 			list:[],
 			moneyForm:{
-				activityId:"1",
-				clubUnionId:"",
+				activityId:0,
 				moneyUse:[{
 					use:"",
 					sum:""
@@ -68,18 +68,31 @@ export default{
 		}
 	},
 	created(){
-		let clubID=1
-		getActivityList2(clubID).then(res=>{
-			this.list=res.data
-		})
+		this.upload()
 	},
 	methods:{		
+		upload(){
+			let params={
+				// status:0
+			}
+			getMoneyActivityList("club",this.user.id,params).then(res=>{
+				let {msg,code,data}=res.data
+				if(code==200){
+					this.list=data		
+				}else{
+					this.$message.error(msg)
+				}
+			}).catch(err=>{
+				this.$message.error(err)
+			})			
+		},
 		// 当前页面发生变化
 		handleCurrentChange(val){
 			this.page=val
 		},
 		openForm(index,row){
 			this.form=row
+			this.moneyForm.activityId=row.activityId
 			this.formVisible=true
 		},
 		addUse(){
@@ -114,8 +127,24 @@ export default{
 	          			}
 	          		})
 	          		if(actTotal==total){
-		          		this.$message.success("提交成功")
-		          		// this.form.resetFields();
+	          			pushMoneyDetail(this.moneyForm.activityId,this.moneyForm.moneyUse).then(res=>{
+	          				let {msg,code,data}=res.data
+	          				if(code==200){
+		          				this.$message.success("提交成功")
+		          				this.form={};
+		          				//清空moneyForm
+		          				this.moneyForm.moneyUse.length=0;
+		          				this.moneyForm.moneyUse.push({
+									use: "",
+									sum: '',
+									key: Date.now()
+								})
+								this.formVisible=false
+		          				this.upload()
+	          				}
+	          			}).catch(err=>{
+	          				this.$message.error(err);
+	          			})
 
 	          		}else{
 	          			this.$message.error("总金额不相等")

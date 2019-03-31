@@ -40,10 +40,10 @@
         </el-tabs>
 	</el-card>
 	<el-dialog title="年度注册表" :visible.sync="dialogFormVisible">
-    	<span style="color:red;" v-if="!bool">意见：{{form.comment}}</span>
+    	<span style="color:red;" v-if="form.reason">意见：{{form.reason}}</span>
 	    <el-form ref="form" :model="form" label-width="110px" size="mini" :inline="true" disabled>
 			<el-form-item label="社团全称"><el-input v-model="form.clubName" disabled></el-input>
-			</el-form-item><el-form-item label="社团类别"><el-input v-model="form.type" disabled></el-input>
+			</el-form-item><el-form-item label="社团类别"><el-input v-model="form.clubType" disabled></el-input>
 			</el-form-item><el-form-item label="会员人数"><el-input v-model="form.memberSum" disabled></el-input>
 			</el-form-item><el-form-item label="干事人数"><el-input v-model="form.officerSum" disabled></el-input>
 			</el-form-item><el-form-item label="指导老师姓名"><el-input v-model="form.teacherName" disabled></el-input>
@@ -58,8 +58,8 @@
 		</el-form> 
 		<template v-if="bool">
 			<el-form ref="auditForm" :model="auditForm" :rules="auditFormRules" label-width="110px" size="mini">
-				<el-form-item prop="comment" label="意见">
-					<el-input v-model="auditForm.comment" placeholder="请输入意见"></el-input>
+				<el-form-item prop="reason" label="意见">
+					<el-input v-model="auditForm.reason" placeholder="请输入意见"></el-input>
 				</el-form-item>
 				<el-form-item prop="status" label="审核">
 					<el-radio v-model="auditForm.status" :label="2">通过</el-radio>
@@ -86,11 +86,11 @@ export default{
             dialogFormVisible:false,
             form:[],
             auditForm:{
-            	comment:"",
+            	reason:"",
             	status:2,
             },
             auditFormRules:{
-				comment: [{ required: true, message: '不能为空', trigger: 'blur'}],
+				reason: [{ required: true, message: '不能为空', trigger: 'blur'}],
 			},
 			submitting:false,
 			bool:false,
@@ -121,7 +121,6 @@ export default{
                 status:1
             }
             getAnnualRegList(params).then(res=>{
-                console.log(res)
                 this.listLoading2=true
                 let {msg,code,data}=res.data
                 if(code==200){
@@ -140,10 +139,8 @@ export default{
                 status:2
             }
             getAnnualRegList(params).then(res=>{
-                console.log(res)
                 this.listLoading1=true
                 let {msg,code,data}=res.data
-                console.log(data)
                 if(code==200){
                     this.audit=data.list
                     this.total2=data.totalCount||1
@@ -180,7 +177,6 @@ export default{
 	          	if (valid) {
 					let activityId=1
 					editAnnualReg(this.form.id,this.auditForm).then(res=>{
-                        console.log(res)
 	            		this.submitting = true
 						let {msg,code,data}=res.data
 						if(code==200){
