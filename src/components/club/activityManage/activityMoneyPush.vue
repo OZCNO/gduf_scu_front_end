@@ -78,7 +78,7 @@ export default{
 			getMoneyActivityList("club",this.user.id,params).then(res=>{
 				let {msg,code,data}=res.data
 				if(code==200){
-					this.list=data		
+					this.list=data.list	
 				}else{
 					this.$message.error(msg)
 				}
@@ -92,7 +92,7 @@ export default{
 		},
 		openForm(index,row){
 			this.form=row
-			this.moneyForm.activityId=row.activityId
+			this.moneyForm.activityId=row.id
 			this.formVisible=true
 		},
 		addUse(){

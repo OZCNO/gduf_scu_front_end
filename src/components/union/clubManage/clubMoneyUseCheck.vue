@@ -72,39 +72,38 @@ export default{
 		}
 	},
 	created(){
-		let p2={
-			status:1
-		}
-		getMoneyActivityList2("club",p2).then(res=>{
-			let {msg,code,data}=res.data
-			if(code==200){
-				this.read=data.list			
-			}else{
-				this.$message.error(msg)
-			}
-		}).catch(err=>{
-			this.$message.error(err)
-		})
-		getMoneyActivityList2("club").then(res=>{
-			let {msg,code,data}=res.data
-			if(code==200){
-				this.unread=data.list	
-				this.unread=this.unread.filter((item)=>{
-					if((!item.moneyUse[0])||item.moneyUse[0].read==0){
-						return true;
-					}
-				})		
-			}else{
-				this.$message.error(msg)
-			}
-		}).catch(err=>{
-			this.$message.error(err)
-		})
+		this.upload();
 	},
 	methods:{
 		upload(){
-			this.getUnreadMoneyActivityList("club");
-			this.getReadMoneyList();
+			let p2={
+				status:1
+			}
+			getMoneyActivityList2("club",p2).then(res=>{
+				let {msg,code,data}=res.data
+				if(code==200){
+					this.read=data.list			
+				}else{
+					this.$message.error(msg)
+				}
+			}).catch(err=>{
+				this.$message.error(err)
+			})
+			getMoneyActivityList2("club").then(res=>{
+				let {msg,code,data}=res.data
+				if(code==200){
+					this.unread=data.list	
+					this.unread=this.unread.filter((item)=>{
+						if((!item.moneyUse[0])||item.moneyUse[0].read==0){
+							return true;
+						}
+					})		
+				}else{
+					this.$message.error(msg)
+				}
+			}).catch(err=>{
+				this.$message.error(err)
+			})
 		},
 		// 当前页面发生变化
 		handleCurrentChange1(val){
@@ -120,7 +119,7 @@ export default{
 				let {msg,code,data}=res.data
 				if(code==200){
 					this.submitting=false
-					this.$message.success("提交成功")
+					this.$message.success("操作成功")
 					this.dialogFormVisible = false
 					// 重新获取列表
 					this.upload();

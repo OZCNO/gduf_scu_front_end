@@ -1,5 +1,6 @@
 var Mock = require('mockjs')
 var Random=Mock.Random//可以省略不写
+
 var institute={
 			"金融与投资学院":[
 							"金融学",

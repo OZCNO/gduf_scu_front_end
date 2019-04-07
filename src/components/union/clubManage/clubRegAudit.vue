@@ -18,9 +18,9 @@
 					 @current-change="handleCurrentChange1"  :page-size="10"  :total="total1"></el-pagination>
 				</el-col>
             </el-tab-pane>
-            <el-tab-pane label="已审核" name="second">
+            <el-tab-pane label="通过审核" name="second">
                 <template v-if="message === 'second'">
-                    <el-table :data="audit" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading2">
+                    <el-table :data="passed" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading2">
                         <el-table-column type="index" width="35"></el-table-column>
                         <el-table-column prop="clubName"></el-table-column>
                         <el-table-column prop="updateTime"></el-table-column>
@@ -34,6 +34,25 @@
 					<el-col :span="24" class="toolbar">
 						<el-pagination background small layout="prev, pager, next" style="float:right;"
 						 @current-change="handleCurrentChange2"  :page-size="10"  :total="total2"></el-pagination>
+					</el-col>
+                </template>
+            </el-tab-pane>
+            <el-tab-pane label="未通过审核" name="third">
+                <template v-if="message === 'third'">
+                    <el-table :data="dispassed" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading3">
+                        <el-table-column type="index" width="35"></el-table-column>
+                        <el-table-column prop="clubName"></el-table-column>
+                        <el-table-column prop="updateTime"></el-table-column>
+                        <el-table-column prop="auditStatus" :formatter="formatStatus"></el-table-column>
+                        <el-table-column width="120">
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="text" @click="handleOpen(scope.$index,scope.row)">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+					<el-col :span="24" class="toolbar">
+						<el-pagination background small layout="prev, pager, next" style="float:right;"
+						 @current-change="handleCurrentChange3"  :page-size="10"  :total="total3"></el-pagination>
 					</el-col>
                 </template>
             </el-tab-pane>
@@ -82,7 +101,8 @@ export default{
 		return{
             message: 'first',
             unaudit: [],
-            audit: [],
+            passed: [],
+            dispassed:[],
             dialogFormVisible:false,
             form:[],
             auditForm:{
@@ -98,8 +118,11 @@ export default{
 			total1:1,
 			page2:1,
 			total2:1,
+			page3:1,
+			total3:1,
             listLoading1:false,
             listLoading2:false,
+            listLoading3:false,
 
 		}
 	},
@@ -112,8 +135,9 @@ export default{
     },
 	methods:{
         update(){
-            this.getAuditList()
-            this.getUnauditList()            
+            this.getUnauditList()
+            this.getPassedList()  
+            this.getDispassedList()            
         },
         getUnauditList(){
             let params={
@@ -132,18 +156,34 @@ export default{
                 this.listLoading2=false
             })          
         },
-        getAuditList(){
+        getPassedList(){
             let params={
                 page:this.page2,
-                // status:"2,3",
                 status:2
             }
             getAnnualRegList(params).then(res=>{
                 this.listLoading1=true
                 let {msg,code,data}=res.data
                 if(code==200){
-                    this.audit=data.list
+                    this.passed=data.list
                     this.total2=data.totalCount||1
+                }else{
+                    this.$message.error(msg)
+                }
+                this.listLoading1=false
+            })            
+        },
+        getDispassedList(){
+            let params={
+                page:this.page3,
+                status:3
+            }
+            getAnnualRegList(params).then(res=>{
+                this.listLoading1=true
+                let {msg,code,data}=res.data
+                if(code==200){
+                    this.dispassed=data.list
+                    this.total3=data.totalCount||1
                 }else{
                     this.$message.error(msg)
                 }
@@ -157,6 +197,10 @@ export default{
 		},
 		handleCurrentChange2(val){
 			this.page2=val
+            this.getAuditList()
+		},
+		handleCurrentChange3(val){
+			this.page3=val
             this.getAuditList()
 		},
 		handleAudit(index,row){

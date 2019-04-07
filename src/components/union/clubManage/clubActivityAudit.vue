@@ -3,7 +3,7 @@
 	<el-card class="box-card">
         <el-tabs v-model="message">
             <el-tab-pane :label="`待审核(${total1})`" name="first">
-                <el-table :data="unaudit" :show-header="false" style="width: 100%" size="mini">
+                <el-table :data="unaudit" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading1">
 					<el-table-column type="index" width="35"></el-table-column>
                     <el-table-column>
                         <template slot-scope="scope">
@@ -23,9 +23,9 @@
 					 @current-change="handleCurrentChange1"  :page-size="10"  :total="total1"></el-pagination>
 				</el-col>
             </el-tab-pane>
-            <el-tab-pane label="已审核" name="second">
+            <el-tab-pane label="通过审核" name="second">
                 <template v-if="message === 'second'">
-                    <el-table :data="audit" :show-header="false" style="width: 100%" size="mini">
+                    <el-table :data="passed" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading2" >
 						<el-table-column type="index" width="35"></el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
@@ -44,6 +44,30 @@
 					<el-col :span="24" class="toolbar">
 						<el-pagination background small layout="prev, pager, next" style="float:right;"
 						 @current-change="handleCurrentChange2"  :page-size="10"  :total="total2"></el-pagination>
+					</el-col>
+                </template>
+            </el-tab-pane>
+            <el-tab-pane label="未通过审核" name="third">
+                <template v-if="message === 'third'">
+                    <el-table :data="dispassed" :show-header="false" style="width: 100%" size="mini" v-loading="listLoading3" >
+						<el-table-column type="index" width="35"></el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                            	<span class="message-theme">【{{scope.row.clubOrUnionName}}】</span>
+                                <span class="message-theme">{{scope.row.theme}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="timeBegin" width="150"></el-table-column>
+                        <el-table-column prop="auditStates" width="120" :formatter="formatStatus"></el-table-column>
+                        <el-table-column width="120">
+                            <template slot-scope="scope">
+                                <el-button size="small" type="text" @click="handleOpen(scope.$index,scope.row)">查看详情</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+					<el-col :span="24" class="toolbar">
+						<el-pagination background small layout="prev, pager, next" style="float:right;"
+						 @current-change="handleCurrentChange3"  :page-size="10"  :total="total3"></el-pagination>
 					</el-col>
                 </template>
             </el-tab-pane>
@@ -119,6 +143,8 @@ export default{
 		return{
             message: 'first',
             unaudit: [],
+            passed: [],
+            dispassed: [],
             audit: [],
             dialogFormVisible:false,
             form:{},
@@ -132,9 +158,14 @@ export default{
 			submitting:false,
 			bool:false,
 			page1:1,
-			total1:1,
+			total1:0,
 			page2:1,
-			total2:1,
+			total2:0,
+			page3:1,
+			total3:0,
+			listLoading1:false,
+			listLoading2:false,
+			listLoading3:false,
 		}
 	},
 	created(){
@@ -142,8 +173,9 @@ export default{
 	},
 	methods:{
         update(){
-            this.getAuditList()
-            this.getUnauditList()            
+            this.getUnauditList() 
+            this.getDispassedList()  
+            this.getPassedList()           
         },
         getUnauditList(){
             let params={
@@ -151,32 +183,49 @@ export default{
                 status:1
             }
             getActivityList("club",params).then(res=>{
-                this.listLoading2=true
+                this.listLoading1=true
                 let {msg,code,data}=res.data
                 if(code==200){
                     this.unaudit=data.list
-                    this.total1=data.totalCount||1
+                    this.total1=data.totalCount||0
                 }else{
                     this.$message.error(msg)
                 }
-                this.listLoading2=false
+                this.listLoading1=false
             })          
         },
-        getAuditList(){
+        getPassedList(){
             let params={
                 page:this.page2,
                 status:2
             }
             getActivityList("club",params).then(res=>{
-                this.listLoading1=true
+                this.listLoading2=true
                 let {msg,code,data}=res.data
                 if(code==200){
-                    this.audit=data.list
-                    this.total2=data.totalCount||1
+                    this.passed=data.list
+                    this.total2=data.totalCount||0
                 }else{
                     this.$message.error(msg)
                 }
-                this.listLoading1=false
+                this.listLoading2=false
+            })            
+        },
+        getDispassedList(){
+            let params={
+                page:this.page2,
+                status:3
+            }
+            getActivityList("club",params).then(res=>{
+                this.listLoading3=true
+                let {msg,code,data}=res.data
+                if(code==200){
+                    this.dispassed=data.list
+                    this.total3=data.totalCount||0
+                }else{
+                    this.$message.error(msg)
+                }
+                this.listLoading3=false
             })            
         },
 		// 当前页面发生变化
@@ -186,7 +235,11 @@ export default{
 		},
 		handleCurrentChange2(val){
 			this.page2=val
-			this.getAuditList()
+			this.getPassedList()
+		},
+		handleCurrentChange3(val){
+			this.page3=val
+			this.getPassedList()
 		},
 		handleAudit(index,row){
 			this.dialogFormVisible=true

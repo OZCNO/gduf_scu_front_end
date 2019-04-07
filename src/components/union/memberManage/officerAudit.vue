@@ -60,16 +60,16 @@
 		</el-table-column> 
 	</el-table>
 	<el-col :span="24" class="toolbar">
-		<el-button type="primary" @click="acceptSome" size="mini">批量通过</el-button><el-button type="danger" @click="rejectSome"  size="mini">批量删除</el-button>
+		<!-- <el-button type="primary" @click="acceptSome" size="mini">批量通过</el-button><el-button type="danger" @click="rejectSome"  size="mini">批量删除</el-button> -->
 		<el-pagination background small layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="10" :total="total" style="float:right;">
 		</el-pagination>
 	</el-col>
 </div>
 </template>
 <script>
-  import { getUnauditClubMemberList } from '../../../api.js';
+  import { getUnauditUnionMemberList } from '../../../api.js';
 export default{
-	name:"clubMemberAudit",
+	name:"unionMemberAudit",
 	data(){
 		return{
 			listLoading:false,
@@ -103,7 +103,7 @@ export default{
           	if(bool){
           		//请求所有数据并且赋给this.excelData
           		let para={pageSize:this.totalCount}
-				getUnauditClubMemberList(para).then(res=>{
+				getUnauditUnionMemberList(para).then(res=>{
 					if(res.status==200){
 						this.excelData=this.formatList(res.data.studentList);
             			this.export2Excel(this.cname,this.ename,this.excelData)
@@ -165,10 +165,10 @@ export default{
 				role:2,
 			}
 			this.listLoading=true;
-			getUnauditClubMemberList(para).then(res=>{
+			getUnauditUnionMemberList(para).then(res=>{
 				if(res.status==200){
 					this.total=res.data.totalCount;
-					this.studentList=res.data.studentList;
+					this.studentList=res.data.data.list;
 					this.formatList(this.studentList);
 					this.listLoading=false;
 				}
@@ -255,73 +255,73 @@ export default{
 				// 取消删除
 			})				
 		},
-		acceptSome:function(){
-			var ids=this.multipleSelection.map(item=>{
-				return {
-					"recruit_id":item.recruit_id,
-					"student_id:":item.student_id,
-					// "club_union_id":item.club_union_id,
-					"type":2
-				}
-			})
-			this.$confirm("确定这些同学成为干事吗？","提示",{
-				type:"success"
-			}).then(()=>{
-				this.listLoading=true;
-				this.$axios({
-					url:"/acceptThese",
-					type:"post",
-					data:ids
-				}).then((res)=>{
-					this.listLoading=false;
-					this.$message({
-						message:"添加成功",
-						type:"success"
-					});
-					//成功要更新数据
-					// this.getStudentList();
-				}).catch((err)=>{
-					this.listLoading=false;
-					console.log(err);
-				})
-			}).catch(()=>{
-				//取消
-			})
-		},
-		rejectSome:function(){
-			var ids=this.multipleSelection.map(item=>{
-				return {
-					"recruit_id":item.recruit_id,
-					"student_id:":item.student_id,
-					"club_union_id":item.club_union_id,
-					"type":2
-				}
-			})
-			this.$confirm("确定拒绝这些同学吗？","提示",{
-				type:"warning"
-			}).then(()=>{
-				this.listLoading=true;
-				this.$axios({
-					url:"/removeThese",
-					type:"post",
-					data:ids
-				}).then((res)=>{
-					console.log(res);
-					this.listLoading=false;
-					this.$message({
-						message:"已拒绝",
-						type:"success"
-					});
-					//成功要更新数据
-					// this.getStudentList();
-				}).catch((err)=>{
-					this.listLoading=false;
-					console.log(err);
-				})
-			}).catch(()=>{
-				//取消
-			})
-		},
+		// acceptSome:function(){
+		// 	var ids=this.multipleSelection.map(item=>{
+		// 		return {
+		// 			"recruit_id":item.recruit_id,
+		// 			"student_id:":item.student_id,
+		// 			// "club_union_id":item.club_union_id,
+		// 			"type":2
+		// 		}
+		// 	})
+		// 	this.$confirm("确定这些同学成为干事吗？","提示",{
+		// 		type:"success"
+		// 	}).then(()=>{
+		// 		this.listLoading=true;
+		// 		this.$axios({
+		// 			url:"/acceptThese",
+		// 			type:"post",
+		// 			data:ids
+		// 		}).then((res)=>{
+		// 			this.listLoading=false;
+		// 			this.$message({
+		// 				message:"添加成功",
+		// 				type:"success"
+		// 			});
+		// 			//成功要更新数据
+		// 			// this.getStudentList();
+		// 		}).catch((err)=>{
+		// 			this.listLoading=false;
+		// 			console.log(err);
+		// 		})
+		// 	}).catch(()=>{
+		// 		//取消
+		// 	})
+		// },
+		// rejectSome:function(){
+		// 	var ids=this.multipleSelection.map(item=>{
+		// 		return {
+		// 			"recruit_id":item.recruit_id,
+		// 			"student_id:":item.student_id,
+		// 			"club_union_id":item.club_union_id,
+		// 			"type":2
+		// 		}
+		// 	})
+		// 	this.$confirm("确定拒绝这些同学吗？","提示",{
+		// 		type:"warning"
+		// 	}).then(()=>{
+		// 		this.listLoading=true;
+		// 		this.$axios({
+		// 			url:"/removeThese",
+		// 			type:"post",
+		// 			data:ids
+		// 		}).then((res)=>{
+		// 			console.log(res);
+		// 			this.listLoading=false;
+		// 			this.$message({
+		// 				message:"已拒绝",
+		// 				type:"success"
+		// 			});
+		// 			//成功要更新数据
+		// 			// this.getStudentList();
+		// 		}).catch((err)=>{
+		// 			this.listLoading=false;
+		// 			console.log(err);
+		// 		})
+		// 	}).catch(()=>{
+		// 		//取消
+		// 	})
+		// },
 	}
 }
 </script>

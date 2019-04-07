@@ -70,7 +70,7 @@
   import { getClubMemberList } from '../../../api.js';
   // import { formatSex } from '../../../common.js';
 export default{
-	name:"clubMemberManage",
+	name:"unionMemberManage",
 	data(){
 		return{
 			filters: {
@@ -219,7 +219,6 @@ export default{
 			.then(res=>{
 				let {msg,code,data}=res.data;
 				if(code==200){
-					console.log(res);
 					this.total=data.totalCount;
 					this.studentList=data.list;
 					this.formatList(this.studentList);
@@ -227,7 +226,6 @@ export default{
 				}else{
 					this.listLoading=false;
 					this.$message.error(msg);
-					console.log(res);
 				}
 			}).catch(err=>{
 				this.$message.error("数据获取失败");

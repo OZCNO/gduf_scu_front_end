@@ -190,11 +190,11 @@ export default{
 				this.listLoading=true
 				editMemberStatus(row.id).then(res=>{
 					let {msg,code,data}=res.data
-					this.listLoading=false
 					if(code==200){
-						this.$message.success("已通过")
-						this.getStudentList()						
+						this.getStudentList()			
+						this.$message.success("已通过")			
 					}
+					this.listLoading=false
 				}).catch((err)=>{
 					this.listLoading=false
 					console.log()

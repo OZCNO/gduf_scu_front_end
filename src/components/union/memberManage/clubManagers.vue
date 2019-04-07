@@ -72,13 +72,13 @@ export default{
 			}
 			this.listLoading=true;
 			getClubManagerList(para).then((res)=>{
+				// let {code,msg,data}=res.data
 				if(res.status==200){
 					this.total=res.data.totalCount;
 					this.managerList=res.data.managerList;
 					this.listLoading=false;
 				}
 			}).catch((err)=>{
-				console.log(err);
 				this.listLoading=false;
 			})				
 		},
