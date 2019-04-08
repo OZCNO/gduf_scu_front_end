@@ -33,10 +33,10 @@
 </div>
 </template>
 <script>
-import {getActivityStatisticalList} from "../../../api.js"
+import {termActivityStatistics,allStatistics} from "../../../api.js"
 import echarts from "@/echarts"
 export default{
-	name:"UnionActivity",
+	name:"allActivity",
 	data(){
 		return{
             chartColumn: null,
@@ -47,9 +47,19 @@ export default{
 		}
 	},
 	created(){
-        let clubID=1
-		getActivityStatisticalList(clubID).then(res=>{
-			this.list=res.data;
+        // termActivityStatistics("club").then(res=>{
+        //     this.list=res.data.data;
+        //     this.listChanged=this.list.map(function(item,index){    
+        //         let innerarr=[]
+        //         innerarr.push(item["name"])
+        //         innerarr.push(item["times"])
+        //         // innerarr.push(item["averageNumber"])
+        //         innerarr.push(item["memberTimes"]/item["times"])
+        //         return innerarr
+        //     })            
+        // })
+		allStatistics().then(res=>{
+			this.list=res.data.statistics;
 			this.listChanged=this.list.map(function(item,index){	
 			    let innerarr=[]
 				innerarr.push(item["name"])
@@ -81,11 +91,47 @@ export default{
                     },
 			    dataset: {
 			        source: [
-			            ['举办方', '举办次数', '平均报名人数',"会员活动率（*100）"],
+                        ['举办方', '举办次数', '平均报名人数',"会员活动率(*100)"],
+                        // ['举办方', '举办次数', "会员活动率"],
 			            ...this.listChanged
 			        ]
-			    },
-			    xAxis: {type: 'category'},
+			    },  
+                grid: { // 控制图的大小，调整下面这些值就可以，
+                        x: 40,
+                        x2: 40,
+                        y2: 90// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+                },              
+			    xAxis: {
+                    type: 'category',
+                    axisLabel:{
+                        interval: 0,//显示间隔
+                        rotate:-30,//-30度角倾斜显示
+                        // formatter:function(value){
+                        //     return value.split("").join("\n");
+                        // }
+                        // formatter:function(value){
+                        //     var ret = "";//拼接加\n返回的类目项
+                        //     var maxLength = 2;//每项显示文字个数
+                        //     var valLength = value.length;//X轴类目项的文字个数
+                        //     var rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数
+                        //     if (rowN > 1)//如果类目项的文字大于3,
+                        //     {
+                        //         for (var i = 0; i < rowN; i++) {
+                        //             var temp = "";//每次截取的字符串
+                        //             var start = i * maxLength;//开始截取的位置
+                        //             var end = start + maxLength;//结束截取的位置
+                        //             //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
+                        //             temp = value.substring(start, end) + "\n";
+                        //             ret += temp; //凭借最终的字符串
+                        //         }
+                        //         return ret;
+                        //     }
+                        //     else {
+                        //         return value;
+                        //     }
+                        // }
+                    }
+                },
 			    yAxis: {},
 			    series: [
 			        {type: 'bar'},

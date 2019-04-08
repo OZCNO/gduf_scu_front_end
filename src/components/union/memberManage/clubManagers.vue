@@ -19,7 +19,7 @@
 			</el-table-column><el-table-column prop="club" label="校社团" sortable show-overflow-tooltip>
 			</el-table-column><el-table-column prop="mobile" label="手机" sortable show-overflow-tooltip>	
 			</el-table-column><el-table-column prop="email" label="邮箱" sortable show-overflow-tooltip>	
-			</el-table-column><el-table-column prop="institute" label="学院" sortable show-overflow-tooltip>	
+			</el-table-column><!-- <el-table-column prop="institute" label="学院" sortable show-overflow-tooltip> -->	
 			</el-table-column><el-table-column prop="major" label="专业" sortable show-overflow-tooltip>	
 			</el-table-column>
 		</el-table>

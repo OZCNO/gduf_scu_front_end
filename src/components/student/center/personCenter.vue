@@ -43,7 +43,7 @@
 	<el-col :span="5">
 		<el-card class="box-card">
 			<div slot="header">我的头像</div>				
-			<el-upload  class="avatar-uploader" action="http://119.29.105.29:8083/postImg" :show-file-list="false"  :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+			<el-upload  class="avatar-uploader" action="http://127.0.0.1:8083/postImg" :show-file-list="false"  :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 			  <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar" title="点我换头像">
 			  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 			</el-upload>
@@ -152,7 +152,7 @@ export default{
 					status:"会长"
 				}
 			],
-			news:[]
+			news:[],
 
 		}
 	},	
@@ -168,45 +168,42 @@ export default{
 			}).catch(err=>{
 				console.log(err);
 				console.log("获取学院列表出错");
-				// this.$confirm("获取学院列表出错啦，再试一次","错误",{}).then(()=>{
-				// 	window.location.reload();
-				// })
 			})
 		},
     	// 学院值改变的时候
     	instituteChange(value){
-    		this.form.major="";
+    		this.user.major=""
     	},
     	// 专业值改变的时候
     	majorChange(value){
-    		var obj=this.institute;
-			var key;
+    		var obj=this.institute
+			var key
 			for(key in obj){
     			if(obj.hasOwnProperty(key)){
 					if(obj[key].indexOf(value)>=0){
-						this.form.institute=key;
+						this.form.institute=key
     				}
 				}
 			}
     	},
 		handleAvatarSuccess(res, file) {
-			this.imageUrl = URL.createObjectURL(file.raw);
-			this.form.avatar=this.imageUrl
+			// this.imageUrl = URL.createObjectURL(file.raw)
+			this.form.avatar= URL.createObjectURL(file.raw)
+			console.log(this.form.avatar)
 			this.avatarBool=true
-			console.log(this.imageUrl)
 		},
 		beforeAvatarUpload(file) {
-			const isLt2M = file.size / 1024 / 1024 < 8;
+			const isLt2M = file.size / 1024 / 1024 < 8
 			if (!isLt2M) {
-			  this.$message.error('上传头像图片大小不能超过 8MB!');
+			  this.$message.error('上传头像图片大小不能超过 8MB!')
 			}
-			return isLt2M;
+			return isLt2M
 		},
 		submit(){
 			editPersonalInformation(this.form).then(res=>{
-				let {msg,data,code}=res.data;
+				let {msg,data,code}=res.data
 				if(code==200){
-					this.editable=true;
+					this.editable=true
 					this.$message.success("修改成功")
 				}else{
 					this.$message.error("出了点问题，请稍后再试")
@@ -217,23 +214,26 @@ export default{
   	},
   	computed: {
   		major(){
-  			var arr=[];
-  			var obj=this.institute;
-  			var key;
+  			var arr=[]
+  			var obj=this.institute
+  			var key
   			if(this.form.institute!=""){
-  				arr=obj[this.form.institute];
+  				arr=obj[this.form.institute]
+  			}else if(this.user.institute!=""){
+  				arr=obj[this.user.institute]
   			}else{
-  				for(key in obj){
-  					if(obj.hasOwnProperty(key)){
+  				arr=[]
+  				// for(key in obj){
+  					// if(obj.hasOwnProperty(key)){
   						// concat不会改变原数组，所以要arr=，这很重要
-  						arr=arr.concat(obj[key]);
-  					}
-  				}
+  						// arr=arr.concat(obj[key])
+  					// }
+  				// }
   			}
-  			return arr;
+  			return arr
   		},
   		imageUrl(){
-  			return this.user.avatar;
+  			return this.user.avatar
   		}
  
 	},

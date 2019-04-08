@@ -73,9 +73,9 @@ export default{
 	methods:{		
 		upload(){
 			let params={
-				// status:0
+				status:0
 			}
-			getMoneyActivityList("club",this.user.id,params).then(res=>{
+			getMoneyActivityList().then(res=>{
 				let {msg,code,data}=res.data
 				if(code==200){
 					this.list=data.list	

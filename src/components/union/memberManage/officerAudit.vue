@@ -67,7 +67,7 @@
 </div>
 </template>
 <script>
-  import { getUnauditUnionMemberList } from '../../../api.js';
+  import { getUnauditList } from '../../../api.js';
 export default{
 	name:"unionMemberAudit",
 	data(){
@@ -165,15 +165,16 @@ export default{
 				role:2,
 			}
 			this.listLoading=true;
-			getUnauditUnionMemberList(para).then(res=>{
+			getUnauditList().then(res=>{
 				if(res.status==200){
 					this.total=res.data.totalCount;
-					this.studentList=res.data.data.list;
+					this.studentList=res.data.studentList;
 					this.formatList(this.studentList);
-					this.listLoading=false;
 				}
+				this.listLoading=false;
 			}).catch(err=>{
 				this.$message.error("数据获取失败");
+				console.log(err)
 				this.listLoading=false;
 			})		
 		},

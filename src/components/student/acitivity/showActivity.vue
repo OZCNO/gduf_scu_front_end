@@ -2,7 +2,7 @@
 <div>
 	<el-carousel :interval="4000" type="card" height="300px" style="marginTop:10px">
 	    <el-carousel-item v-for="item in list" :key="item.title" :title="item.title">
-	     	<img :src="item.image" class="carouselImg">
+	     	<img :src='"http://localhost:8083/"+item.image' class="carouselImg">
 	    </el-carousel-item>
 	 </el-carousel>
 
@@ -13,7 +13,7 @@
 				<el-collapse-item :title="item.title">
 					<el-row :gutter="20">
 						<el-col :span="8">
-							<img :src="item.image" class="collapseImage">
+							<img :src='"http://localhost:8083/"+item.image' class="collapseImage">
 						</el-col>
 						<el-col :span="16">
 							<div>{{item.content}}</div>
@@ -26,7 +26,7 @@
 </div>
 </template>
 <script>
-import {getActivityResultList} from "../../../api.js"
+import {getActivityResult} from "../../../api.js"
 export default{
 	name:"showActivity",
 	data(){
@@ -36,7 +36,7 @@ export default{
 		}
 	},
 	created(){
-		getActivityResultList().then(res=>{
+		getActivityResult().then(res=>{
 			let {msg,code,data}=res.data;
 			if(code==200){
 				this.list2=data.list

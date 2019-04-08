@@ -31,7 +31,7 @@
 </div>
 </template>
 <script>
-import {getActivityStatisticalList} from "../../../api.js"
+import {termActivityStatistics,getActivityStatisticalList} from "../../../api.js"
 import echarts from "@/echarts"
 export default{
 	name:"UnionActivity",
@@ -42,21 +42,26 @@ export default{
             list:[],
             listChanged:[],
             listLoading:false,
+            memberTimes:0,
+            unmemberTimes:0,
 		}
 	},
 	created(){
-        let clubID=1
-		getActivityStatisticalList(clubID).then(res=>{
-			this.list=res.data;
-			this.listChanged=this.list.map(function(item,index){	
-			    let innerarr=[]
-				innerarr.push(item["time"])
-				innerarr.push(item["times"])
-				innerarr.push(item["averageNumber"])
-				innerarr.push(item["memberTimes"]/item["times"]*100)
-				return innerarr
-			})
+		termActivityStatistics("club").then(res=>{
+            console.log(res)
+            let {memberTimes,unmemberTimes}=res.data
 		})
+        getActivityStatisticalList().then(res=>{
+            this.list=res.data;
+            this.listChanged=this.list.map(function(item,index){ 
+                let innerarr=[]
+             innerarr.push(item["time"])
+             innerarr.push(item["times"])
+             innerarr.push(item["averageNumber"])
+             innerarr.push(item["memberTimes"]/item["times"]*100)
+             return innerarr
+            })
+        })
 	},
 	methods:{	
         drawColumnChart() {
@@ -92,7 +97,7 @@ export default{
 			    ]
             })
         },
-        drawPieChart() {
+        drawPieChart(memberTimes,unmemberTimes) {
             this.chartPie = echarts.init(document.getElementById('chartPie'));
             this.chartPie.setOption({
                 title: {
@@ -111,8 +116,8 @@ export default{
                 dataset:{
                 	source:[
                 		["活动类型","本学期"],
-                		["会员活动",2],
-                		["非会员活动",3]
+                		["会员活动",memberTimes],
+                		["非会员活动",unmemberTimes]
                 	]
                 },
                 series: [
@@ -131,7 +136,7 @@ export default{
         },
         drawCharts() {
             this.drawColumnChart(),
-            this.drawPieChart()
+            this.drawPieChart(this.memberTimes,this.unmemberTimes)
         },
     },
     mounted: function () {

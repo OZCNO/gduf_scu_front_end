@@ -196,20 +196,21 @@ export default{
 		getList(){
 			let params={
 				page:this.page,
-				status:2,
 			}
+			this.listLoading=true
 			getActivityList("union",params).then(res=>{
-				// this.listLoading=true
 				let {msg,code,data}=res.data
 				if(code==200){
 					this.list=data.list
 					this.total=data.totalCount
-					this.form.clubId=this.list[0].clubId
 				}else{
 					this.$message.error(msg)
 				}
-				// this.listLoading=false
-			})			
+				this.listLoading=false
+			}).catch(res=>{
+				this.listLoading=false
+				this.$message.error(msg)
+			})
 		},
 		// 表单详情
 		openForm(index,row){

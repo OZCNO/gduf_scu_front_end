@@ -10,8 +10,8 @@
 		</el-table-column><el-table-column prop="theme" label="主题">
 		</el-table-column><!-- <el-table-column prop="visits" label="浏览数" sortable>
 		</el-table-column><el-table-column prop="likes" label="点赞数" sortable>
-		</el-table-column> --><el-table-column prop="enrolls" label="报名数" sortable>	
-		</el-table-column>
+		</el-table-column> <el-table-column prop="enrolls" label="报名数" sortable>	
+		</el-table-column>-->
 		<el-table-column label="操作" fixed="right">	
 		 	<template slot-scope="scope">
 				<el-button size="mini" type="text" @click="openForm(scope.$index, scope.row)">发布活动成果</el-button> 
@@ -34,7 +34,7 @@
 			<el-form-item label="图片" prop="image">
 				<el-upload
 				  class="avatar-uploader"
-				  action="http://119.29.105.29:8083/postImg"
+				  action="http://127.0.0.1:8083/img"
 				  :show-file-list="false"
 				  :on-success="handleAvatarSuccess"
 				  :before-upload="beforeAvatarUpload">
@@ -52,7 +52,7 @@
 </el-card>
 </template>
 <script>
-import {getActivityDetailList,requestActivityResult} from "../../../api.js"
+import {requestActivityResult,activityResult} from "../../../api.js"
 export default{
 	name:"clubActivityResultPublish",
 	data(){
@@ -78,14 +78,26 @@ export default{
 		}
 	},
 	created(){
-		let clubID=1
-		getActivityDetailList(clubID).then(res=>{
-			this.list=res.data
-		})
+		this.upload()
 	},
 	methods:{
+		upload(){
+			let param={
+				commitResult:1
+			}
+			activityResult("club",param).then(res=>{
+				let {msg,code,list}=res.data
+				if(code==200){
+					this.list=res.data.data.list
+				}else{
+					this.$message.error(msg)
+				}
+			}).catch(err=>{
+				this.$message.error(msg)
+			})	
+		},
 		openForm(index,row){
-			this.form=row
+			this.form.activityId=row.id
 			this.dialogFormVisible=true
 		},
 		resetForm(form){
@@ -93,31 +105,35 @@ export default{
 		},
 		submitForm(form){
 			this.$refs[form].validate((valid) => {
-	          	if (valid) {
+	          	if (valid) {	
 					this.$confirm("确定提交吗？","提示").then(()=>{
-						this.form.acticityId=1
-						console.log(this.form)
-						requestActivityResult(this.form).then((res)=>{
-		            		this.submitting = true
+		            	this.submitting = true
+						requestActivityResult(this.form.activityId,this.form).then((res)=>{
 							let {msg,code,data}=res.data
 							if(code==200){
 								this.submitting=false
 								this.dialogFormVisible=false
 								this.$message.success("发布成功")
-								//重新刷新列表
+								this.upload()
+								this.resetForm(form)
+								
 							}else{
 								this.submitting=false
 								this.$message.error(msg)								
 							}
+						}).catch(err=>{
+							this.submitting=false	
+							this.$message.error(msg)						
 						})
 					})
 				}
 			})
 		},
 		handleAvatarSuccess(res, file) {
-			this.imageUrl = URL.createObjectURL(file.raw);
-			this.form.image=this.imageUrl
-			console.log(this.imageUrl);
+			// this.imageUrl = URL.createObjectURL(file.raw);
+			// this.form.image=this.imageUrl
+			this.imageUrl="http://localhost:8083/"+res.data
+			this.form.image=res.data
 		},
 		beforeAvatarUpload(file) {
 			// const isJPG = file.type === 'image/jpeg';

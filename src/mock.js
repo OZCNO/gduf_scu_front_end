@@ -69,7 +69,10 @@ var institute={
 						"社会工作"
 						]
 		};
-// 未通过审核的学生模版
+var clubs=["社联",'公关协会','摄影协会','绿色环保协会','鲲鹏创客空间','大学生创业协会','米森动物协会','金融实践社','创行','管理学社','大学生职业生涯规划研究协会','出雲音乐协会','墨染文学社','西椎动漫社','楚天棋友社','毽球协会','篮球协会','心理健康与个人发展协会','电子商务学会','保险学社']
+var major=['金融学','金融工程','财政学','会计学','投资学','财务管理','保险学','精算学','国际经济与贸易','经济学','经济与金融','国际商务','信用管理','工商管理','市场营销','物流管理','酒店管理','人力资源管理','互联网金融','信息管理与信息系统','计算机科学与技术','电子商务','软件工程','商务英语','英语','翻译','法学','汉语言文学','网络与新媒体','文化产业管理','金融数学','数学与应用数学','信息与计算科学','应用统计学','经济统计学','行政管理','公共事业管理','应用心理学','劳动与社会保障','劳动关系','社会工作']
+var ins=['金融与投资学院','会计学院','保险学院','经济贸易学院','信用管理学院','工商管理学院','互联网金融与信息工程学院','外国语言与文化学院','法学院','财经与新媒体学院','金融数学与统计学院','公共管理学院',]
+// 未审核的学生模版
 var studentListTemplate={
 	"recruit_id|+1":1,
 	"student_id|+2":2,
@@ -80,9 +83,9 @@ var studentListTemplate={
 	"sex":'@natural(0,1)',
 	"grade":'@natural(15,18)',
 	"instituteId":5,
-	"institute":"互联网金融与信息工程学院",
+	"institute|1":ins,
 	"majorId":2,
-	"major":"信息管理与信息系统",
+	"major|1":function(){return institute[this.institute]},
 	"department":"宣传部",
 	"status":"干事",
 	"email":'@email',
@@ -93,26 +96,41 @@ var studentListTemplate={
 	"avatar":'@image("120x160","头像","#123156")',
 	"state":0,
 }
+var i=0
 var clubManagersListTemplate={
-	"club":"公关协会",
+	"club":function(){
+		if(i<clubs.length){
+			return clubs[i++]
+		}else{
+			i=1
+			return clubs[0]
+		}
+	},
 	"name":'@cname',
 	"grade":'@natural(15,18)',
 	"sex":'@natural(0,1)',
 	"email":'@email',
 	"mobile":/^1[385][1-9]\d{8}/,
-	"institute":"法律学院",
-	"major":"法学"
+	"major|1":major,
+	// "major":"法学"
 }
 var memberListTemplate={
-	"club":"公关协会",
+	"club":function(){
+		if(i<clubs.length){
+			return clubs[i++]
+		}else{
+			i=1
+			return clubs[0]
+		}
+	},
 	"member1":'@natural(0,100)',
 	"member2":'@natural(0,100)',
 	"member3":'@natural(0,100)',
 	"member4":'@natural(0,100)',
-	"officer1":'@natural(0,100)',
-	"officer2":'@natural(0,100)',
-	"officer3":'@natural(0,100)',
-	"officer4":'@natural(0,100)'
+	"officer1":'@natural(0,10)',
+	"officer2":'@natural(0,10)',
+	"officer3":'@natural(0,10)',
+	"officer4":'@natural(0,10)'
 }
 var activityDetailList=[
             	{
@@ -506,7 +524,7 @@ var auditActivityList=[
 			]
 var activityStatisticalList=[
             	{
-            		time:"2016年上",
+            		time:"2016年上", 
             		name:"数学协会",
             		times:5,
             		memberTimes:4,
@@ -566,6 +584,26 @@ var activityStatisticalList=[
             		hotNumber:100
             	}
 ]
+var statistics={
+	"name":function(){
+		if(i<clubs.length){
+			return clubs[i++]
+		}else{
+			i=1
+			return clubs[0]
+		}
+	},
+	'times':'@natural(3,7)',
+	"memberTimes":'@natural(0,3)',
+	"unmemberTimes":function(){
+		return this.times-this.memberTimes
+	},
+	"averageNumber":'@natural(20,140)',
+	"str":'@cname',
+	"str1":'@cname',
+	"hotActivity":function(){return this.str+this.str1},
+	"hotNumber":'@natural(50,160)',
+}
 var auditAnnualReg=[
             	{
             		clubName:"数学协会",
@@ -676,11 +714,6 @@ var activityResultList=[
     	content:"本次数学竞赛。。。"
     },
     {
-    	title:"数学竞赛圆满成功，最高分离满分之差1分",
-    	image:"http://img5.imgtn.bdimg.com/it/u=201280020,2827816163&fm=26&gp=0.jpg",
-    	content:"本次数学竞赛。。。"
-    },
-    {
     	title:"爱心行动",
     	image:"https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=93b50afd6681800a7ae8815cd05c589f/4bed2e738bd4b31cc5ec67c98dd6277f9f2ff8f4.jpg",
     	content:"爱心行动。。。"
@@ -696,6 +729,11 @@ var activityResultList=[
     	content:"本次计算机技能竞赛。。。"
     },
 ]
+Mock.mock("http://127.0.0.1:8083/statistics",{
+	'statistics|20':[
+		statistics
+	]
+})
 // Mock.mock("http://127.0.0.1:8083/reg",function(data){
 // 	var response={
 // 		"credential": {
@@ -721,7 +759,7 @@ Mock.mock("http://127.0.0.1:8083/getStudentList",{
 	'studentList|10':[
 		studentListTemplate
 	],
-	"totalCount":70
+	"totalCount":50
 })
 
 Mock.mock("http://127.0.0.1:8083/getActivityDetailList",function(){
@@ -777,13 +815,13 @@ Mock.mock("http://127.0.0.1:8083/getManagerList",{
 	'managerList|10':[
 		clubManagersListTemplate
 	],
-	"totalCount":40
+	"totalCount":20
 })
 Mock.mock("http://127.0.0.1:8083/getMemberList",{
 	'memberList|10':[
 		memberListTemplate
 	],
-	"totalCount":40
+	"totalCount":20
 })
 Mock.mock("http://127.0.0.1:8083/getInstitute",function(){
 	return JSON.stringify(institute);		

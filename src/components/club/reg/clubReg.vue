@@ -22,7 +22,7 @@
     <!-- 新增注册表 -->
     <el-dialog title="年度注册表" :visible.sync="dialogFormVisible">
 		<!-- 自动获取系列 -->
-		<el-form ref="info" :model="info" :inline="true" size="mini" disabled>
+		<!-- <el-form ref="info" :model="user" :inline="true" size="mini" disabled>
 		  <el-form-item label="社团全称"><el-input v-model="info.name"></el-input>
 		  </el-form-item><el-form-item label="社团类别"><el-input v-model="info.clubType"></el-input>
 		  </el-form-item><el-form-item label="会员人数"><el-input v-model="info.memberSum"></el-input>
@@ -30,7 +30,7 @@
 		  </el-form-item><el-form-item label="指导老师姓名"><el-input v-model="info.teacherName"></el-input>
 		  </el-form-item><el-form-item label="指导老师电话"><el-input v-model="info.teacherMobile"></el-input>
 		  </el-form-item>	  
-		</el-form>
+		</el-form> -->
 		<el-form ref="form" :model="form" :rules="formRules" size="mini">
 		  <!-- 填写系列 -->
 			<el-form-item label="上学期工作总结" prop="summary"><el-input type="textarea" v-model="form.summary"></el-input>
@@ -49,9 +49,9 @@
     	<span style="color:red" v-if="form.reason">意见：{{form.reason}}</span>    
 		<el-form ref="form2" :model="form2" :inline="true" size="mini" disabled>
 		  <el-form-item label="社团全称"><el-input v-model="form2.clubName" ></el-input>
-		  </el-form-item><el-form-item label="社团类别"><el-input v-model="form2.type"></el-input>
-		  </el-form-item><el-form-item label="会员人数"><el-input v-model="form2.memberSum"></el-input>
-		  </el-form-item><el-form-item label="干事人数"><el-input v-model="form2.officerSum"></el-input>
+		  </el-form-item><el-form-item label="社团类别"><el-input v-model="form2.clubType"></el-input>
+		  </el-form-item><!-- <el-form-item label="会员人数"><el-input v-model="form2.memberSum"></el-input>
+		  </el-form-item><el-form-item label="干事人数"><el-input v-model="form2.officerSum"></el-input> -->
 		  </el-form-item><el-form-item label="指导老师姓名"><el-input v-model="form2.teacherName"></el-input>
 		  </el-form-item><el-form-item label="指导老师电话"><el-input v-model="form2.teacherMobile"></el-input>
 		  </el-form-item>	  
@@ -68,6 +68,7 @@
 <script>
 import { requestClubAnnualReg,getAnnualRegList } from "../../../api.js"
 export default{
+	props:['user'],
 	name:"ClubReg",
 	data(){
 		return{
@@ -77,16 +78,16 @@ export default{
 			total:1,
 			submitting:false,
 			listLoading:false,
-			info:{
-				clubID:1,
-				name:"电商协会",
-				clubType:"学术科研类",
-				memberSum:"729",
-				officerSum:"20",
-				teacherName:"郑某某",
-				teacherMobile:"13555535646",
-				status:0//状态
-			},
+			// info:{
+			// 	clubID:1,
+			// 	name:"电商协会",
+			// 	clubType:"学术科研类",
+			// 	memberSum:"729",
+			// 	officerSum:"20",
+			// 	teacherName:"郑某某",
+			// 	teacherMobile:"13555535646",
+			// 	status:0//状态
+			// },
 			form:{
 				clubId:"",
 				summary:"",

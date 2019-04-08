@@ -43,22 +43,22 @@ export const getUserInformation=()=>{ return axios.get("/user/info"); }
 
 //成员API
 // 申请加入
-export const enterClub=(studentId,activityId,params)=>{return axios.post(`/student/${studentId}/activity/${activityId}`,params)}
+export const enroll=(studentId,activityId,params)=>{return axios.post(`/student/${studentId}/activity/${activityId}`,params)}
 // 社团获取
 export const getClubMemberList = (clubID,params) => { return axios.get(`/club/${clubID}/vip`,{params:params}); };
 // 审核通过
-export const editMemberStatus=studentId=>{return axios.put(`/club/student/${studentId}/status`)}
+export const editMemberStatus=(studentId)=>{return axios.put(`/club/student/${studentId}/status`)}
 //mock 获取待审核社联干事列表
-export const getUnauditUnionMemberList=params => { return axios.get("/getStudentList",{params:params}); };
+export const getUnauditList=() => { return axios.get("/getStudentList"); };
 // 社联审核:通过，拒绝
 // export const editUnauditUnionMemberList
 //mock  获取社联干事列表
 export const getUnionMemberList = (unionID,params) => { return axios.get(`/union/${unionID}/vip`,params); };
-//? 修改社团干事信息
+// 修改社团干事信息
 // export const editClubMember = (params) => { return axios.put("/club/vip",params); };
 // 修改社联干事信息
 // export const editUnionMember = (unionID,params) => { return axios.get("",params); };
-//移除某社联干事
+// 移除某社联干事
 // export const removeUnionMember
 
 
@@ -71,6 +71,16 @@ export const getActivityList=(type,params)=>{return axios.get(`/${type}/activity
 export const editActivity = (activityId,params) => { return axios.put(`/activity/${activityId}/status`,params);}
 // 学生获取
 export const getActivity=(params)=>{return axios.get("/activity",{params:params})}
+
+
+//活动成果表
+//未提交的
+export const activityResult=(type,params)=>{return axios.get(`/${type}/activity/`,{params:params})}
+//提交
+export const requestActivityResult=(activityId,params)=>{return axios.post(`/activity/${activityId}/result`,params)}
+//获取
+export const getActivityResult=(params)=>{return axios.get("/activity/result",params)}
+
 
 
 //年度注册表API
@@ -101,6 +111,12 @@ export const getClubMoney=(type)=>{return axios.get(`/${type}/funds`)}
 export const editClubMoney=(type,moneyId,params)=>{return axios.put(`/${type}/funds/${moneyId}`,params)}
 
 
+//学期活动统计情况
+//获取
+export const termActivityStatistics=(type)=>{return axios.get(`/${type}/term/activity/statistics`)}
+//获取所有 mock
+export const allStatistics=(type)=>{return axios.get(`/statistics`)}
+//
 
 //mock 获取社团管理人信息
 export const getClubManagerList=params => { return axios.put("/getManagerList",params); };
@@ -112,10 +128,7 @@ export const getActivityList2= (clubID) =>{return axios.get("/getActivityList");
 export const getActivityDetailList=(clubID)=>{return axios.get(`/getActivityDetailList`);}
 //mock 获取社团活动统计结果
 export const getActivityStatisticalList=(clubID)=>{return axios.get("/getActivityStatisticalList")}
-//mock 发布活动成果
-export const requestActivityResult=(params)=>{return axios.get("/success",params)}
+
 //mock 修改个人信息
-export const editPersonalInformation=(params)=>{return axios.get("/success",{params:params})}
-//mock 获取活动成果展列表
-export const getActivityResultList=()=>{return axios.get("/getActivityResultList")}
+export const editPersonalInformation=(params)=>{return axios.put("/success",{params:params})}
 

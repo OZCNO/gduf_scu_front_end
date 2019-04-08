@@ -16,10 +16,10 @@
 			</template>
 		</el-table-column>
 	</el-table>
-	<el-col :span="24" class="toolbar">
+	<!-- <el-col :span="24" class="toolbar">
 		<el-pagination background small layout="prev, pager, next" style="float:right;"
 		 @current-change="handleCurrentChange"  :page-size="10"  :total="total"></el-pagination>
-	</el-col>
+	</el-col> -->
     <!-- 管理社团经费 -->
     <el-dialog title="管理社团经费" :visible.sync="dialogFormVisible">
 		<el-form ref="form" :model="form" label-width="80px" class="form" size="mini">
@@ -44,8 +44,8 @@ export default{
 		return{
 			list:[],
 			listLoading:false,
-			page:1,
-			total:10,
+			// page:1,
+			// total:10,
 			dialogFormVisible:false,
 			form:{
 				moneySum:0,
@@ -70,9 +70,9 @@ export default{
 			})			
 		},
 		// 当前页面发生变化
-		handleCurrentChange(val){
-			this.page=val
-		},
+		// handleCurrentChange(val){
+		// 	this.page=val
+		// },
 		openForm(index,row){
 			this.form.id=row.id
 			this.form.moneySum=row.moneySum
