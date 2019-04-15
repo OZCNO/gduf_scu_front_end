@@ -29,7 +29,7 @@ export default {
 	},
 	data() {
 		return {
-			logoNameArr:["学生端","校社团端","校社联端","老师端"],
+			logoNameArr:["学生端","校社团端","校社联端","教师端"],
 			// 传入组件的值
 			user:{},
 			collapsed:false,

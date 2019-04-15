@@ -61,7 +61,7 @@ export default {
             this.logining = true;
             requestLogin(this.loginForm).then(res=>{
              	this.logining = false;
-          		var path=["personCenter","clubMemberAudit","officerAudit","unionActivityAudit"];
+          		var path=["personCenter","clubActivityApplyPush","activityApplyPush","unionActivityAudit"];
           		let {code,msg,data}=res.data;
               	if(code!=="200"){
 	                this.$message.error(msg);
