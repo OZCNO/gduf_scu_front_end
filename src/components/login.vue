@@ -19,7 +19,7 @@
 						    <el-radio :label="2">校社团管理员</el-radio>
 				    	</li>
 						<li class="loginType">
-						    <el-radio :label="4">老师</el-radio>
+						    <el-radio :label="4">教师</el-radio>
 						    <el-radio :label="3">校社联管理员</el-radio>
 				    	</li>
 					</ul>
